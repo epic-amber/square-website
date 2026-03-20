@@ -18,6 +18,9 @@ const FLAG_MX = 'https://flagcdn.com/w80/mx.png'
 
 /* ── Count-up animation ───────────────────────────────────── */
 
+const STAT_APPEAR_BASE_MS = 520
+const STAT_APPEAR_STAGGER_MS = 340
+
 const STATS_DATA: { value: number; suffix: string; label: string; nodeValue: string; nodeLabel: string; nodeStat: string }[] = [
   { value: 22,  suffix: '+',  label: 'years in Telematics',  nodeValue: '40:695', nodeLabel: '40:696', nodeStat: '40:694' },
   { value: 134, suffix: '+',  label: 'countries',            nodeValue: '40:698', nodeLabel: '40:699', nodeStat: '40:697' },
@@ -54,17 +57,28 @@ function AnimatedStat({ value, suffix, label, index, visible, nodeValue, nodeLab
   value: number; suffix: string; label: string; index: number; visible: boolean
   nodeValue: string; nodeLabel: string; nodeStat: string
 }) {
-  const count = useCountUp(value, 1800, visible)
-  const delay = index * 150
+  const fadeDelayMs = STAT_APPEAR_BASE_MS + index * STAT_APPEAR_STAGGER_MS
+  const [countTrigger, setCountTrigger] = useState(false)
+
+  useEffect(() => {
+    if (!visible) {
+      setCountTrigger(false)
+      return
+    }
+    const id = window.setTimeout(() => setCountTrigger(true), fadeDelayMs)
+    return () => clearTimeout(id)
+  }, [visible, fadeDelayMs])
+
+  const count = useCountUp(value, 1800, countTrigger)
 
   return (
     <div
       className={`${styles.stat} ${visible ? styles.statVisible : ''}`}
-      style={{ transitionDelay: `${delay}ms` }}
+      style={{ transitionDelay: `${fadeDelayMs}ms` }}
       data-node-id={nodeStat}
     >
       <p className={styles.statValue} data-node-id={nodeValue}>
-        {visible ? `${count}${suffix}` : `0${suffix}`}
+        {countTrigger ? `${count}${suffix}` : `0${suffix}`}
       </p>
       <p className={styles.statLabel} data-node-id={nodeLabel}>
         {label}
