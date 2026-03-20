@@ -6,11 +6,11 @@
   overflow-x: clip;
 }
 
-/* Ellipse 4 (55:169): 1800×702, y −597; Figma left calc(50% + 11px) относительно центра слоя */
+/* Ellipse 4 (55:169): ниже на 5dvh; без overlay — прямоугольный слой ломал альфу овала в PNG */
 .bgEllipseTop {
   position: absolute;
   left: 50%;
-  top: -597px;
+  top: calc(-597px + 5dvh);
   width: var(--bg-ellipse-width);
   aspect-ratio: 1800 / 702;
   height: auto;
@@ -55,11 +55,44 @@
   }
 }
 
-/* Ellipse 5 (55:182): 1800×628, y 795 — слой под Ellipse 3 */
+@keyframes ellipseTopDrift {
+  0%, 100% {
+    transform: translateX(calc(-50% + 11px)) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(calc(-50% + 11px)) scale(1.04) translateY(-8px);
+    opacity: 0.85;
+  }
+}
+
+@keyframes ellipse2Drift {
+  0%, 100% {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(-50%) scale(1.03) translateY(6px);
+    opacity: 0.88;
+  }
+}
+
+@keyframes glowBreathe {
+  0%, 100% {
+    transform: translateX(calc(-50% - 79.5px)) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(calc(-50% - 79.5px)) scale(1.05);
+    opacity: 0.75;
+  }
+}
+
+/* Ellipse 5 (55:182): 1800×628; поднято на 5dvh (голубой пояс ~#128FD2) */
 .bgEllipseMidBack {
   position: absolute;
   left: 50%;
-  top: 795px;
+  top: calc(795px - 5dvh);
   width: var(--bg-ellipse-width);
   aspect-ratio: 1800 / 628;
   height: auto;
@@ -69,11 +102,11 @@
   z-index: 0;
 }
 
-/* Ellipse 3 (55:183): 2828×628, y 865 */
+/* Ellipse 3 (55:183): 2828×628; синхронно с задним слоем */
 .bgEllipseMid {
   position: absolute;
   left: 50%;
-  top: 865px;
+  top: calc(865px - 5dvh);
   width: var(--bg-ellipse-mid-front-width);
   aspect-ratio: 2828 / 628;
   height: auto;
@@ -83,7 +116,27 @@
   z-index: 1;
 }
 
+/* B1: низ овалов растворяется — меньше боковых засветов у Contact/footer */
+.bgEllipseMidBack,
+.bgEllipseMid {
+  mask-image: linear-gradient(to bottom, #000 0%, #000 58%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 58%, transparent 100%);
+  mask-size: 100% 100%;
+  -webkit-mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+}
+
 @media (prefers-reduced-motion: no-preference) {
+  .bgEllipseTop {
+    animation: ellipseTopDrift 12s ease-in-out infinite;
+  }
+
+  .bgEllipse2 {
+    animation: ellipse2Drift 14s ease-in-out infinite;
+    animation-delay: -4s;
+  }
+
   .bgEllipseMidBack {
     animation: ovalWaveRipple 8s cubic-bezier(0.42, 0, 0.58, 1) infinite;
     animation-delay: -3.1s;
@@ -93,11 +146,18 @@
     animation: ovalWaveRipple 15s cubic-bezier(0.42, 0, 0.58, 1) infinite;
     animation-delay: -7.65s;
   }
+
+  .lowerBackdropGlow {
+    animation: glowBreathe 10s ease-in-out infinite;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .bgEllipseTop,
+  .bgEllipse2,
   .bgEllipseMidBack,
-  .bgEllipseMid {
+  .bgEllipseMid,
+  .lowerBackdropGlow {
     animation: none;
   }
 }
@@ -108,8 +168,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* Figma spacing/gap-40 → 160px: меню ↔ контент (hero) */
-  gap: var(--space-40);
+  gap: 128px;
 }
 
 /* Header: полоса на всю ширину, лого + меню внутри max 1280px по центру */
@@ -161,7 +220,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-12);
+  /* Tailwind gap-9 (36px): hero (кнопка) ↔ stats */
+  gap: var(--space-9);
   width: var(--content-width);
   max-width: 100%;
 }
@@ -170,9 +230,18 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-6);
+  /* gap-9: блок подзаголовка ↔ кнопка */
+  gap: var(--space-9);
   width: 100%;
   padding: 0 var(--space-28);
+}
+
+.heroIntro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+  width: 100%;
 }
 
 .heroTitle {
@@ -183,7 +252,15 @@
   font-weight: 500;
   line-height: var(--leading-tight);
   text-align: center;
-  color: var(--color-slate-900);
+  background: linear-gradient(
+    180.76deg,
+    #06a1ff 0%,
+    rgb(15, 23, 43) 10.626%,
+    rgb(51, 78, 145) 63.122%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .heroSub {
@@ -199,32 +276,79 @@
 }
 
 .heroCta {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
   padding: var(--cta-py) var(--cta-pr) var(--cta-py) var(--cta-pl-wide);
   border-radius: var(--radius-2xl);
-  background: var(--color-sky-500);
+  background-color: var(--color-sky-500);
+  background-image: var(--gradient-hero-cta);
+  background-size: 240% 100%;
+  background-position: 0% 50%;
+  background-repeat: no-repeat;
   color: var(--color-white);
   font-family: var(--font-sans);
   font-size: var(--text-lg);
   font-weight: 400;
   line-height: var(--leading-body);
+  transition: background-position 0.55s cubic-bezier(0.33, 0, 0.2, 1);
+}
+
+.heroCta:hover {
+  background-position: 100% 50%;
+}
+
+.heroCta:focus-visible {
+  outline: 2px solid var(--color-white);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroCta {
+    transition: none;
+    background-image: none;
+  }
+
+  .heroCta:hover {
+    background-color: var(--color-navy-deep);
+  }
+
+  .heroCtaIcon {
+    transition: none;
+  }
+
+  .stat {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .sketchLine :global(ellipse) {
+    stroke-dashoffset: 0 !important;
+    transition: none !important;
+  }
 }
 
 .heroCtaIcon {
   width: 20px;
   height: 20px;
   flex-shrink: 0;
+  transition: transform 0.35s cubic-bezier(0.33, 0, 0.2, 1);
+}
+
+.heroCta:hover .heroCtaIcon {
+  transform: translateX(4px);
 }
 
 .stats {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   gap: var(--space-6);
-  width: 954px;
+  width: 100%;
   max-width: 100%;
   text-align: center;
 }
@@ -236,6 +360,14 @@
   justify-content: center;
   gap: var(--space-1);
   width: 194px;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.statVisible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .statValue {
@@ -315,9 +447,28 @@
   max-width: calc(100% - 2 * var(--content-pad-x));
   height: 477px;
   border-radius: var(--radius-3xl);
-  background: var(--color-video-bg);
-  border: 12px solid rgba(255, 255, 255, 0.5);
+  padding: 14px;
   box-sizing: border-box;
+  background: linear-gradient(
+    180deg,
+    #f3fbff 0%,
+    #d4f0ff 25%,
+    #dcf3ff 25%,
+    #ffffff 38%,
+    #b9e7ff 50%,
+    #5fbff2 68%,
+    #ffffff 92%
+  );
+  box-shadow: 0 4px 34.9px -17px #06a1ff;
+}
+
+.videoEl {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .missionTextWrap {
@@ -335,47 +486,27 @@
   flex: 1 1 auto;
   max-width: 1056px;
   font-family: var(--font-serif);
-  font-size: var(--text-h1);
+  font-size: 48px;
   font-weight: 500;
   line-height: var(--leading-tight);
   text-align: center;
   color: var(--color-white);
 }
 
-.missionSketch1 {
-  position: absolute;
-  left: calc(41.67% + 10px);
-  top: 1499px;
-  width: 138px;
-  height: 72px;
-  pointer-events: none;
+.sketchWord {
+  position: relative;
+  display: inline-block;
 }
 
-.missionSketch2 {
+.sketchLine {
   position: absolute;
-  left: calc(8.33% + 45.23px);
-  top: 1556.44px;
-  width: 362.223px;
-  height: 74.907px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(2.28);
   pointer-events: none;
+  overflow: visible;
 }
 
-.missionSketch3 {
-  position: absolute;
-  left: calc(66.67% - 17px);
-  top: 1499px;
-  width: 180px;
-  height: 73px;
-  pointer-events: none;
-}
-
-.missionSketch1 img,
-.missionSketch2 img,
-.missionSketch3 img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
 
 /* Products */
 .products {
@@ -422,55 +553,87 @@
   min-width: 0;
 }
 
+/* Figma 40:714 — Image Frame: «contents», дети позиционируются относительно 40:713 */
+.productsImageFrame {
+  display: contents;
+}
+
 .b2Wrap {
   position: absolute;
+  z-index: 0;
   left: 262px;
   top: 38.03px;
   width: 154.218px;
   height: 154.218px;
 }
 
-.b2Wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+/* Figma 53:2094: логотип в контейнере с отрицательным inset — масштаб как в макете */
+.b2Inner {
+  position: absolute;
+  inset: -58.62% -61.21% -63.81% -61.21%;
 }
 
+.b2Inner img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: contain;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/*
+ * Navixy: navixy-icon.svg уже содержит плитку, обводку, марку и drop-shadow в фильтре.
+ * Не дублировать box-shadow — иначе двойное свечение; не clip — иначе артефакты уblur.
+ */
 .navixyWrap {
   position: absolute;
+  z-index: 1;
   left: 157px;
   top: 115.03px;
   width: 154.218px;
   height: 154.218px;
-  border-radius: var(--radius-product-tile);
-  border: 2px solid var(--color-white);
-  background: var(--gradient-navixy-tile);
-  box-shadow: var(--shadow-navixy);
+  overflow: visible;
+  pointer-events: none;
+}
+
+/* viewBox 231×231, контент плитки ~154.2px → ~1.497×, inset ≈ −24.8% */
+.navixyInner {
+  position: absolute;
+  inset: -25%;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
 }
 
-.navixyWrap img {
-  width: 91.296px;
-  height: 90.946px;
+.navixyInner img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
   object-fit: contain;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .productCallout {
   position: absolute;
+  z-index: 2;
   left: -37px;
   top: 4.03px;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: var(--gap-product-callout);
   width: 214px;
 }
 
 .calloutText {
+  position: relative;
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
   gap: var(--space-1);
   width: 177px;
   color: var(--color-white);
@@ -493,13 +656,23 @@
 }
 
 .calloutLine {
+  position: relative;
+  flex-shrink: 0;
   width: 212px;
   height: 56px;
 }
 
-.calloutLine img {
+/* Figma 53:2115 — обводка с inset как в макете */
+.calloutLineInner {
+  position: absolute;
+  inset: -0.89% -0.17% -0.63% 0;
+}
+
+.calloutLineInner img {
+  display: block;
   width: 100%;
   height: 100%;
+  max-width: none;
   object-fit: contain;
 }
 
@@ -580,21 +753,41 @@
   text-align: center;
 }
 
+/*
+ * Офисы + Contact + футер: общий контекст, чтобы 49:113 считался от низа футера (Figma Main Container).
+ */
+.lowerRegion {
+  position: relative;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: var(--space-40);
+}
+
 .lowerBackdrop {
   position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--gap-global-offices-contact);
   width: 100%;
 }
 
+/* Figma 49:113 — размытый прямоугольник: bottom от низа lowerRegion (= под футером), 2013×477 */
 .lowerBackdropGlow {
   position: absolute;
   left: 50%;
-  bottom: 258.97px;
+  bottom: calc(258.97px - 20px);
   width: 2013px;
   height: 477px;
   transform: translateX(calc(-50% - 79.5px));
   background: var(--gradient-contact-backdrop);
   filter: blur(var(--blur-section));
   pointer-events: none;
+  z-index: 0;
 }
 
 .offices {
@@ -665,12 +858,19 @@
   position: relative;
   z-index: 1;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-42);
-  width: 954px;
-  max-width: 100%;
+  align-items: flex-start;
+  gap: var(--gap-contact-cols);
+  width: 100%;
+  max-width: var(--content-width);
   padding-bottom: var(--space-12);
+}
+
+.contactCopy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-contact-copy);
+  flex-shrink: 0;
+  width: 410px;
 }
 
 .contactTitle {
@@ -680,23 +880,60 @@
   font-size: var(--text-h1);
   font-weight: 500;
   line-height: normal;
-  text-align: center;
+  color: var(--color-slate-900);
+}
+
+.contactDesc {
+  margin: 0;
+  width: 100%;
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  font-weight: 400;
+  line-height: var(--leading-body);
   color: var(--color-slate-600);
 }
 
+/* Ellipse glow behind the form (60:165) */
+.contactGlow {
+  position: absolute;
+  width: 385px;
+  height: 363px;
+  right: -50px;
+  top: 12px;
+  pointer-events: none;
+}
+
+.contactGlow img {
+  position: absolute;
+  inset: -30.94% -29.17%;
+  width: 160%;
+  height: 160%;
+  object-fit: fill;
+}
+
 .form {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-4);
-  width: 536px;
-  max-width: 100%;
-  min-height: 455px;
-  padding: var(--space-9) var(--space-10);
+  gap: var(--space-9);
+  flex-shrink: 0;
+  width: 520px;
+  height: 455px;
+  justify-content: center;
+  padding: var(--space-9);
   border-radius: var(--radius-xl);
   border: 1px solid var(--color-form-border);
   background: var(--color-white);
   box-shadow: var(--shadow-form-card);
+  box-sizing: border-box;
+}
+
+.formFields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  width: 100%;
 }
 
 .field {
@@ -708,6 +945,7 @@
   background: var(--color-white);
   display: flex;
   align-items: center;
+  box-sizing: border-box;
 }
 
 .fieldMessage {
@@ -761,10 +999,40 @@
   z-index: 1;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  /*
+   * Шов body/blur ↔ футер: отрицательный margin + полоса ::before того же цвета,
+   * что и футер (перекрытие без «просвета»).
+   */
+  margin-top: -12px;
+  padding: calc(var(--space-24) + 12px) var(--content-pad-x) var(--space-40);
+  background: var(--color-navy-deep);
+  box-shadow: 0 -16px 28px -12px rgba(1, 39, 98, 0.85);
+}
+
+/* Плашка цвета футера над верхним краем — добивает остаточную светлую линию */
+.siteFooter::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 14px;
+  transform: translateY(-100%);
+  background: var(--color-navy-deep);
+  pointer-events: none;
+}
+
+/* Текст и колонки — как headerBar: ровно --content-width (1280), по центру */
+.footerInner {
+  display: flex;
+  flex-direction: column;
   gap: var(--space-12);
   width: 100%;
-  padding: var(--space-24) var(--content-pad-x) var(--space-40);
-  background: var(--color-navy-deep);
+  max-width: var(--content-width);
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
 }
 
 .footerGrid {
@@ -881,9 +1149,4 @@
     flex-direction: column;
   }
 
-  .missionSketch1,
-  .missionSketch2,
-  .missionSketch3 {
-    display: none;
-  }
 }

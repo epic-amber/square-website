@@ -15,7 +15,7 @@ body {
   margin: 0;
   min-height: 100%;
   min-height: 100dvh;
-  background-color: rgb(173, 219, 243); /* последний стоп --gradient-page (55:168) */
+  background-color: var(--color-navy-deep); /* хвост --gradient-page совпадает с футером */
   background-image: var(--gradient-page);
   background-repeat: no-repeat;
   /* во всю ширину вьюпорта и на всю высоту документа; корректно на узких/широких экранах */

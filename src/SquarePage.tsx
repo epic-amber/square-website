@@ -1,3 +1,4 @@
+import { useEffect, useId, useRef, useState } from 'react'
 import { figmaAssets } from './figmaAssets'
 import styles from './SquarePage.module.css'
 
@@ -6,10 +7,200 @@ import b2field from './assets/B2field.svg'
 import navixy from './assets/navixy-icon.svg'
 import linkedinIcon from './assets/linkedin.svg'
 import youtubeIcon from './assets/youtube.svg'
+import heroVideo from './assets/hero-video.mp4'
+import growLineRaw from './assets/grow-line.svg?raw'
+import impactLineRaw from './assets/impact-line.svg?raw'
+import confidentLineRaw from './assets/confident-line.svg?raw'
 
 const FLAG_US = 'https://flagcdn.com/w80/us.png'
 const FLAG_RS = 'https://flagcdn.com/w80/rs.png'
 const FLAG_MX = 'https://flagcdn.com/w80/mx.png'
+
+/* ── Count-up animation ───────────────────────────────────── */
+
+const STATS_DATA: { value: number; suffix: string; label: string; nodeValue: string; nodeLabel: string; nodeStat: string }[] = [
+  { value: 22,  suffix: '+',  label: 'years in Telematics',  nodeValue: '40:695', nodeLabel: '40:696', nodeStat: '40:694' },
+  { value: 134, suffix: '+',  label: 'countries',            nodeValue: '40:698', nodeLabel: '40:699', nodeStat: '40:697' },
+  { value: 749, suffix: 'K+', label: 'devices connected',    nodeValue: '40:701', nodeLabel: '40:702', nodeStat: '40:700' },
+  { value: 10,  suffix: 'K+', label: 'completed projects',   nodeValue: '55:1201', nodeLabel: '55:1202', nodeStat: '55:1200' },
+]
+
+function easeOutQuart(t: number) {
+  return 1 - Math.pow(1 - t, 4)
+}
+
+function useCountUp(end: number, duration: number, trigger: boolean) {
+  const [current, setCurrent] = useState(0)
+  const rafRef = useRef(0)
+
+  useEffect(() => {
+    if (!trigger) return
+    let start: number | null = null
+    const step = (ts: number) => {
+      if (start === null) start = ts
+      const elapsed = ts - start
+      const progress = Math.min(elapsed / duration, 1)
+      setCurrent(Math.round(easeOutQuart(progress) * end))
+      if (progress < 1) rafRef.current = requestAnimationFrame(step)
+    }
+    rafRef.current = requestAnimationFrame(step)
+    return () => cancelAnimationFrame(rafRef.current)
+  }, [trigger, end, duration])
+
+  return current
+}
+
+function AnimatedStat({ value, suffix, label, index, visible, nodeValue, nodeLabel, nodeStat }: {
+  value: number; suffix: string; label: string; index: number; visible: boolean
+  nodeValue: string; nodeLabel: string; nodeStat: string
+}) {
+  const count = useCountUp(value, 1800, visible)
+  const delay = index * 150
+
+  return (
+    <div
+      className={`${styles.stat} ${visible ? styles.statVisible : ''}`}
+      style={{ transitionDelay: `${delay}ms` }}
+      data-node-id={nodeStat}
+    >
+      <p className={styles.statValue} data-node-id={nodeValue}>
+        {visible ? `${count}${suffix}` : `0${suffix}`}
+      </p>
+      <p className={styles.statLabel} data-node-id={nodeLabel}>
+        {label}
+      </p>
+    </div>
+  )
+}
+
+function StatsSection() {
+  const ref = useRef<HTMLDivElement>(null)
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); observer.disconnect() } },
+      { threshold: 0.3 },
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  return (
+    <div ref={ref} className={styles.stats} data-node-id="40:693">
+      {STATS_DATA.map((s, i) => (
+        <AnimatedStat key={s.nodeStat} {...s} index={i} visible={visible} />
+      ))}
+    </div>
+  )
+}
+
+function parseSvg(raw: string) {
+  const vbMatch = raw.match(/viewBox="([^"]+)"/)
+  const dMatch = raw.match(/ d="([^"]+)"/)
+  return {
+    viewBox: vbMatch?.[1] ?? '0 0 100 100',
+    d: dMatch?.[1] ?? '',
+  }
+}
+
+const svgData = {
+  grow: parseSvg(growLineRaw),
+  impact: parseSvg(impactLineRaw),
+  confident: parseSvg(confidentLineRaw),
+}
+
+function SketchLineSvg({ data, active, delay }: {
+  data: { viewBox: string; d: string }
+  active: boolean
+  delay: number
+}) {
+  const id = useId()
+  const maskId = `sketch-mask-${id}`
+  const [, , w, h] = data.viewBox.split(' ').map(Number)
+  const cx = w / 2, cy = h / 2
+  const rx = w * 0.46, ry = h * 0.38
+  const perimeter = Math.PI * (3 * (rx + ry) - Math.sqrt((3 * rx + ry) * (rx + 3 * ry)))
+
+  return (
+    <svg
+      viewBox={data.viewBox}
+      className={styles.sketchLine}
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden
+    >
+      <defs>
+        <mask id={maskId}>
+          <ellipse
+            cx={cx} cy={cy} rx={rx} ry={ry}
+            fill="none"
+            stroke="white"
+            strokeWidth={h * 0.9}
+            strokeDasharray={perimeter}
+            strokeDashoffset={active ? 0 : perimeter}
+            style={{
+              transition: active
+                ? `stroke-dashoffset 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) ${delay}s`
+                : 'none',
+            }}
+          />
+        </mask>
+      </defs>
+      <g mask={`url(#${maskId})`}>
+        <path d={data.d} fill="#128FD2" />
+      </g>
+    </svg>
+  )
+}
+
+function MissionText() {
+  const ref = useRef<HTMLDivElement>(null)
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    let timer: ReturnType<typeof setTimeout>
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          timer = setTimeout(() => { setVisible(true); observer.disconnect() }, 1000)
+        } else {
+          clearTimeout(timer)
+        }
+      },
+      { threshold: 0.4 },
+    )
+    observer.observe(el)
+    return () => { clearTimeout(timer); observer.disconnect() }
+  }, [])
+
+  return (
+    <div ref={ref} className={`${styles.missionTextWrap} ${visible ? styles.missionTextVisible : ''}`} data-node-id="40:707">
+      <p className={styles.missionText} data-node-id="40:708">
+        We are passionate about empowering <br aria-hidden="true" />
+        our employees to{' '}
+        <span className={styles.sketchWord}>
+          grow
+          <SketchLineSvg data={svgData.grow} active={visible} delay={0.2} />
+        </span>
+        , make an{' '}
+        <span className={styles.sketchWord}>
+          impact
+          <SketchLineSvg data={svgData.impact} active={visible} delay={0.7} />
+        </span>
+        , and feel{' '}
+        <span className={styles.sketchWord}>
+          confident
+          <SketchLineSvg data={svgData.confident} active={visible} delay={1.2} />
+        </span>
+        {' '}in shaping both their careers and the future of SquareGPS.
+      </p>
+    </div>
+  )
+}
 
 export function SquarePage() {
   return (
@@ -45,15 +236,17 @@ export function SquarePage() {
           <div className={styles.heroMissionGroup} data-node-id="40:686">
             <section className={styles.heroSection} data-node-id="40:687">
               <div className={styles.heroBlock} data-node-id="40:688">
-                <h1 className={styles.heroTitle} data-node-id="40:689">
-                  Design and Development <br aria-hidden="true" />
-                  of Telematics Solutions
-                </h1>
-                <p className={styles.heroSub} data-node-id="40:690">
-                  SquareGPS was founded in 2005 by a team of global experts and innovators passionate to unite people and things together{' '}
-                  <br aria-hidden="true" />
-                  by developing top-notch software products for Telematics industry.
-                </p>
+                <div className={styles.heroIntro}>
+                  <h1 className={styles.heroTitle} data-node-id="40:689">
+                    Design and Development <br aria-hidden="true" />
+                    of Telematics Solutions
+                  </h1>
+                  <p className={styles.heroSub} data-node-id="40:690">
+                    SquareGPS was founded in 2005 by a team of global experts and innovators passionate to unite people and things together{' '}
+                    <br aria-hidden="true" />
+                    by developing top-notch software products for Telematics industry.
+                  </p>
+                </div>
                 <button type="button" className={styles.heroCta} data-node-id="40:691">
                   <span data-node-id="40:692">See open roles</span>
                   <img
@@ -67,32 +260,7 @@ export function SquarePage() {
                 </button>
               </div>
 
-              <div className={styles.stats} data-node-id="40:693">
-                <div className={styles.stat} data-node-id="40:694">
-                  <p className={styles.statValue} data-node-id="40:695">
-                    22+
-                  </p>
-                  <p className={styles.statLabel} data-node-id="40:696">
-                    years in Telematics
-                  </p>
-                </div>
-                <div className={styles.stat} data-node-id="40:697">
-                  <p className={styles.statValue} data-node-id="40:698">
-                    134+
-                  </p>
-                  <p className={styles.statLabel} data-node-id="40:699">
-                    countries
-                  </p>
-                </div>
-                <div className={styles.stat} data-node-id="40:700">
-                  <p className={styles.statValue} data-node-id="40:701">
-                    749K+
-                  </p>
-                  <p className={styles.statLabel} data-node-id="40:702">
-                    devices connected
-                  </p>
-                </div>
-              </div>
+              <StatsSection />
             </section>
 
             <section className={styles.missionWrap} data-node-id="40:703">
@@ -102,24 +270,19 @@ export function SquarePage() {
                   <img src={figmaAssets.ellipse7} alt="" />
                 </div>
 
-                <div className={styles.video} data-name="video" data-node-id="40:706" />
-
-                <div className={styles.missionTextWrap} data-node-id="40:707">
-                  <p className={styles.missionText} data-node-id="40:708">
-                    We are passionate about empowering <br aria-hidden="true" />
-                    our employees to grow, make an impact, and feel confident in shaping both their careers and the future of SquareGPS.
-                  </p>
+                <div className={styles.video} data-name="video" data-node-id="40:706">
+                  <video
+                    className={styles.videoEl}
+                    src={heroVideo}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                  />
                 </div>
 
-                <div className={styles.missionSketch1} data-node-id="49:198" aria-hidden>
-                  <img src={figmaAssets.vector213} alt="" />
-                </div>
-                <div className={styles.missionSketch2} data-node-id="49:201" aria-hidden>
-                  <img src={figmaAssets.vector214} alt="" />
-                </div>
-                <div className={styles.missionSketch3} data-node-id="49:203" aria-hidden>
-                  <img src={figmaAssets.vector215} alt="" />
-                </div>
+                <MissionText />
+
               </div>
             </section>
           </div>
@@ -135,11 +298,17 @@ export function SquarePage() {
             </div>
 
             <div className={styles.productsVisual} data-node-id="40:713">
-              <div className={styles.b2Wrap} data-node-id="53:2094">
-                <img src={b2field} alt="" width={155} height={155} />
-              </div>
-              <div className={styles.navixyWrap} data-node-id="53:2088">
-                <img src={navixy} alt="" width={91} height={91} />
+              <div className={styles.productsImageFrame} data-node-id="40:714">
+                <div className={styles.b2Wrap} data-node-id="53:2094">
+                  <div className={styles.b2Inner}>
+                    <img src={b2field} alt="" />
+                  </div>
+                </div>
+                <div className={styles.navixyWrap} data-node-id="53:2088">
+                  <div className={styles.navixyInner}>
+                    <img src={navixy} alt="" />
+                  </div>
+                </div>
               </div>
               <div className={styles.productCallout} data-node-id="53:2111">
                 <div className={styles.calloutText} data-node-id="53:2112">
@@ -151,7 +320,9 @@ export function SquarePage() {
                   </p>
                 </div>
                 <div className={styles.calloutLine} data-node-id="53:2115">
-                  <img src={figmaAssets.vector216} alt="" />
+                  <div className={styles.calloutLineInner}>
+                    <img src={figmaAssets.vector216} alt="" />
+                  </div>
                 </div>
               </div>
             </div>
@@ -174,9 +345,10 @@ export function SquarePage() {
             </div>
           </section>
 
-          <div className={styles.lowerBackdrop}>
+          <div className={styles.lowerRegion}>
             <div className={styles.lowerBackdropGlow} data-node-id="49:113" aria-hidden />
 
+            <div className={styles.lowerBackdrop}>
             <section className={styles.offices} data-node-id="40:730">
               <h2 className={styles.officesTitle} data-node-id="40:731">
                 Global Offices
@@ -212,57 +384,68 @@ export function SquarePage() {
               </div>
             </section>
 
-            <section className={styles.contact} data-node-id="40:745">
-              <h2 className={styles.contactTitle} data-node-id="40:746">
-                Contact us
-              </h2>
-              <form className={styles.form} data-node-id="53:2173" autoComplete="off">
-                <label className={styles.field}>
-                  <span className="visually-hidden">First name</span>
-                  <input
-                    className={styles.input}
-                    name="firstName"
-                    placeholder="First name"
-                    data-node-id="I53:2174;2297:16158"
-                  />
-                </label>
-                <label className={styles.field}>
-                  <span className="visually-hidden">Last name</span>
-                  <input
-                    className={styles.input}
-                    name="lastName"
-                    placeholder="Last name"
-                    data-node-id="I53:2175;2297:16158"
-                  />
-                </label>
-                <label className={styles.field}>
-                  <span className="visually-hidden">Email</span>
-                  <input
-                    className={styles.input}
-                    name="email"
-                    type="email"
-                    placeholder="Email"
-                    data-node-id="I53:2176;2297:16158"
-                  />
-                </label>
-                <label className={`${styles.field} ${styles.fieldMessage}`}>
-                  <span className="visually-hidden">Message</span>
-                  <textarea
-                    className={styles.textarea}
-                    name="message"
-                    placeholder="Message"
-                    rows={3}
-                    data-node-id="53:2181"
-                  />
-                </label>
-                <button type="submit" className={styles.formCta} data-node-id="53:2183">
-                  Send your message
+            <section className={styles.contact} data-node-id="59:130">
+              <div className={styles.contactCopy} data-node-id="59:131">
+                <h2 className={styles.contactTitle} data-node-id="59:132">
+                  Contact us
+                </h2>
+                <p className={styles.contactDesc} data-node-id="59:133">
+                  Join a team of experts shaping the future of telematics. We create products used worldwide to connect businesses, people, and data in smarter ways.
+                </p>
+              </div>
+              <div className={styles.contactGlow} data-node-id="60:165" aria-hidden>
+                <img src={figmaAssets.contactEllipse} alt="" />
+              </div>
+              <form className={styles.form} data-node-id="59:134" autoComplete="off">
+                <div className={styles.formFields}>
+                  <label className={styles.field}>
+                    <span className="visually-hidden">First name</span>
+                    <input
+                      className={styles.input}
+                      name="firstName"
+                      placeholder="First name"
+                      data-node-id="I59:136;2297:16158"
+                    />
+                  </label>
+                  <label className={styles.field}>
+                    <span className="visually-hidden">Last name</span>
+                    <input
+                      className={styles.input}
+                      name="lastName"
+                      placeholder="Last name"
+                      data-node-id="I59:137;2297:16158"
+                    />
+                  </label>
+                  <label className={styles.field}>
+                    <span className="visually-hidden">Email</span>
+                    <input
+                      className={styles.input}
+                      name="email"
+                      type="email"
+                      placeholder="Email"
+                      data-node-id="I59:138;2297:16158"
+                    />
+                  </label>
+                  <label className={`${styles.field} ${styles.fieldMessage}`}>
+                    <span className="visually-hidden">Message</span>
+                    <textarea
+                      className={styles.textarea}
+                      name="message"
+                      placeholder="Message"
+                      rows={3}
+                      data-node-id="59:143"
+                    />
+                  </label>
+                </div>
+                <button type="submit" className={styles.formCta} data-node-id="59:145">
+                  See open roles
                 </button>
               </form>
             </section>
-          </div>
+            </div>
 
-          <footer className={styles.siteFooter} data-node-id="40:748">
+            <footer className={styles.siteFooter} data-node-id="40:748">
+            <div className={styles.footerInner}>
             <div className={styles.footerGrid} data-node-id="40:749">
               <div className={styles.footerLogo} data-node-id="40:750">
                 <img src={figmaAssets.logoFooterWhite} alt="SquareGPS" data-node-id="40:751" />
@@ -315,7 +498,9 @@ export function SquarePage() {
                 </a>
               </div>
             </div>
+            </div>
           </footer>
+          </div>
         </div>
       </div>
     </div>

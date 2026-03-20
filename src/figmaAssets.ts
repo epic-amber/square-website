@@ -22,4 +22,6 @@ export const figmaAssets = {
   flagUs1: 'https://www.figma.com/api/mcp/asset/d42e4d4d-2b9d-4cef-8345-0ddf1b08a7da',
   flagRs: 'https://www.figma.com/api/mcp/asset/1f5f77db-3fb3-4609-911a-71857204f482',
   flagMx: 'https://www.figma.com/api/mcp/asset/1d153e02-a3fe-4c42-8e0d-50d7747d6d24',
+  /** Ellipse 6 — Contact glow (60:165) */
+  contactEllipse: 'https://www.figma.com/api/mcp/asset/e750889d-eac8-4cc5-8cf2-ec2d7192caa6',
 } as const;
