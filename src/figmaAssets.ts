@@ -9,6 +9,15 @@ import teamPhoto from './assets/careers-team.jpg'
 import vector216 from './assets/callout-line.svg'
 import contactEllipse from './assets/figma-ellipses/contact-glow.svg'
 import logoFooterWhite from './assets/logo-footer-white.svg'
+import iconJose from './assets/icon-jose.svg'
+import iconSam from './assets/icon-sam.svg'
+import iconMaria from './assets/icon-maria.svg'
+import iconLocation from './assets/icon-location.svg'
+import iconGlobe from './assets/icon-globe.svg'
+import iconCode from './assets/icon-code.svg'
+import iconTelematics from './assets/icon-telematics.svg'
+import iconNvx from './assets/icon-nvx.svg'
+import iconQuerry from './assets/icon-querry.svg'
 
 export const figmaAssets = {
   ellipse4,
@@ -21,4 +30,13 @@ export const figmaAssets = {
   vector216,
   contactEllipse,
   logoFooterWhite,
+  iconJose,
+  iconSam,
+  iconMaria,
+  iconLocation,
+  iconGlobe,
+  iconCode,
+  iconTelematics,
+  iconNvx,
+  iconQuerry,
 } as const

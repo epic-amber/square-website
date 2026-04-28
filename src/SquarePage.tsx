@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { figmaAssets } from './figmaAssets'
 import styles from './SquarePage.module.css'
 
@@ -8,9 +8,6 @@ import navixy from './assets/navixy-icon.svg'
 import linkedinIcon from './assets/linkedin.svg'
 import youtubeIcon from './assets/youtube.svg'
 import heroVideo from './assets/hero-video.mp4'
-import growLineRaw from './assets/grow-line.svg?raw'
-import impactLineRaw from './assets/impact-line.svg?raw'
-import confidentLineRaw from './assets/confident-line.svg?raw'
 
 const FLAG_US = 'https://flagcdn.com/w80/us.png'
 const FLAG_RS = 'https://flagcdn.com/w80/rs.png'
@@ -111,61 +108,84 @@ function StatsSection() {
   )
 }
 
-function parseSvg(raw: string) {
-  const vbMatch = raw.match(/viewBox="([^"]+)"/)
-  const dMatch = raw.match(/ d="([^"]+)"/)
-  return {
-    viewBox: vbMatch?.[1] ?? '0 0 100 100',
-    d: dMatch?.[1] ?? '',
-  }
-}
-
-const svgData = {
-  grow: parseSvg(growLineRaw),
-  impact: parseSvg(impactLineRaw),
-  confident: parseSvg(confidentLineRaw),
-}
-
-function SketchLineSvg({ data, active, delay }: {
-  data: { viewBox: string; d: string }
-  active: boolean
-  delay: number
-}) {
-  const id = useId()
-  const maskId = `sketch-mask-${id}`
-  const [, , w, h] = data.viewBox.split(' ').map(Number)
-  const cx = w / 2, cy = h / 2
-  const rx = w * 0.46, ry = h * 0.38
-  const perimeter = Math.PI * (3 * (rx + ry) - Math.sqrt((3 * rx + ry) * (rx + 3 * ry)))
-
+function HeroDecorIcons() {
   return (
-    <svg
-      viewBox={data.viewBox}
-      className={styles.sketchLine}
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden
-    >
-      <defs>
-        <mask id={maskId}>
-          <ellipse
-            cx={cx} cy={cy} rx={rx} ry={ry}
-            fill="none"
-            stroke="white"
-            strokeWidth={h * 0.9}
-            strokeDasharray={perimeter}
-            strokeDashoffset={active ? 0 : perimeter}
-            style={{
-              transition: active
-                ? `stroke-dashoffset 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) ${delay}s`
-                : 'none',
-            }}
-          />
-        </mask>
-      </defs>
-      <g mask={`url(#${maskId})`}>
-        <path d={data.d} fill="#128FD2" />
-      </g>
-    </svg>
+    <div className={styles.heroDecorLayer} aria-hidden>
+      <div className={styles.heroDecorFrame}>
+        <img
+          src={figmaAssets.iconSam}
+          alt=""
+          className={`${styles.heroDecorIcon} ${styles.heroDecorSam}`}
+          data-node-id="74:81"
+          width={85}
+          height={51}
+        />
+        <img
+          src={figmaAssets.iconNvx}
+          alt=""
+          className={`${styles.heroDecorIcon} ${styles.heroDecorNvx}`}
+          data-node-id="74:151"
+          width={55}
+          height={55}
+        />
+        <img
+          src={figmaAssets.iconJose}
+          alt=""
+          className={`${styles.heroDecorIcon} ${styles.heroDecorJose}`}
+          data-node-id="74:76"
+          width={82}
+          height={58}
+        />
+        <img
+          src={figmaAssets.iconQuerry}
+          alt=""
+          className={`${styles.heroDecorIcon} ${styles.heroDecorQuerry}`}
+          data-node-id="74:162"
+          width={55}
+          height={55}
+        />
+        <img
+          src={figmaAssets.iconLocation}
+          alt=""
+          className={`${styles.heroDecorIcon} ${styles.heroDecorLocation}`}
+          data-node-id="74:95"
+          width={52}
+          height={65}
+        />
+        <img
+          src={figmaAssets.iconTelematics}
+          alt=""
+          className={`${styles.heroDecorIcon} ${styles.heroDecorTelematics}`}
+          data-node-id="74:97"
+          width={131}
+          height={108}
+        />
+        <img
+          src={figmaAssets.iconMaria}
+          alt=""
+          className={`${styles.heroDecorIcon} ${styles.heroDecorMaria}`}
+          data-node-id="74:71"
+          width={111}
+          height={67}
+        />
+        <img
+          src={figmaAssets.iconGlobe}
+          alt=""
+          className={`${styles.heroDecorIcon} ${styles.heroDecorGlobe}`}
+          data-node-id="66:167"
+          width={86}
+          height={86}
+        />
+        <img
+          src={figmaAssets.iconCode}
+          alt=""
+          className={`${styles.heroDecorIcon} ${styles.heroDecorCode}`}
+          data-node-id="74:94"
+          width={104}
+          height={82}
+        />
+      </div>
+    </div>
   )
 }
 
@@ -196,20 +216,11 @@ function MissionText() {
       <p className={styles.missionText} data-node-id="40:708">
         We are passionate about empowering <br aria-hidden="true" />
         our employees to{' '}
-        <span className={styles.sketchWord}>
-          grow
-          <SketchLineSvg data={svgData.grow} active={visible} delay={0.2} />
-        </span>
+        <span className={`${styles.missionKeyword} ${styles.missionKeywordD1}`}>grow</span>
         , make an{' '}
-        <span className={styles.sketchWord}>
-          impact
-          <SketchLineSvg data={svgData.impact} active={visible} delay={0.7} />
-        </span>
+        <span className={`${styles.missionKeyword} ${styles.missionKeywordD2}`}>impact</span>
         , and feel{' '}
-        <span className={styles.sketchWord}>
-          confident
-          <SketchLineSvg data={svgData.confident} active={visible} delay={1.2} />
-        </span>
+        <span className={`${styles.missionKeyword} ${styles.missionKeywordD3}`}>confident</span>
         {' '}in shaping both their careers and the future of SquareGPS.
       </p>
     </div>
@@ -231,6 +242,8 @@ export function SquarePage() {
       <div className={styles.bgEllipseMid} aria-hidden data-node-id="55:183">
         <img src={figmaAssets.ellipse3} alt="" />
       </div>
+
+      <HeroDecorIcons />
 
       <div className={styles.inner}>
         <header className={styles.header} data-node-id="40:675">

@@ -52,7 +52,16 @@
     { "path": "hero-video.mp4", "label": "Миссия: видео" },
     { "path": "hero.png", "label": "Лежит в репо; в SquarePage не импортируется" },
     { "path": "react.svg", "label": "Шаблон Vite; не используется на лендинге" },
-    { "path": "vite.svg", "label": "Шаблон Vite; не используется на лендинге" }
+    { "path": "vite.svg", "label": "Шаблон Vite; не используется на лендинге" },
+    { "path": "icon-jose.svg", "figmaNodeId": "74:76", "label": "Hero декор: icon-jose (полная выгрузка)" },
+    { "path": "icon-sam.svg", "figmaNodeId": "74:81", "label": "Hero декор: icon-sam (полная выгрузка)" },
+    { "path": "icon-maria.svg", "figmaNodeId": "74:71", "label": "Hero декор: icon-maria (полная выгрузка)" },
+    { "path": "icon-location.svg", "figmaNodeId": "74:95", "label": "Hero декор: icon-location" },
+    { "path": "icon-globe.svg", "figmaNodeId": "66:167", "label": "Hero декор: icon-globe" },
+    { "path": "icon-code.svg", "figmaNodeId": "74:94", "label": "Hero декор: icon-code" },
+    { "path": "icon-telematics.svg", "figmaNodeId": "74:97", "label": "Hero декор: icon-telematics" },
+    { "path": "icon-nvx.svg", "figmaNodeId": "74:151", "label": "Hero декор: Navixy tile (icon-nvx)" },
+    { "path": "icon-querry.svg", "figmaNodeId": "74:162", "label": "Hero декор: Query tile (icon-querry)" }
   ],
   "public": [{ "path": "public/icons.svg", "label": "Спрайт/иконки (public)" }]
 }
