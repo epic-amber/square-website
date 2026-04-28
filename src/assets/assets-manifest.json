@@ -49,7 +49,10 @@
     { "path": "grow-line.svg", "label": "Миссия: линия grow (raw SVG)" },
     { "path": "impact-line.svg", "label": "Миссия: линия impact (raw SVG)" },
     { "path": "confident-line.svg", "label": "Миссия: линия confident (raw SVG)" },
-    { "path": "hero-video.mp4", "label": "Миссия: видео" }
+    { "path": "hero-video.mp4", "label": "Миссия: видео" },
+    { "path": "hero.png", "label": "Лежит в репо; в SquarePage не импортируется" },
+    { "path": "react.svg", "label": "Шаблон Vite; не используется на лендинге" },
+    { "path": "vite.svg", "label": "Шаблон Vite; не используется на лендинге" }
   ],
   "public": [{ "path": "public/icons.svg", "label": "Спрайт/иконки (public)" }]
 }
