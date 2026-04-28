@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "assets:check": "node scripts/check-assets.mjs"
   },
   "dependencies": {
     "@fontsource/bitter": "^5.2.10",

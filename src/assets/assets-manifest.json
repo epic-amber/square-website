@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "description": "Реестр локальных ассетов. Не использовать ссылки figma.com/api/mcp/asset в коде — они протухают. Обновлять файлы из Figma (Export) или через Figma MCP и коммитить в git.",
+  "figma": {
+    "fileKey": "LBxdg9lB5B0o14MMWPbf76",
+    "fileName": "Squaregps",
+    "fileUrl": "https://www.figma.com/design/LBxdg9lB5B0o14MMWPbf76/Squaregps"
+  },
+  "assets": [
+    {
+      "path": "figma-ellipses/ellipse-4.svg",
+      "figmaNodeId": "55:352",
+      "label": "Фон: Ellipse 4 (верх)"
+    },
+    {
+      "path": "figma-ellipses/ellipse-2.svg",
+      "figmaNodeId": "55:353",
+      "label": "Фон: Ellipse 2"
+    },
+    {
+      "path": "figma-ellipses/ellipse-5.svg",
+      "figmaNodeId": "55:365",
+      "label": "Фон: Ellipse 5 (средний зад)"
+    },
+    {
+      "path": "figma-ellipses/ellipse-3.svg",
+      "figmaNodeId": "55:366",
+      "label": "Фон: Ellipse 3 (передний широкий)"
+    },
+    {
+      "path": "figma-ellipses/mission-blur.svg",
+      "figmaNodeId": "55:100",
+      "label": "Миссия / video: размытый овал"
+    },
+    {
+      "path": "figma-ellipses/contact-glow.svg",
+      "figmaNodeId": "60:165",
+      "label": "Contact: Ellipse 6 (подсветка)"
+    },
+    { "path": "arrow-forward.svg", "label": "Hero CTA: стрелка" },
+    { "path": "callout-line.svg", "label": "Products: линия у Navixy" },
+    { "path": "careers-team.jpg", "label": "Careers: фото (при смене — заменить файл)" },
+    { "path": "logo-footer-white.svg", "label": "Footer: логотип white" },
+    { "path": "logo-squaregps.svg", "label": "Header: логотип color" },
+    { "path": "B2field.svg", "label": "Products: B2Field" },
+    { "path": "navixy-icon.svg", "label": "Products: Navixy" },
+    { "path": "linkedin.svg", "label": "Footer: LinkedIn" },
+    { "path": "youtube.svg", "label": "Footer: YouTube" },
+    { "path": "grow-line.svg", "label": "Миссия: линия grow (raw SVG)" },
+    { "path": "impact-line.svg", "label": "Миссия: линия impact (raw SVG)" },
+    { "path": "confident-line.svg", "label": "Миссия: линия confident (raw SVG)" },
+    { "path": "hero-video.mp4", "label": "Миссия: видео" }
+  ],
+  "public": [{ "path": "public/icons.svg", "label": "Спрайт/иконки (public)" }]
+}
