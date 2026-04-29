@@ -1,6 +1,8 @@
 .wrap {
   width: 100%;
   max-width: var(--content-width);
+  /* Снижает двойной тап → zoom в моб. Safari; жесты карты — у MapLibre на canvas */
+  touch-action: manipulation;
 }
 
 /* Кастомные маркеры: подпись всегда видна, точка крупнее стандартного пина */

@@ -365,6 +365,9 @@ export function SquarePage() {
               <h2 className={styles.officesTitle} data-node-id="40:731">
                 Global Offices
               </h2>
+              <Suspense fallback={<div className={styles.officesMapFallback} aria-hidden />}>
+                <OfficesMap />
+              </Suspense>
               <div className={styles.officeCards} data-node-id="49:91">
                 <article className={styles.officeCard} data-node-id="49:92">
                   <img className={styles.flag} src={FLAG_US} width={36} height={24} alt="" />
@@ -394,9 +397,6 @@ export function SquarePage() {
                   </p>
                 </article>
               </div>
-              <Suspense fallback={<div className={styles.officesMapFallback} aria-hidden />}>
-                <OfficesMap />
-              </Suspense>
             </section>
 
             <VacanciesSection />

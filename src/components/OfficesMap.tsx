@@ -58,6 +58,12 @@ export function OfficesMap() {
       renderWorldCopies: false,
     })
 
+    /* Без зума колесом / pinch / двойной клик — скролл страницы не «ломается» об карту */
+    map.scrollZoom.disable()
+    map.boxZoom.disable()
+    map.doubleClickZoom.disable()
+    map.touchZoomRotate.disable()
+
     map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right')
 
     const markers: maplibregl.Marker[] = []
@@ -100,7 +106,7 @@ export function OfficesMap() {
         ref={containerRef}
         className={styles.map}
         role="application"
-        aria-label="Interactive map of SquareGPS office locations"
+        aria-label="Map of SquareGPS office locations (use zoom buttons to change scale)"
       />
     </div>
   )

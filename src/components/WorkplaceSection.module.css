@@ -12,14 +12,14 @@
   padding: 0 var(--space-9);
 }
 
-/* ── Heading (Figma 79:343) ──────────────────────────────────── */
+/* ── Heading (Figma 79:343) — тот же тёмный тон и семейство, что у hero H1 ── */
 .title {
   margin: 0;
-  font-family: var(--font-sans);
+  font-family: var(--font-serif);
   font-size: 48px;
   font-weight: 500;
   line-height: normal;
-  color: var(--color-white);
+  color: var(--color-heading-muted);
   text-align: center;
 }
 
@@ -60,7 +60,7 @@
   flex-direction: column;
   overflow: hidden;
   border-radius: var(--radius-lg);
-  padding: var(--space-9);
+  padding: var(--space-6);
   background-image: linear-gradient(
     235.59deg,
     rgb(59, 209, 255) 6.0047%,
@@ -99,8 +99,8 @@
 .benefit {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2); /* 8px — меньше между заголовком и текстом */
-  padding: var(--space-9);
+  gap: var(--space-1);
+  padding: var(--space-6);
   border-radius: var(--radius-lg);
   background-color: var(--workplace-benefit-surface);
   background-image: none;
@@ -192,7 +192,7 @@
   .hero {
     aspect-ratio: auto;
     min-height: 240px;
-    padding: var(--space-6);
+    padding: var(--space-5);
   }
 
   .heroText {
@@ -206,7 +206,7 @@
 
   .benefit {
     aspect-ratio: auto;
-    padding: var(--space-6);
+    padding: var(--space-5);
   }
 
   .benefitTitle {

@@ -37,7 +37,10 @@
   /*
    * Верхняя страница — Figma node 55:81 «gradient» (180deg).
    * Накладывается слоем от середины видео до низа секции Our Products.
+   * Нижняя зона: удлинённый тёмно-синий плато (Our Products); светлый хвост —
+   * растянутый переход в белый с дополнительными стопами.
    */
+  /* Те же стопы, что в oklab-варианте; без цветового пространства — для старых движков */
   --gradient-atmospheric: linear-gradient(
     to bottom,
     #ffffff 0%,
@@ -56,21 +59,27 @@
     #013e87 41%,
     #013070 45%,
     #012861 48%,
-    #01265e 50%,
-    #01265e 54%,
-    #032c68 58%,
-    #063676 61%,
-    #0c4487 64%,
-    #14559b 67%,
-    #1e6cb4 70%,
-    #2887d2 73%,
-    #329eee 76%,
-    #37acf6 78%,
-    #50c0fc 81%,
-    #82dcff 85%,
-    #b4eeff 89%,
-    #dcf9ff 93%,
-    #f3fdff 97%,
+    #01265e 51%,
+    #01265e 56%,
+    #012963 59%,
+    #022e6b 63%,
+    #043578 67%,
+    #073e88 70%,
+    #0d4d9a 73%,
+    #145eae 77%,
+    #1c71c4 80%,
+    #2887d2 83%,
+    #33a0ea 86%,
+    #37acf6 89%,
+    #50c0fc 91%,
+    #82dcff 93%,
+    #b4eeff 94.5%,
+    #dcf9ff 96%,
+    #e8fbff 97%,
+    #f0fcff 97.8%,
+    #f3fdff 98.4%,
+    #f8feff 99.1%,
+    #fcffff 99.6%,
     #ffffff 100%
   );
 
@@ -169,7 +178,7 @@
   --bg-ellipse-secondary-width: calc(var(--bg-ellipse-width) * 1770 / 1800);
 }
 
-/* Те же стопы, что в Figma Main Container, интерполяция в oklch — мягче переходы */
+/* Main Container — интерполяция в oklch */
 @supports (background: linear-gradient(in oklch, red 0%, blue 100%)) {
   :root {
     --gradient-page: linear-gradient(
@@ -184,9 +193,14 @@
       rgb(255, 255, 255) 75.641%,
       rgb(173, 219, 243) 94.781%
     );
+  }
+}
 
+/* Верх страницы — интерполяция в oklab (переходы между стопами ровнее, меньше бэндинга) */
+@supports (background: linear-gradient(in oklab, red 0%, blue 100%)) {
+  :root {
     --gradient-atmospheric: linear-gradient(
-      to bottom in oklch,
+      in oklab to bottom,
       #ffffff 0%,
       #f8fdff 3%,
       #f0faff 6%,
@@ -203,21 +217,27 @@
       #013e87 41%,
       #013070 45%,
       #012861 48%,
-      #01265e 50%,
-      #01265e 54%,
-      #032c68 58%,
-      #063676 61%,
-      #0c4487 64%,
-      #14559b 67%,
-      #1e6cb4 70%,
-      #2887d2 73%,
-      #329eee 76%,
-      #37acf6 78%,
-      #50c0fc 81%,
-      #82dcff 85%,
-      #b4eeff 89%,
-      #dcf9ff 93%,
-      #f3fdff 97%,
+      #01265e 51%,
+      #01265e 56%,
+      #012963 59%,
+      #022e6b 63%,
+      #043578 67%,
+      #073e88 70%,
+      #0d4d9a 73%,
+      #145eae 77%,
+      #1c71c4 80%,
+      #2887d2 83%,
+      #33a0ea 86%,
+      #37acf6 89%,
+      #50c0fc 91%,
+      #82dcff 93%,
+      #b4eeff 94.5%,
+      #dcf9ff 96%,
+      #e8fbff 97%,
+      #f0fcff 97.8%,
+      #f3fdff 98.4%,
+      #f8feff 99.1%,
+      #fcffff 99.6%,
       #ffffff 100%
     );
   }
