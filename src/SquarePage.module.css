@@ -19,9 +19,7 @@
 }
 
 .bgEllipseTop img,
-.bgEllipse2 img,
-.bgEllipseMidBack img,
-.bgEllipseMid img {
+.bgEllipse2 img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -41,19 +39,6 @@
   z-index: 0;
 }
 
-/*
- * Два средних овала — интерференция двух ряби: периоды 8s / 15s (НОД=1),
- * чуть сильнее scale и opacity, чуть быстрее цикл.
- */
-@keyframes ovalWaveRipple {
-  0%,
-  100% {
-    transform: translateX(-50%) scale(0.975);
-  }
-  50% {
-    transform: translateX(-50%) scale(1.038);
-  }
-}
 
 @keyframes ellipseTopDrift {
   0%, 100% {
@@ -88,45 +73,6 @@
   }
 }
 
-/* Ellipse 5 (55:182): 1800×628; поднято на 5dvh (голубой пояс ~#128FD2) */
-.bgEllipseMidBack {
-  position: absolute;
-  left: 50%;
-  top: calc(795px - 5dvh);
-  width: var(--bg-ellipse-width);
-  aspect-ratio: 1800 / 628;
-  height: auto;
-  transform: translateX(-50%);
-  transform-origin: center center;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Ellipse 3 (55:183): 2828×628; синхронно с задним слоем */
-.bgEllipseMid {
-  position: absolute;
-  left: 50%;
-  top: calc(865px - 5dvh);
-  width: var(--bg-ellipse-mid-front-width);
-  aspect-ratio: 2828 / 628;
-  height: auto;
-  transform: translateX(-50%);
-  transform-origin: center center;
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* B1: низ овалов растворяется — меньше боковых засветов у Contact/footer */
-.bgEllipseMidBack,
-.bgEllipseMid {
-  mask-image: linear-gradient(to bottom, #000 0%, #000 58%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 58%, transparent 100%);
-  mask-size: 100% 100%;
-  -webkit-mask-size: 100% 100%;
-  mask-repeat: no-repeat;
-  -webkit-mask-repeat: no-repeat;
-}
-
 @media (prefers-reduced-motion: no-preference) {
   .bgEllipseTop {
     animation: ellipseTopDrift 12s ease-in-out infinite;
@@ -137,16 +83,6 @@
     animation-delay: -4s;
   }
 
-  .bgEllipseMidBack {
-    animation: ovalWaveRipple 8s cubic-bezier(0.42, 0, 0.58, 1) infinite;
-    animation-delay: -3.1s;
-  }
-
-  .bgEllipseMid {
-    animation: ovalWaveRipple 15s cubic-bezier(0.42, 0, 0.58, 1) infinite;
-    animation-delay: -7.65s;
-  }
-
   .lowerBackdropGlow {
     animation: glowBreathe 10s ease-in-out infinite;
   }
@@ -155,8 +91,6 @@
 @media (prefers-reduced-motion: reduce) {
   .bgEllipseTop,
   .bgEllipse2,
-  .bgEllipseMidBack,
-  .bgEllipseMid,
   .lowerBackdropGlow {
     animation: none;
   }
@@ -252,15 +186,7 @@
   font-weight: 500;
   line-height: var(--leading-tight);
   text-align: center;
-  background: linear-gradient(
-    180.76deg,
-    #06a1ff 0%,
-    rgb(15, 23, 43) 10.626%,
-    rgb(51, 78, 145) 63.122%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--color-heading-muted);
 }
 
 .heroSub {
@@ -392,6 +318,7 @@
 }
 
 .heroMissionGroup {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -413,32 +340,6 @@
   width: 100%;
 }
 
-/* Background Rectangle — Figma 55:205 (внутри Section 55:204): #012762, blur 100px, 2469×865 */
-.missionBlur {
-  position: absolute;
-  left: calc(50% + 0.5px);
-  top: 242.03px;
-  width: 2469px;
-  height: 865px;
-  transform: translateX(-50%);
-  background: var(--color-navy-deep);
-  filter: blur(var(--blur-section));
-  pointer-events: none;
-}
-
-.missionBlurEllipse {
-  position: absolute;
-  left: -2316px;
-  top: 442.03px;
-  width: 1737px;
-  height: 543px;
-  pointer-events: none;
-}
-
-.missionBlurEllipse img {
-  width: 100%;
-  height: 100%;
-}
 
 .video {
   position: relative;
@@ -555,6 +456,7 @@
 
 /* Products */
 .products {
+  position: relative;
   display: flex;
   align-items: center;
   gap: var(--space-9);
@@ -670,7 +572,6 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--gap-product-callout);
   width: 214px;
 }
 
@@ -698,27 +599,6 @@
   font-size: var(--text-sm);
   font-weight: 400;
   line-height: normal;
-}
-
-.calloutLine {
-  position: relative;
-  flex-shrink: 0;
-  width: 212px;
-  height: 56px;
-}
-
-/* Figma 53:2115 — обводка с inset как в макете */
-.calloutLineInner {
-  position: absolute;
-  inset: -0.89% -0.17% -0.63% 0;
-}
-
-.calloutLineInner img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  max-width: none;
-  object-fit: contain;
 }
 
 /* Careers */
@@ -809,6 +689,7 @@
   align-items: center;
   width: 100%;
   gap: var(--space-40);
+  background: linear-gradient(to bottom, var(--color-white) 0%, var(--color-white) 55%, var(--color-slate-100) 100%);
 }
 
 .lowerBackdrop {
@@ -821,18 +702,9 @@
   width: 100%;
 }
 
-/* Figma 49:113 — размытый прямоугольник: bottom от низа lowerRegion (= под футером), 2013×477 */
+/* Графический glow удалён — футер теперь светлый */
 .lowerBackdropGlow {
-  position: absolute;
-  left: 50%;
-  bottom: calc(258.97px - 20px);
-  width: 2013px;
-  height: 477px;
-  transform: translateX(calc(-50% - 79.5px));
-  background: var(--gradient-contact-backdrop);
-  filter: blur(var(--blur-section));
-  pointer-events: none;
-  z-index: 0;
+  display: none;
 }
 
 .offices {
@@ -843,7 +715,8 @@
   align-items: center;
   gap: var(--space-12);
   width: 100%;
-  padding: 0 var(--content-pad-x);
+  /* верх/низ — воздух вокруг блока офисов */
+  padding: var(--space-24) var(--content-pad-x);
 }
 
 .officesTitle {
@@ -861,7 +734,7 @@
 .officeCards {
   display: flex;
   gap: var(--space-11);
-  align-items: flex-start;
+  align-items: stretch; /* одинаковая высота карточек (иначе короткий текст → ниже блок) */
 }
 
 .officeCard {
@@ -899,118 +772,12 @@
   color: var(--color-slate-600);
 }
 
-.contact {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: flex-start;
-  gap: var(--gap-contact-cols);
+.officesMapFallback {
   width: 100%;
   max-width: var(--content-width);
-  padding-bottom: var(--space-12);
-}
-
-.contactCopy {
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap-contact-copy);
-  flex-shrink: 0;
-  width: 410px;
-}
-
-.contactTitle {
-  margin: 0;
-  width: 100%;
-  font-family: var(--font-serif);
-  font-size: var(--text-h1);
-  font-weight: 500;
-  line-height: normal;
-  color: var(--color-slate-900);
-}
-
-.contactDesc {
-  margin: 0;
-  width: 100%;
-  font-family: var(--font-sans);
-  font-size: var(--text-lg);
-  font-weight: 400;
-  line-height: var(--leading-body);
-  color: var(--color-slate-600);
-}
-
-/* Ellipse glow behind the form (60:165) */
-.contactGlow {
-  position: absolute;
-  width: 385px;
-  height: 363px;
-  right: -50px;
-  top: 12px;
-  pointer-events: none;
-}
-
-.contactGlow img {
-  position: absolute;
-  inset: -30.94% -29.17%;
-  width: 160%;
-  height: 160%;
-  object-fit: fill;
-}
-
-.form {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-9);
-  flex-shrink: 0;
-  width: 520px;
-  height: 455px;
-  justify-content: center;
-  padding: var(--space-9);
-  border-radius: var(--radius-xl);
-  border: 1px solid var(--color-form-border);
-  background: var(--color-white);
-  box-shadow: var(--shadow-form-card);
-  box-sizing: border-box;
-}
-
-.formFields {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-6);
-  width: 100%;
-}
-
-.field {
-  width: 100%;
-  height: 49px;
-  padding: var(--form-field-py) var(--form-field-px);
-  border-radius: 6px;
-  border: 1px solid var(--color-slate-300);
-  background: var(--color-white);
-  display: flex;
-  align-items: center;
-  box-sizing: border-box;
-}
-
-.fieldMessage {
-  height: 82px;
-  align-items: flex-start;
-  padding: var(--form-field-py) var(--form-field-px);
-}
-
-.input,
-.textarea {
-  width: 100%;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-family: var(--font-form);
-  font-size: var(--text-base);
-  font-style: normal;
-  font-weight: 400;
-  line-height: var(--leading-body);
-  color: var(--color-slate-900);
+  min-height: 360px;
+  border-radius: var(--radius-lg);
+  background: var(--color-slate-100);
 }
 
 .input::placeholder,
@@ -1023,49 +790,14 @@
   min-height: 70px;
 }
 
-.formCta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 213px;
-  padding: var(--cta-py) var(--space-5);
-  border-radius: var(--radius-2xl);
-  background: var(--color-sky-500);
-  color: var(--color-white);
-  font-family: var(--font-sans);
-  font-size: var(--text-base);
-  font-weight: 400;
-  line-height: var(--leading-body);
-  text-align: center;
-}
-
 .siteFooter {
   position: relative;
   z-index: 1;
   display: flex;
   flex-direction: column;
   width: 100%;
-  /*
-   * Шов body/blur ↔ футер: отрицательный margin + полоса ::before того же цвета,
-   * что и футер (перекрытие без «просвета»).
-   */
-  margin-top: -12px;
-  padding: calc(var(--space-24) + 12px) var(--content-pad-x) var(--space-40);
-  background: var(--color-navy-deep);
-  box-shadow: 0 -16px 28px -12px rgba(1, 39, 98, 0.85);
-}
-
-/* Плашка цвета футера над верхним краем — добивает остаточную светлую линию */
-.siteFooter::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: 14px;
-  transform: translateY(-100%);
-  background: var(--color-navy-deep);
-  pointer-events: none;
+  padding: var(--space-24) var(--content-pad-x) var(--space-40);
+  background: transparent;
 }
 
 /* Текст и колонки — как headerBar: ровно --content-width (1280), по центру */
@@ -1116,7 +848,7 @@
   font-size: var(--text-base);
   font-weight: 600;
   line-height: var(--leading-body);
-  color: var(--color-white);
+  color: var(--color-slate-900);
 }
 
 .footerLinks {
@@ -1130,7 +862,7 @@
   font-size: var(--text-base);
   font-weight: 400;
   line-height: var(--leading-body);
-  color: var(--color-white);
+  color: var(--color-slate-700);
 }
 
 .legalRow {
@@ -1147,7 +879,7 @@
   font-size: var(--text-legal);
   font-weight: 400;
   line-height: var(--leading-body);
-  color: var(--color-white);
+  color: var(--color-slate-500);
   white-space: nowrap;
 }
 
@@ -1175,6 +907,26 @@
   align-items: center;
   gap: var(--space-40);
   width: 100%;
+}
+
+/*
+ * Figma 55:81: градиент начинается на 404px от верха hero-секции (642 − 238 = 404px).
+ * Вешаем прямо на background элемента — так он всегда позади ВСЕГО контента,
+ * никакой z-index не перекрывает.
+ */
+.topPageGradient {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: var(--space-40);
+  background-color: var(--color-white);
+  background-image: var(--gradient-atmospheric);
+  /* Градиент занимает всю высоту за вычетом 404px — начинается ровно там, где Figma */
+  background-size: 100% calc(100% - 404px);
+  background-position: 0 404px;
+  background-repeat: no-repeat;
 }
 
 /*

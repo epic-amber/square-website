@@ -7,6 +7,7 @@
   --color-slate-500: #62748e;
   --color-slate-400: #90a1b9;
   --color-slate-300: #cad5e2;
+  --color-slate-200: #e2e8f0;
   --color-slate-100: #f1f5f9;
   --color-white: #ffffff;
   --color-navy-deep: #012762;
@@ -16,11 +17,12 @@
   --color-page-accent: #00abff;
 
   /*
-   * Main Container — база 55:168; низ: к ~88% уже #012762 (как футер).
-   * Ниже 75.641% — много мелких стопов, чтобы не было «ступенек» в sRGB.
+   * Main Container — Figma node 55:351 (frame 55:63 «Tailwind CSS - Desktop»).
+   * Полная цепочка стопов как в макете, включая белый плато 56.942%→75.641% и
+   * светлый голубой хвост rgb(173, 219, 243) на 94.781%.
    */
   --gradient-page: linear-gradient(
-    179.9999993135576deg,
+    179.99999931680043deg,
     rgb(255, 255, 255) 9.8436%,
     rgb(255, 255, 255) 18.97%,
     rgb(7, 91, 167) 29.14%,
@@ -28,17 +30,48 @@
     rgb(10, 107, 176) 47.25%,
     rgb(139, 210, 247) 52.093%,
     rgb(255, 255, 255) 56.942%,
-    rgb(255, 255, 255) 80%,
-    rgb(226, 242, 251) 81%,
-    rgb(173, 219, 243) 82%,
-    rgb(130, 198, 234) 83%,
-    rgb(82, 169, 216) 84%,
-    rgb(38, 135, 193) 85%,
-    rgb(7, 91, 167) 86%,
-    rgb(2, 52, 112) 87%,
-    rgb(1, 39, 98) 88%,
-    #012762 89%,
-    #012762 100%
+    rgb(255, 255, 255) 75.641%,
+    rgb(173, 219, 243) 94.781%
+  );
+
+  /*
+   * Верхняя страница — Figma node 55:81 «gradient» (180deg).
+   * Накладывается слоем от середины видео до низа секции Our Products.
+   */
+  --gradient-atmospheric: linear-gradient(
+    to bottom,
+    #ffffff 0%,
+    #f8fdff 3%,
+    #f0faff 6%,
+    #e1f5ff 9%,
+    #cdedff 12%,
+    #afe0ff 15%,
+    #82cdfc 18%,
+    #55b9f9 21%,
+    #37acf6 23%,
+    #289beb 26%,
+    #1984d7 29%,
+    #0a69bc 33%,
+    #0252a2 37%,
+    #013e87 41%,
+    #013070 45%,
+    #012861 48%,
+    #01265e 50%,
+    #01265e 54%,
+    #032c68 58%,
+    #063676 61%,
+    #0c4487 64%,
+    #14559b 67%,
+    #1e6cb4 70%,
+    #2887d2 73%,
+    #329eee 76%,
+    #37acf6 78%,
+    #50c0fc 81%,
+    #82dcff 85%,
+    #b4eeff 89%,
+    #dcf9ff 93%,
+    #f3fdff 97%,
+    #ffffff 100%
   );
 
   /* Navixy tile gradient */
@@ -86,7 +119,6 @@
   --gap-contact-copy: 17px; /* Contact us: заголовок ↔ описание (59:131) */
   /* Global Offices ↔ Contact us (нижний блок .lowerBackdrop; раньше было 160px = --space-40) */
   --gap-global-offices-contact: 224px;
-  --gap-product-callout: 12px; /* Product: блок Navixy ↔ vector line */
   --gap-office-stack: 9px; /* Office card: флаг ↔ город ↔ адрес */
   --space-64: 64px; /* Careers: фото ↔ текст */
   --space-footer-link-gap: 14px; /* Footer: между ссылками */
@@ -131,19 +163,17 @@
   /* основная колонка контента (Figma Section Container) */
   --content-width: 1280px;
 
-  /* Овалы 55:169 / 55:182: 1800px в макете 1920; на шире — пропорционально вьюпорту */
+  /* Овалы (55:169 / 55:170): 1800px в макете 1920; на шире — пропорционально вьюпорту */
   --bg-ellipse-width: max(1800px, 100vw);
-  /* Ellipse 3 (55:183): 2828×628 при ширине 1800 у парного слоя */
-  --bg-ellipse-mid-front-width: calc(var(--bg-ellipse-width) * 2828 / 1800);
   /* Ellipse 2 (55:170): 1770×922 */
   --bg-ellipse-secondary-width: calc(var(--bg-ellipse-width) * 1770 / 1800);
 }
 
-/* Те же стопы, но интерполяция в oklch — мягче переходы (меньше «полос»). */
+/* Те же стопы, что в Figma Main Container, интерполяция в oklch — мягче переходы */
 @supports (background: linear-gradient(in oklch, red 0%, blue 100%)) {
   :root {
     --gradient-page: linear-gradient(
-      179.9999993135576deg in oklch,
+      179.99999931680043deg in oklch,
       rgb(255, 255, 255) 9.8436%,
       rgb(255, 255, 255) 18.97%,
       rgb(7, 91, 167) 29.14%,
@@ -151,17 +181,44 @@
       rgb(10, 107, 176) 47.25%,
       rgb(139, 210, 247) 52.093%,
       rgb(255, 255, 255) 56.942%,
-      rgb(255, 255, 255) 80%,
-      rgb(226, 242, 251) 81%,
-      rgb(173, 219, 243) 82%,
-      rgb(130, 198, 234) 83%,
-      rgb(82, 169, 216) 84%,
-      rgb(38, 135, 193) 85%,
-      rgb(7, 91, 167) 86%,
-      rgb(2, 52, 112) 87%,
-      rgb(1, 39, 98) 88%,
-      #012762 89%,
-      #012762 100%
+      rgb(255, 255, 255) 75.641%,
+      rgb(173, 219, 243) 94.781%
+    );
+
+    --gradient-atmospheric: linear-gradient(
+      to bottom in oklch,
+      #ffffff 0%,
+      #f8fdff 3%,
+      #f0faff 6%,
+      #e1f5ff 9%,
+      #cdedff 12%,
+      #afe0ff 15%,
+      #82cdfc 18%,
+      #55b9f9 21%,
+      #37acf6 23%,
+      #289beb 26%,
+      #1984d7 29%,
+      #0a69bc 33%,
+      #0252a2 37%,
+      #013e87 41%,
+      #013070 45%,
+      #012861 48%,
+      #01265e 50%,
+      #01265e 54%,
+      #032c68 58%,
+      #063676 61%,
+      #0c4487 64%,
+      #14559b 67%,
+      #1e6cb4 70%,
+      #2887d2 73%,
+      #329eee 76%,
+      #37acf6 78%,
+      #50c0fc 81%,
+      #82dcff 85%,
+      #b4eeff 89%,
+      #dcf9ff 93%,
+      #f3fdff 97%,
+      #ffffff 100%
     );
   }
 }

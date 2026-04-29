@@ -1,6 +1,12 @@
-import { useEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { figmaAssets } from './figmaAssets'
 import styles from './SquarePage.module.css'
+import { WorkplaceSection } from './components/WorkplaceSection'
+import { VacanciesSection } from './components/VacanciesSection'
+
+const OfficesMap = lazy(() =>
+  import('./components/OfficesMap').then((m) => ({ default: m.OfficesMap })),
+)
 
 import logoColor from './assets/logo-squaregps.svg'
 import b2field from './assets/B2field.svg'
@@ -8,6 +14,10 @@ import navixy from './assets/navixy-icon.svg'
 import linkedinIcon from './assets/linkedin.svg'
 import youtubeIcon from './assets/youtube.svg'
 import heroVideo from './assets/hero-video.mp4'
+import workplaceLanguage from './assets/workplace-language.png'
+import workplacePresentation from './assets/workplace-presentation.png'
+import workplaceTeam from './assets/workplace-team.png'
+import workplaceTech from './assets/workplace-tech.png'
 
 const FLAG_US = 'https://flagcdn.com/w80/us.png'
 const FLAG_RS = 'https://flagcdn.com/w80/rs.png'
@@ -228,6 +238,7 @@ function MissionText() {
 }
 
 export function SquarePage() {
+
   return (
     <div className={styles.page} data-node-id="55:168">
       <div className={styles.bgEllipseTop} aria-hidden data-node-id="55:169">
@@ -235,12 +246,6 @@ export function SquarePage() {
       </div>
       <div className={styles.bgEllipse2} aria-hidden data-node-id="55:170">
         <img src={figmaAssets.ellipse2} alt="" />
-      </div>
-      <div className={styles.bgEllipseMidBack} aria-hidden data-node-id="55:182">
-        <img src={figmaAssets.ellipse5} alt="" />
-      </div>
-      <div className={styles.bgEllipseMid} aria-hidden data-node-id="55:183">
-        <img src={figmaAssets.ellipse3} alt="" />
       </div>
 
       <HeroDecorIcons />
@@ -260,6 +265,7 @@ export function SquarePage() {
         </header>
 
         <div className={styles.stack}>
+          <div className={styles.topPageGradient} data-node-id="55:81">
           <div className={styles.heroMissionGroup} data-node-id="40:686">
             <section className={styles.heroSection} data-node-id="40:687">
               <div className={styles.heroBlock} data-node-id="40:688">
@@ -292,11 +298,6 @@ export function SquarePage() {
 
             <section className={styles.missionWrap} data-node-id="40:703">
               <div className={styles.missionInner}>
-                <div className={styles.missionBlur} data-node-id="55:205" aria-hidden />
-                <div className={styles.missionBlurEllipse} data-node-id="40:705" aria-hidden>
-                  <img src={figmaAssets.ellipse7} alt="" />
-                </div>
-
                 <div className={styles.video} data-name="video" data-node-id="40:706">
                   <video
                     className={styles.videoEl}
@@ -346,35 +347,19 @@ export function SquarePage() {
                     GPS tracking platform for fleet management and asset monitoring
                   </p>
                 </div>
-                <div className={styles.calloutLine} data-node-id="53:2115">
-                  <div className={styles.calloutLineInner}>
-                    <img src={figmaAssets.vector216} alt="" />
-                  </div>
-                </div>
               </div>
             </div>
           </section>
+          </div>
 
-          <section className={styles.careers} data-node-id="40:722">
-            <div className={styles.careersImg} data-node-id="49:14">
-              <img src={figmaAssets.teamPhoto} alt="" width={592} height={789} />
-            </div>
-            <div className={styles.careersCopy} data-node-id="40:725">
-              <h2 className={styles.careersTitle} data-node-id="40:726">
-                Careers at SquareGPS
-              </h2>
-              <p className={styles.careersDesc} data-node-id="40:727">
-                Meet the people behind SquareGPS — passionate experts building the future of telematics together
-              </p>
-              <button type="button" className={styles.careersCta} data-node-id="40:728">
-                See open roles
-              </button>
-            </div>
-          </section>
+          <WorkplaceSection
+            imgLanguage={workplaceLanguage}
+            imgPresentation={workplacePresentation}
+            imgTeam={workplaceTeam}
+            imgTech={workplaceTech}
+          />
 
           <div className={styles.lowerRegion}>
-            <div className={styles.lowerBackdropGlow} data-node-id="49:113" aria-hidden />
-
             <div className={styles.lowerBackdrop}>
             <section className={styles.offices} data-node-id="40:730">
               <h2 className={styles.officesTitle} data-node-id="40:731">
@@ -409,73 +394,19 @@ export function SquarePage() {
                   </p>
                 </article>
               </div>
+              <Suspense fallback={<div className={styles.officesMapFallback} aria-hidden />}>
+                <OfficesMap />
+              </Suspense>
             </section>
 
-            <section className={styles.contact} data-node-id="59:130">
-              <div className={styles.contactCopy} data-node-id="59:131">
-                <h2 className={styles.contactTitle} data-node-id="59:132">
-                  Contact us
-                </h2>
-                <p className={styles.contactDesc} data-node-id="59:133">
-                  Join a team of experts shaping the future of telematics. We create products used worldwide to connect businesses, people, and data in smarter ways.
-                </p>
-              </div>
-              <div className={styles.contactGlow} data-node-id="60:165" aria-hidden>
-                <img src={figmaAssets.contactEllipse} alt="" />
-              </div>
-              <form className={styles.form} data-node-id="59:134" autoComplete="off">
-                <div className={styles.formFields}>
-                  <label className={styles.field}>
-                    <span className="visually-hidden">First name</span>
-                    <input
-                      className={styles.input}
-                      name="firstName"
-                      placeholder="First name"
-                      data-node-id="I59:136;2297:16158"
-                    />
-                  </label>
-                  <label className={styles.field}>
-                    <span className="visually-hidden">Last name</span>
-                    <input
-                      className={styles.input}
-                      name="lastName"
-                      placeholder="Last name"
-                      data-node-id="I59:137;2297:16158"
-                    />
-                  </label>
-                  <label className={styles.field}>
-                    <span className="visually-hidden">Email</span>
-                    <input
-                      className={styles.input}
-                      name="email"
-                      type="email"
-                      placeholder="Email"
-                      data-node-id="I59:138;2297:16158"
-                    />
-                  </label>
-                  <label className={`${styles.field} ${styles.fieldMessage}`}>
-                    <span className="visually-hidden">Message</span>
-                    <textarea
-                      className={styles.textarea}
-                      name="message"
-                      placeholder="Message"
-                      rows={3}
-                      data-node-id="59:143"
-                    />
-                  </label>
-                </div>
-                <button type="submit" className={styles.formCta} data-node-id="59:145">
-                  See open roles
-                </button>
-              </form>
-            </section>
+            <VacanciesSection />
             </div>
 
             <footer className={styles.siteFooter} data-node-id="40:748">
             <div className={styles.footerInner}>
             <div className={styles.footerGrid} data-node-id="40:749">
               <div className={styles.footerLogo} data-node-id="40:750">
-                <img src={figmaAssets.logoFooterWhite} alt="SquareGPS" data-node-id="40:751" />
+                <img src={logoColor} alt="SquareGPS" data-node-id="40:751" />
               </div>
               <div className={styles.footerCol} data-node-id="40:755">
                 <p className={styles.footerHeading} data-node-id="40:757">

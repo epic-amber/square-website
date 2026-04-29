@@ -6,8 +6,6 @@ import ellipse3 from './assets/figma-ellipses/ellipse-3.svg'
 import ellipse7 from './assets/figma-ellipses/mission-blur.svg'
 import arrowForward from './assets/arrow-forward.svg'
 import teamPhoto from './assets/careers-team.jpg'
-import vector216 from './assets/callout-line.svg'
-import contactEllipse from './assets/figma-ellipses/contact-glow.svg'
 import logoFooterWhite from './assets/logo-footer-white.svg'
 import iconJose from './assets/icon-jose.svg'
 import iconSam from './assets/icon-sam.svg'
@@ -27,8 +25,6 @@ export const figmaAssets = {
   ellipse7,
   arrowForward,
   teamPhoto,
-  vector216,
-  contactEllipse,
   logoFooterWhite,
   iconJose,
   iconSam,

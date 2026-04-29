@@ -1,0 +1,219 @@
+/* ── Section wrapper ─────────────────────────────────────────── */
+.workplace {
+  /* Один оттенок для всех benefit-карточек (Figma slate-100) */
+  --workplace-benefit-surface: var(--color-slate-100);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 64px;
+  width: var(--content-width);
+  max-width: 100%;
+  padding: 0 var(--space-9);
+}
+
+/* ── Heading (Figma 79:343) ──────────────────────────────────── */
+.title {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 48px;
+  font-weight: 500;
+  line-height: normal;
+  color: var(--color-white);
+  text-align: center;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   GRID — Figma 79:357
+   Single CSS Grid with named areas → exact 1:1 proportions.
+   Columns: 719 | 422 | 422 (Figma node widths)
+   Rows: 3 equal rows of 285px each (Figma)
+   aspect-ratio: 1611/903 → entire grid scales as one unit.
+   ────────────────────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: 719fr 422fr 422fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-areas:
+    "hero    bLang    pLang"
+    "hero    pPres    bEdu"
+    "team    bHealth  pTech";
+  gap: var(--space-5); /* 20px между ячейками — только внутри этой секции */
+  width: 100%;
+  /* (719 + 20 + 422 + 20 + 422) × (285×3 + 20×2) = 1603 × 895 */
+  aspect-ratio: 1603 / 895;
+}
+
+/* ── Cell placements ────────────────────────────────────────── */
+.hero          { grid-area: hero; }
+.teamPhoto     { grid-area: team; }
+.benefitLang   { grid-area: bLang; }
+.photoLang     { grid-area: pLang; }
+.photoPres     { grid-area: pPres; }
+.benefitEdu    { grid-area: bEdu; }
+.benefitHealth { grid-area: bHealth; }
+.photoTech     { grid-area: pTech; }
+
+/* ── Hero card (Figma 79:312) ───────────────────────────────── */
+.hero {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  padding: var(--space-9);
+  background-image: linear-gradient(
+    235.59deg,
+    rgb(59, 209, 255) 6.0047%,
+    rgb(59, 182, 255) 26.446%,
+    rgb(13, 105, 169) 71.149%,
+    rgb(9, 83, 145)   95.59%
+  );
+  color: var(--color-white);
+}
+
+.heroText {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 32px;
+  font-weight: 400;
+  line-height: normal;
+  color: var(--color-white);
+}
+
+/* ── Photo cards (Figma 80:438 / 80:423 / 80:432 / 80:435) ── */
+.photo {
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--color-white);
+  min-width: 0;
+  min-height: 0;
+}
+
+.photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ── Benefit cards (Figma 79:314 / 79:317 / 79:351) ────────── */
+.benefit {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2); /* 8px — меньше между заголовком и текстом */
+  padding: var(--space-9);
+  border-radius: var(--radius-lg);
+  background-color: var(--workplace-benefit-surface);
+  background-image: none;
+  color: var(--color-slate-900);
+  overflow: hidden;
+  min-width: 0;
+  min-height: 0;
+}
+
+.benefitTitle {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--color-slate-900);
+}
+
+.benefitBody {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--color-slate-900);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Tablet (≤1279px): 2-column grid, hero spans full width */
+@media (max-width: 1279px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+      "hero    hero"
+      "bLang   pLang"
+      "pPres   bEdu"
+      "team    team"
+      "bHealth pTech";
+    aspect-ratio: auto;
+  }
+
+  .hero {
+    aspect-ratio: 16 / 7;
+  }
+
+  .heroText {
+    font-size: 28px;
+  }
+
+  .teamPhoto {
+    aspect-ratio: 16 / 7;
+  }
+
+  .photo,
+  .benefit {
+    aspect-ratio: 422 / 285;
+  }
+}
+
+/* Mobile (≤639px): single column */
+@media (max-width: 639px) {
+  .workplace {
+    gap: 40px;
+    padding: 0 var(--space-5);
+  }
+
+  .title {
+    font-size: 32px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "hero"
+      "bLang"
+      "pLang"
+      "pPres"
+      "bEdu"
+      "team"
+      "bHealth"
+      "pTech";
+    gap: var(--space-5);
+  }
+
+  .hero {
+    aspect-ratio: auto;
+    min-height: 240px;
+    padding: var(--space-6);
+  }
+
+  .heroText {
+    font-size: 22px;
+  }
+
+  .teamPhoto,
+  .photo {
+    aspect-ratio: 16 / 10;
+  }
+
+  .benefit {
+    aspect-ratio: auto;
+    padding: var(--space-6);
+  }
+
+  .benefitTitle {
+    font-size: 20px;
+  }
+
+  .benefitBody {
+    font-size: 16px;
+  }
+}

@@ -1,0 +1,230 @@
+/* ── Section wrapper (Figma 82:574) ─────────────────────────── */
+.vacancies {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+  width: 100%;
+  max-width: 1100px;
+  padding: 0 var(--space-9);
+  position: relative;
+}
+
+/* ── Heading (Figma 82:453) ─────────────────────────────────── */
+.title {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 40px;
+  font-weight: 500;
+  line-height: normal;
+  color: var(--color-heading-muted);
+  text-align: center;
+  width: 100%;
+}
+
+/* ── Card list (Figma 82:573) ───────────────────────────────── */
+.list {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  z-index: 1;
+}
+
+/* Figma 82:661 — лёгкий oval-gradient слева от списка */
+.ovalGradient {
+  position: absolute;
+  z-index: 0;
+  left: calc(-412px - 500px);
+  top: -21px;
+  width: calc(732px * 1.2);
+  height: calc(702px * 1.2);
+  pointer-events: none;
+}
+
+.ovalGradient img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: left center;
+}
+
+/* ── Single vacancy card (Figma 82:483 / 82:533 / …) ────────── */
+.card {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: var(--space-9);            /* 36px, на шаг больше space-6 */
+  border-radius: var(--radius-lg);
+  border: none;
+  background: var(--color-slate-100);
+  box-sizing: border-box;
+  width: 100%;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  box-shadow: 0 0 0 1.5px transparent;
+  transition: box-shadow 0.15s;
+}
+
+.card:hover {
+  box-shadow: 0 0 0 1.5px var(--color-slate-200);
+}
+
+/* ── Card top row: title + location ─────────────────────────── */
+.cardTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+  gap: var(--space-4);
+}
+
+/* Job title */
+.jobTitle {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--color-slate-900);
+  transition: color 0.15s;
+}
+
+/* Job title as link */
+.jobTitleLink {
+  display: block;
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--color-slate-900);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.card:hover .jobTitle,
+.card:hover .jobTitleLink {
+  color: var(--color-sky-500);
+}
+
+.jobTitleLink:hover {
+  color: var(--color-sky-500);
+}
+
+/* Location group */
+.location {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  flex-shrink: 0;
+}
+
+.locationIcon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.locationText {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);       /* 16px */
+  font-weight: 600;
+  line-height: normal;
+  color: var(--color-slate-900);
+  white-space: nowrap;
+}
+
+/* ── Card bottom row: tags + date ──────────────────────────── */
+.cardBottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);       /* 16px */
+  font-weight: 400;
+  line-height: normal;
+}
+
+.tags {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--color-slate-700);
+}
+
+.tag {
+  margin: 0;
+}
+
+.date {
+  margin: 0;
+  color: var(--color-slate-600);
+  white-space: nowrap;
+}
+
+/* ── Show more button (Figma 82:575) ────────────────────────── */
+.showMore {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--cta-py) var(--cta-pr) var(--cta-py) var(--cta-pl-wide);
+  border-radius: var(--radius-2xl);
+  background: var(--color-slate-300);
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  font-weight: 500;
+  line-height: var(--leading-body);
+  color: var(--color-slate-700);
+  text-align: center;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+
+.showMore:hover {
+  background: var(--color-slate-400);
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .vacancies {
+    padding: 0 var(--space-5);
+    gap: 32px;
+  }
+
+  .ovalGradient {
+    left: calc(-55% - 500px);
+    top: calc(48px - 100px);
+    width: min(calc(520px * 1.2), calc(140vw * 1.2));
+    height: auto;
+    aspect-ratio: 732 / 702;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+
+  .card {
+    padding: var(--space-5);
+  }
+
+  .cardTop {
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .jobTitle,
+  .jobTitleLink {
+    font-size: 18px;
+  }
+}
