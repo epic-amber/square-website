@@ -65,14 +65,22 @@
   box-sizing: border-box;
   width: 100%;
   text-decoration: none;
-  color: inherit;
+  /*
+   * Both box-shadow and color are transitioned on the same element so the
+   * browser drives them from the same style recalc — guaranteed sync.
+   * .jobTitle uses color: inherit, so its color is controlled from here.
+   */
+  color: var(--color-slate-900);
   cursor: pointer;
   box-shadow: 0 0 0 1.5px transparent;
-  transition: box-shadow 0.15s;
+  transition:
+    box-shadow 0.07s ease,
+    color      0.07s ease;
 }
 
 .card:hover {
-  box-shadow: 0 0 0 1.5px var(--color-slate-200);
+  color: var(--color-sky-500);
+  box-shadow: 0 0 0 1.5px var(--color-slate-300);
 }
 
 /* ── Card top row: title + location ─────────────────────────── */
@@ -84,15 +92,14 @@
   gap: var(--space-4);
 }
 
-/* Job title */
+/* Job title — inherits color from .card so both transitions stay in sync */
 .jobTitle {
   margin: 0;
   font-family: var(--font-sans);
   font-size: 22px;
   font-weight: 600;
   line-height: 1.3;
-  color: var(--color-slate-900);
-  transition: color 0.15s;
+  color: inherit;
 }
 
 /* Job title as link */
@@ -103,19 +110,9 @@
   font-size: 22px;
   font-weight: 600;
   line-height: 1.3;
-  color: var(--color-slate-900);
+  color: inherit;
   text-decoration: none;
   cursor: pointer;
-  transition: color 0.15s;
-}
-
-.card:hover .jobTitle,
-.card:hover .jobTitleLink {
-  color: var(--color-sky-500);
-}
-
-.jobTitleLink:hover {
-  color: var(--color-sky-500);
 }
 
 /* Location group */
@@ -138,7 +135,7 @@
   font-size: var(--text-base);       /* 16px */
   font-weight: 600;
   line-height: normal;
-  color: var(--color-slate-900);
+  color: var(--color-slate-900); /* pinned — doesn't follow card's color transition */
   white-space: nowrap;
 }
 
@@ -158,7 +155,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  color: var(--color-slate-700);
+  color: var(--color-slate-700); /* pinned */
 }
 
 .tag {
@@ -167,7 +164,7 @@
 
 .date {
   margin: 0;
-  color: var(--color-slate-600);
+  color: var(--color-slate-600); /* pinned */
   white-space: nowrap;
 }
 
@@ -192,13 +189,13 @@
 }
 
 .showMore:hover {
-  background: var(--color-slate-400);
+  background: var(--color-slate-200);
 }
 
 /* ── Responsive ─────────────────────────────────────────────── */
 @media (max-width: 767px) {
   .vacancies {
-    padding: 0 var(--space-5);
+    padding: 0 var(--content-pad-x);
     gap: 32px;
   }
 
@@ -211,11 +208,12 @@
   }
 
   .title {
-    font-size: 28px;
+    font-size: var(--text-h1);
   }
 
   .card {
     padding: var(--space-5);
+    gap: 16px;
   }
 
   .cardTop {
@@ -226,5 +224,32 @@
   .jobTitle,
   .jobTitleLink {
     font-size: 18px;
+  }
+
+  .cardBottom {
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 14px;
+  }
+
+  .locationText {
+    white-space: normal;
+  }
+
+  .showMore {
+    min-height: 44px; /* tap target */
+    padding: 12px 24px;
+  }
+}
+
+/* Very narrow: even more compact */
+@media (max-width: 380px) {
+  .card {
+    padding: var(--space-4);
+  }
+
+  .jobTitle,
+  .jobTitleLink {
+    font-size: 17px;
   }
 }

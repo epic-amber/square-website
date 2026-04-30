@@ -6,11 +6,15 @@
   overflow-x: clip;
 }
 
-/* Ellipse 4 (55:169): ниже на 5dvh; без overlay — прямоугольный слой ломал альфу овала в PNG */
+/*
+ * Ellipse 4 (55:169) — перенесён внутрь .topPageGradient (position: relative).
+ * top скорректирован на ~206px (header + inner gap) чтобы визуально сохранить
+ * положение «слив в хедере»; теперь следует за секцией при любом размере окна.
+ */
 .bgEllipseTop {
   position: absolute;
   left: 50%;
-  top: calc(-597px + 5dvh);
+  top: calc(-803px + 5dvh);
   width: var(--bg-ellipse-width);
   aspect-ratio: 1800 / 702;
   height: auto;
@@ -26,11 +30,15 @@
   object-position: center center;
 }
 
-/* Ellipse 2 (55:170): 1770×922, слева за кадром; смещение масштабируется с шириной макета 1920 */
+/*
+ * Ellipse 2 (55:170) — тоже внутрь .topPageGradient.
+ * top: 45% вместо фиксированных 1007px от верха страницы —
+ * при ресайзе остаётся на ~середине секции независимо от её высоты.
+ */
 .bgEllipse2 {
   position: absolute;
   left: calc(50% - 2486 * 100vw / 1920);
-  top: 1007px;
+  top: 45%;
   width: var(--bg-ellipse-secondary-width);
   aspect-ratio: 1770 / 922;
   height: auto;
@@ -199,6 +207,37 @@
   line-height: var(--leading-body);
   text-align: center;
   color: var(--color-slate-700);
+}
+
+.navCta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 16px;
+  border: none;
+  border-radius: var(--radius-2xl);
+  background-color: var(--color-sky-500);
+  background-image: var(--gradient-hero-cta);
+  background-size: 240% 100%;
+  background-position: 0% 50%;
+  background-repeat: no-repeat;
+  color: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  line-height: normal;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-position 0.55s cubic-bezier(0.33, 0, 0.2, 1);
+}
+
+.navCta:hover {
+  background-position: 100% 50%;
+}
+
+.navCta:focus-visible {
+  outline: 2px solid var(--color-sky-400);
+  outline-offset: 3px;
 }
 
 .heroCta {
@@ -394,65 +433,6 @@
   text-align: center;
   color: var(--color-white);
 }
-
-/*
- * Ключевые слова — inline в <p>. Текст всегда виден; градиент — только на ::before,
- * clip-path не режет буквы → сначала читается всё предложение, затем «шторки» на плашках.
- */
-.missionKeyword {
-  position: relative;
-  z-index: 0;
-  display: inline-block;
-  line-height: inherit;
-  vertical-align: baseline;
-  padding: 0 9px 4px;
-  margin: 0;
-  border-radius: 0;
-  color: var(--color-white);
-  background: transparent;
-}
-
-.missionKeyword::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border-radius: 0;
-  background-image: linear-gradient(to left, #099de1 0%, #27b4ff 100%);
-  background-size: 100% 100%;
-  clip-path: inset(0 100% 0 0);
-  transition: clip-path 0.75s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.missionTextVisible .missionKeyword::before {
-  clip-path: inset(0 0% 0 0);
-}
-
-/* Плашки после того, как блок текста уже показан */
-.missionKeywordD1::before {
-  transition-delay: 0.55s;
-}
-
-.missionKeywordD2::before {
-  transition-delay: 1.15s;
-}
-
-.missionKeywordD3::before {
-  transition-delay: 1.75s;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .missionKeyword::before {
-    transition-duration: 0.01ms;
-    transition-delay: 0ms !important;
-    clip-path: inset(0 100% 0 0);
-  }
-
-  .missionTextVisible .missionKeyword::before {
-    clip-path: inset(0 0% 0 0);
-  }
-}
-
 
 /* Products */
 .products {
@@ -713,14 +693,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-12);
+  gap: 20px;
   width: 100%;
   /* верх/низ — воздух вокруг блока офисов */
   padding: var(--space-24) var(--content-pad-x);
 }
 
 .officesTitle {
-  margin: 0;
+  margin: 0 0 44px; /* 44px + 20px gap = 64px total, matching WorkplaceSection title→grid */
   width: 100%;
   max-width: var(--content-width);
   font-family: var(--font-serif);
@@ -731,17 +711,30 @@
   color: var(--color-heading-muted);
 }
 
+.officesInner {
+  /* Same effective width as WorkplaceSection grid: content-width minus its side padding */
+  width: calc(var(--content-width) - 2 * var(--space-9));
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.officesMapWrap {
+  width: 100%;
+}
+
 .officeCards {
   display: flex;
-  gap: var(--space-11);
-  align-items: stretch; /* одинаковая высота карточек (иначе короткий текст → ниже блок) */
+  gap: 20px;
+  align-items: stretch;
 }
 
 .officeCard {
   display: flex;
   flex-direction: column;
+  flex: 1;
   gap: var(--gap-office-stack);
-  width: 409px;
   padding: var(--space-9) var(--space-6);
   border-radius: var(--radius-lg);
   background: var(--color-slate-100);
@@ -798,6 +791,28 @@
   width: 100%;
   padding: var(--space-24) var(--content-pad-x) var(--space-40);
   background: transparent;
+  overflow: hidden;
+}
+
+/* Эллипс в подвале — зеркальный к bgEllipseTop, виден только краешек сверху */
+.bgEllipseFooter {
+  position: absolute;
+  left: 50%;
+  /* top: calc(100% - Xpx) — показываем только верхние X пикселей эллипса */
+  top: calc(100% - 120px);
+  width: var(--bg-ellipse-width);
+  aspect-ratio: 1800 / 702;
+  height: auto;
+  transform: translateX(calc(-50% + 11px));
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bgEllipseFooter img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
 }
 
 /* Текст и колонки — как headerBar: ровно --content-width (1280), по центру */
@@ -865,6 +880,16 @@
   color: var(--color-slate-700);
 }
 
+.footerLinks a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.footerLinks a:hover {
+  color: var(--color-slate-900);
+}
+
 .legalRow {
   display: flex;
   align-items: center;
@@ -886,7 +911,7 @@
 .social {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: var(--space-5);
 }
 
 .social a {
@@ -921,8 +946,8 @@
   align-items: center;
   width: 100%;
   gap: var(--space-40);
-  /* Светлый низ градиента уходит чуть ниже каркаса Our Products (пустая зона под последним child) */
-  padding-bottom: 88px;
+  /* Градиент продлён ниже секции Our Products */
+  padding-bottom: 80px;
   background-color: var(--color-white);
   background-image: var(--gradient-atmospheric);
   /* Градиент занимает всю высоту за вычетом 404px — начинается ровно там, где Figma */
@@ -1096,21 +1121,238 @@
   animation-delay: 0.4s, 5.6s;
 }
 
-@media (max-width: 1200px) {
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE — site-wide mobile/tablet adjustments
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Tablet (≤1024px) ─────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .inner {
+    gap: 80px;
+  }
+
+  .heroBlock {
+    padding: 0 var(--space-9);
+  }
+
+  .heroTitle {
+    font-size: 56px;
+  }
+
+  .heroMissionGroup {
+    gap: var(--space-28);
+  }
+
+  .missionTextWrap {
+    padding: var(--space-6) var(--space-9);
+  }
+
+  .missionText {
+    font-size: 36px;
+  }
+
+  .video {
+    height: auto;
+    aspect-ratio: 848 / 477;
+  }
+
   .officeCards {
     flex-direction: column;
+    align-items: center;
   }
 
-  .products {
-    flex-direction: column;
-  }
-
-  .productsCopy {
+  .officeCard {
     width: 100%;
+    max-width: 520px;
   }
 
   .careers {
     flex-direction: column;
   }
+}
 
+/* ── Large mobile / tablet portrait (≤767px) ─────────────────── */
+@media (max-width: 767px) {
+  .inner {
+    gap: 56px;
+  }
+
+  /* Header */
+  .header {
+    padding: var(--space-4) var(--content-pad-x);
+  }
+
+  .nav {
+    gap: var(--space-4);
+  }
+
+  /* Hero — keep shared gutter via token so content never touches viewport edge */
+  .heroBlock {
+    padding: 0 var(--content-pad-x);
+    gap: var(--space-6);
+  }
+
+  .heroTitle {
+    /*
+     * Allow the title to wrap naturally on small screens — the hard <br>
+     * stays in the markup but its visual effect is overridden by font-size + max-width.
+     */
+    font-size: clamp(32px, 8vw, 44px);
+  }
+
+  .heroSub {
+    font-size: 16px;
+  }
+
+  .heroCta {
+    min-height: 44px; /* tap target */
+    padding: 12px 20px;
+  }
+
+  /* Stats: 2×2 grid on small screens */
+  .stats {
+    gap: var(--space-5);
+  }
+
+  .stat {
+    width: calc(50% - var(--space-5) / 2);
+  }
+
+  .statValue {
+    height: auto;
+    font-size: 40px;
+  }
+
+  /* Mission */
+  .heroMissionGroup {
+    gap: var(--space-28);
+  }
+
+  .missionTextWrap {
+    padding: var(--space-4) var(--space-5);
+  }
+
+  .missionText {
+    font-size: 24px;
+    line-height: 1.4;
+  }
+
+  /* Drop the hardcoded line break — browser wraps naturally on mobile */
+  .missionText br {
+    display: none;
+  }
+
+  .heroSub br,
+  .heroTitle br {
+    display: none;
+  }
+
+  /* Top page gradient — smaller bottom padding */
+  .topPageGradient {
+    padding-bottom: 48px;
+  }
+
+  /* Offices */
+  .offices {
+    padding: var(--space-24) var(--content-pad-x);
+    gap: 16px;
+  }
+
+  .officesTitle {
+    font-size: var(--text-h1);
+    margin: 0 0 32px;
+  }
+
+  .officeCard {
+    padding: var(--space-5);
+  }
+
+  /* Lower region spacing */
+  .lowerBackdrop {
+    gap: 64px;
+  }
+
+  /* Footer */
+  .siteFooter {
+    padding: var(--space-12) var(--content-pad-x) var(--space-12);
+  }
+
+  .footerInner {
+    gap: var(--space-9);
+  }
+
+  .footerGrid {
+    flex-direction: column;
+    gap: var(--space-9);
+  }
+
+  .footerLogo,
+  .footerCol,
+  .footerColGrow {
+    width: 100%;
+  }
+
+  .legalRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+
+  .legal {
+    white-space: normal;
+  }
+
+  .social {
+    margin-top: var(--space-2);
+  }
+
+  .bgEllipseFooter {
+    top: calc(100% - 80px);
+  }
+}
+
+/* ── Mobile (≤480px) ─────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .inner {
+    gap: 48px;
+  }
+
+  .heroTitle {
+    font-size: 32px;
+  }
+
+  .statValue {
+    font-size: 36px;
+  }
+
+  /* Stats stay 2×2 on narrow screens — 4 items fit naturally in two rows */
+  .stat {
+    width: calc(50% - var(--space-5) / 2);
+  }
+
+  .statValue {
+    font-size: 36px;
+  }
+
+  .missionText {
+    font-size: 20px;
+  }
+
+  .video {
+    padding: 8px;
+    border-radius: var(--radius-2xl);
+  }
+
+  .officesTitle {
+    margin: 0 0 24px;
+  }
+}
+
+/* ── Reduced motion: disable hero decor float so it never animates if shown ── */
+@media (prefers-reduced-motion: reduce) {
+  .heroDecorIcon {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }

@@ -178,6 +178,43 @@
   --bg-ellipse-secondary-width: calc(var(--bg-ellipse-width) * 1770 / 1800);
 }
 
+/* ──────────────────────────────────────────────────────────────
+   Responsive token overrides
+   Scale down major spacing tokens on tablet and mobile so layouts
+   built with the desktop-first values automatically tighten up.
+   ────────────────────────────────────────────────────────────── */
+
+/* Tablet (≤1024px) */
+@media (max-width: 1024px) {
+  :root {
+    --content-pad-x: 40px;
+    --space-24: 64px;
+    --space-28: 56px;
+    --space-40: 96px;
+    --space-64: 40px;
+    --gap-global-offices-contact: 96px;
+  }
+}
+
+/* Mobile (≤640px) */
+@media (max-width: 640px) {
+  :root {
+    --content-pad-x: 20px;
+    --space-9: 24px;
+    --space-12: 32px;
+    --space-24: 48px;
+    --space-28: 36px;
+    --space-40: 64px;
+    --space-64: 32px;
+    --gap-global-offices-contact: 64px;
+    /* Headings */
+    --text-hero: 36px;
+    --text-h1: 28px;
+    --text-stat: 40px;
+    --text-lg: 16px;
+  }
+}
+
 /* Main Container — интерполяция в oklch */
 @supports (background: linear-gradient(in oklch, red 0%, blue 100%)) {
   :root {

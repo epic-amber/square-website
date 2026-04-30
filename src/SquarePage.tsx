@@ -3,16 +3,16 @@ import { figmaAssets } from './figmaAssets'
 import styles from './SquarePage.module.css'
 import { WorkplaceSection } from './components/WorkplaceSection'
 import { VacanciesSection } from './components/VacanciesSection'
+import { OurProductsSection } from './components/OurProductsSection'
+import { useReveal } from './hooks/useReveal'
 
 const OfficesMap = lazy(() =>
   import('./components/OfficesMap').then((m) => ({ default: m.OfficesMap })),
 )
 
 import logoColor from './assets/logo-squaregps.svg'
-import b2field from './assets/B2field.svg'
-import navixy from './assets/navixy-icon.svg'
-import linkedinIcon from './assets/linkedin.svg'
-import youtubeIcon from './assets/youtube.svg'
+import linkedinIcon from './assets/linkedin-icon.svg'
+import youtubeIcon from './assets/youtube-icon.svg'
 import heroVideo from './assets/hero-video.mp4'
 import workplaceLanguage from './assets/workplace-language.png'
 import workplacePresentation from './assets/workplace-presentation.png'
@@ -200,54 +200,30 @@ function HeroDecorIcons() {
 }
 
 function MissionText() {
-  const ref = useRef<HTMLDivElement>(null)
-  const [visible, setVisible] = useState(false)
-
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    let timer: ReturnType<typeof setTimeout>
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          timer = setTimeout(() => { setVisible(true); observer.disconnect() }, 1000)
-        } else {
-          clearTimeout(timer)
-        }
-      },
-      { threshold: 0.4 },
-    )
-    observer.observe(el)
-    return () => { clearTimeout(timer); observer.disconnect() }
-  }, [])
-
   return (
-    <div ref={ref} className={`${styles.missionTextWrap} ${visible ? styles.missionTextVisible : ''}`} data-node-id="40:707">
+    <div className={styles.missionTextWrap} data-node-id="40:707">
       <p className={styles.missionText} data-node-id="40:708">
         We are passionate about empowering <br aria-hidden="true" />
-        our employees to{' '}
-        <span className={`${styles.missionKeyword} ${styles.missionKeywordD1}`}>grow</span>
-        , make an{' '}
-        <span className={`${styles.missionKeyword} ${styles.missionKeywordD2}`}>impact</span>
-        , and feel{' '}
-        <span className={`${styles.missionKeyword} ${styles.missionKeywordD3}`}>confident</span>
-        {' '}in shaping both their careers and the future of SquareGPS.
+        our employees to grow, make an impact, and feel confident in shaping both their careers and the future of SquareGPS.
       </p>
     </div>
   )
 }
 
 export function SquarePage() {
+  // Hero is above the fold — animate on mount
+  const [heroVisible, setHeroVisible] = useState(false)
+  useEffect(() => {
+    const t = setTimeout(() => setHeroVisible(true), 120)
+    return () => clearTimeout(t)
+  }, [])
+
+  const { ref: missionRef, visible: missionVisible } = useReveal()
+  const { ref: officesRef, visible: officesVisible } = useReveal()
+  const { ref: footerRef, visible: footerVisible } = useReveal(0.05)
 
   return (
     <div className={styles.page} data-node-id="55:168">
-      <div className={styles.bgEllipseTop} aria-hidden data-node-id="55:169">
-        <img src={figmaAssets.ellipse4} alt="" />
-      </div>
-      <div className={styles.bgEllipse2} aria-hidden data-node-id="55:170">
-        <img src={figmaAssets.ellipse2} alt="" />
-      </div>
-
       <HeroDecorIcons />
 
       <div className={styles.inner}>
@@ -257,18 +233,22 @@ export function SquarePage() {
               <img src={logoColor} alt="SquareGPS" width={145} height={30} />
             </a>
             <nav className={styles.nav} aria-label="Primary" data-node-id="40:681">
-              <span data-node-id="40:682">Careers</span>
-              <span data-node-id="40:683">About</span>
-              <span data-node-id="40:684">Contact</span>
+              <button type="button" className={styles.navCta} data-node-id="40:682">Careers</button>
             </nav>
           </div>
         </header>
 
         <div className={styles.stack}>
           <div className={styles.topPageGradient} data-node-id="55:81">
+          <div className={styles.bgEllipseTop} aria-hidden data-node-id="55:169">
+            <img src={figmaAssets.ellipse4} alt="" />
+          </div>
+          <div className={styles.bgEllipse2} aria-hidden data-node-id="55:170">
+            <img src={figmaAssets.ellipse2} alt="" />
+          </div>
           <div className={styles.heroMissionGroup} data-node-id="40:686">
             <section className={styles.heroSection} data-node-id="40:687">
-              <div className={styles.heroBlock} data-node-id="40:688">
+              <div className={`${styles.heroBlock} reveal ${heroVisible ? 'reveal--in' : ''}`} data-node-id="40:688">
                 <div className={styles.heroIntro}>
                   <h1 className={styles.heroTitle} data-node-id="40:689">
                     Design and Development <br aria-hidden="true" />
@@ -296,7 +276,7 @@ export function SquarePage() {
               <StatsSection />
             </section>
 
-            <section className={styles.missionWrap} data-node-id="40:703">
+            <section ref={missionRef} className={`${styles.missionWrap} reveal ${missionVisible ? 'reveal--in' : ''}`} data-node-id="40:703">
               <div className={styles.missionInner}>
                 <div className={styles.video} data-name="video" data-node-id="40:706">
                   <video
@@ -315,41 +295,7 @@ export function SquarePage() {
             </section>
           </div>
 
-          <section className={styles.products} data-node-id="40:709">
-            <div className={styles.productsCopy} data-node-id="40:710">
-              <h2 className={styles.productsTitle} data-node-id="40:711">
-                Our Products
-              </h2>
-              <p className={styles.productsDesc} data-node-id="40:712">
-                Innovative solutions for fleet management and asset monitoring worldwide.
-              </p>
-            </div>
-
-            <div className={styles.productsVisual} data-node-id="40:713">
-              <div className={styles.productsImageFrame} data-node-id="40:714">
-                <div className={styles.b2Wrap} data-node-id="53:2094">
-                  <div className={styles.b2Inner}>
-                    <img src={b2field} alt="" />
-                  </div>
-                </div>
-                <div className={styles.navixyWrap} data-node-id="53:2088">
-                  <div className={styles.navixyInner}>
-                    <img src={navixy} alt="" />
-                  </div>
-                </div>
-              </div>
-              <div className={styles.productCallout} data-node-id="53:2111">
-                <div className={styles.calloutText} data-node-id="53:2112">
-                  <p className={styles.calloutTitle} data-node-id="53:2113">
-                    Navixy
-                  </p>
-                  <p className={styles.calloutBody} data-node-id="53:2114">
-                    GPS tracking platform for fleet management and asset monitoring
-                  </p>
-                </div>
-              </div>
-            </div>
-          </section>
+          <OurProductsSection />
           </div>
 
           <WorkplaceSection
@@ -361,14 +307,17 @@ export function SquarePage() {
 
           <div className={styles.lowerRegion}>
             <div className={styles.lowerBackdrop}>
-            <section className={styles.offices} data-node-id="40:730">
+            <section ref={officesRef} className={`${styles.offices} reveal ${officesVisible ? 'reveal--in' : ''}`} data-node-id="40:730">
               <h2 className={styles.officesTitle} data-node-id="40:731">
                 Global Offices
               </h2>
-              <Suspense fallback={<div className={styles.officesMapFallback} aria-hidden />}>
-                <OfficesMap />
-              </Suspense>
-              <div className={styles.officeCards} data-node-id="49:91">
+              <div className={styles.officesInner}>
+                <div className={styles.officesMapWrap}>
+                  <Suspense fallback={<div className={styles.officesMapFallback} aria-hidden />}>
+                    <OfficesMap />
+                  </Suspense>
+                </div>
+                <div className={styles.officeCards} data-node-id="49:91">
                 <article className={styles.officeCard} data-node-id="49:92">
                   <img className={styles.flag} src={FLAG_US} width={36} height={24} alt="" />
                   <h3 className={styles.officeCity} data-node-id="49:94">
@@ -397,12 +346,16 @@ export function SquarePage() {
                   </p>
                 </article>
               </div>
+              </div>
             </section>
 
             <VacanciesSection />
             </div>
 
-            <footer className={styles.siteFooter} data-node-id="40:748">
+            <footer ref={footerRef} className={`${styles.siteFooter} reveal ${footerVisible ? 'reveal--in' : ''}`} data-node-id="40:748">
+            <div className={styles.bgEllipseFooter} aria-hidden>
+              <img src={figmaAssets.ellipse4} alt="" />
+            </div>
             <div className={styles.footerInner}>
             <div className={styles.footerGrid} data-node-id="40:749">
               <div className={styles.footerLogo} data-node-id="40:750">
@@ -413,8 +366,12 @@ export function SquarePage() {
                   Products
                 </p>
                 <ul className={styles.footerLinks}>
-                  <li data-node-id="40:759">Navixy</li>
-                  <li data-node-id="40:760">B2Field</li>
+                  <li data-node-id="40:759">
+                    <a href="https://navixy.com/" target="_blank" rel="noopener noreferrer">Navixy</a>
+                  </li>
+                  <li data-node-id="40:760">
+                    <a href="https://b2field.com/" target="_blank" rel="noopener noreferrer">B2Field</a>
+                  </li>
                 </ul>
               </div>
               <div className={styles.footerCol} data-node-id="40:761">
@@ -422,7 +379,6 @@ export function SquarePage() {
                   Company
                 </p>
                 <ul className={styles.footerLinks}>
-                  <li data-node-id="40:765">About</li>
                   <li data-node-id="40:766">Careers</li>
                 </ul>
               </div>
@@ -431,7 +387,7 @@ export function SquarePage() {
                   Contact
                 </p>
                 <ul className={styles.footerLinks}>
-                  <li data-node-id="40:771">info@squaregps.com</li>
+                  <li data-node-id="40:771"><a href="mailto:info@squaregps.com">info@squaregps.com</a></li>
                   <li data-node-id="40:772">2945 Townsgate Rd, Suite 200, Westlake Village, CA 91361, USA</li>
                 </ul>
               </div>
@@ -441,17 +397,11 @@ export function SquarePage() {
               <p className={styles.legal} data-node-id="40:774">
                 Copyright © 2002-2026
               </p>
-              <p className={styles.legal} data-node-id="40:775">
-                Cookie policy and preferences
-              </p>
-              <p className={styles.legal} data-node-id="40:776">
-                Privacy policy
-              </p>
               <div className={styles.social} data-node-id="40:777">
-                <a href="https://www.linkedin.com" aria-label="LinkedIn" data-node-id="40:778">
+                <a href="https://www.linkedin.com/company/squaregps" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" data-node-id="40:778">
                   <img src={linkedinIcon} alt="" width={24} height={24} />
                 </a>
-                <a href="https://www.youtube.com" aria-label="YouTube" data-node-id="40:782">
+                <a href="https://www.youtube.com/@Navixy" target="_blank" rel="noopener noreferrer" aria-label="YouTube" data-node-id="40:782">
                   <img src={youtubeIcon} alt="" width={24} height={24} />
                 </a>
               </div>

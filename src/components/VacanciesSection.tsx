@@ -1,6 +1,9 @@
+import { useEffect, useRef } from 'react'
+import type { CSSProperties } from 'react'
 import styles from './VacanciesSection.module.css'
 import locationPinIcon from '../assets/icon-location-pin.svg'
 import vacanciesOvalGradient from '../assets/vacancies-oval-gradient.svg'
+import { useReveal } from '../hooks/useReveal'
 
 interface Vacancy {
   id: string
@@ -50,10 +53,28 @@ const VACANCIES: Vacancy[] = [
 ]
 
 export function VacanciesSection() {
+  const { ref, visible } = useReveal()
+  const rc = `reveal${visible ? ' reveal--in' : ''}`
+  const s = (delay: number): CSSProperties => ({ transitionDelay: `${delay}ms` })
+
+  const clearedRef = useRef(false)
+  useEffect(() => {
+    if (!visible || clearedRef.current) return
+    clearedRef.current = true
+    // After the reveal stagger completes, remove the inline transitionDelay so
+    // hover transitions fire instantly (max stagger 480ms + transition 650ms + buffer)
+    const t = setTimeout(() => {
+      const cards = Array.from(document.querySelectorAll('[data-vacancy-card]')) as HTMLElement[]
+      const btn   = document.querySelector('[data-node-id="82:575"]') as HTMLElement | null
+      ;[...cards, btn].forEach(el => { if (el) el.style.transitionDelay = '' })
+    }, 1200)
+    return () => clearTimeout(t)
+  }, [visible])
+
   return (
-    <section className={styles.vacancies} data-node-id="82:574">
+    <section ref={ref} className={styles.vacancies} data-node-id="82:574">
       {/* Title — Figma 82:453 */}
-      <h2 className={styles.title} data-node-id="82:453">
+      <h2 className={`${styles.title} ${rc}`} style={s(0)} data-node-id="82:453">
         Our vacancies
       </h2>
 
@@ -62,7 +83,8 @@ export function VacanciesSection() {
         <div className={styles.ovalGradient} aria-hidden data-node-id="82:661">
           <img src={vacanciesOvalGradient} alt="" width={878} height={842} />
         </div>
-        {VACANCIES.map((v) => {
+        {VACANCIES.map((v, i) => {
+          const cardDelay = 80 + i * 100
           const inner = (
             <>
               {/* Top row: job title + location */}
@@ -95,16 +117,18 @@ export function VacanciesSection() {
           return v.href ? (
             <a
               key={v.id}
-              className={styles.card}
+              className={`${styles.card} ${rc}`}
+              style={s(cardDelay)}
               href={v.href}
               target="_blank"
               rel="noopener noreferrer"
               data-node-id={v.id}
+              data-vacancy-card
             >
               {inner}
             </a>
           ) : (
-            <article key={v.id} className={styles.card} data-node-id={v.id}>
+            <article key={v.id} className={`${styles.card} ${rc}`} style={s(cardDelay)} data-node-id={v.id} data-vacancy-card>
               {inner}
             </article>
           )
@@ -112,7 +136,7 @@ export function VacanciesSection() {
       </div>
 
       {/* Show more button — Figma 82:575 */}
-      <button type="button" className={styles.showMore} data-node-id="82:575">
+      <button type="button" className={`${styles.showMore} ${rc}`} style={s(480)} data-node-id="82:575">
         Show more
       </button>
     </section>

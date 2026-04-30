@@ -168,11 +168,12 @@
 @media (max-width: 639px) {
   .workplace {
     gap: 40px;
-    padding: 0 var(--space-5);
+    /* Outer .stack provides side gutter via tokens, but workplace lives outside it on mobile — keep a small inner pad */
+    padding: 0 var(--content-pad-x);
   }
 
   .title {
-    font-size: 32px;
+    font-size: var(--text-h1);
   }
 
   .grid {
@@ -207,13 +208,15 @@
   .benefit {
     aspect-ratio: auto;
     padding: var(--space-5);
+    /* Lock height to the tallest card (Language Learning — 2-line body) */
+    min-height: 104px;
   }
 
   .benefitTitle {
-    font-size: 20px;
+    font-size: var(--text-base); /* 16px — down from 20px */
   }
 
   .benefitBody {
-    font-size: 16px;
+    font-size: var(--text-sm); /* 14px — down from 16px */
   }
 }

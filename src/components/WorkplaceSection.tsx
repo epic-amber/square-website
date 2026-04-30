@@ -1,4 +1,6 @@
+import type { CSSProperties } from 'react'
 import styles from './WorkplaceSection.module.css'
+import { useReveal } from '../hooks/useReveal'
 
 interface WorkplaceProps {
   imgLanguage: string
@@ -23,22 +25,26 @@ export function WorkplaceSection({
   imgTeam,
   imgTech,
 }: WorkplaceProps) {
+  const { ref, visible } = useReveal()
+  const rc = `reveal${visible ? ' reveal--in' : ''}`
+  const s = (delay: number): CSSProperties => ({ transitionDelay: `${delay}ms` })
+
   return (
-    <section className={styles.workplace} data-node-id="79:86">
-      <h2 className={styles.title} data-node-id="79:343">
+    <section ref={ref} className={styles.workplace} data-node-id="79:86">
+      <h2 className={`${styles.title} ${rc}`} style={s(0)} data-node-id="79:343">
         More than a workplace
       </h2>
 
       <div className={styles.grid} data-node-id="79:357">
         {/* Hero — Figma 79:312 (col 1, rows 1-2) */}
-        <article className={styles.hero} data-node-id="79:312">
+        <article className={`${styles.hero} ${rc}`} style={s(60)} data-node-id="79:312">
           <p className={styles.heroText} data-node-id="79:310">
             Invest in your future with continuous learning, global exposure, and real career growth
           </p>
         </article>
 
         {/* Language Learning — Figma 79:314 (col 2, row 1) */}
-        <article className={`${styles.benefit} ${styles.benefitLang}`} data-node-id="79:314">
+        <article className={`${styles.benefit} ${styles.benefitLang} ${rc}`} style={s(120)} data-node-id="79:314">
           <p className={styles.benefitTitle} data-node-id="79:315">Language Learning</p>
           <p className={styles.benefitBody} data-node-id="79:316">
             Master Spanish, English, or Serbian with company support
@@ -46,17 +52,17 @@ export function WorkplaceSection({
         </article>
 
         {/* Language photo — Figma 80:423 (col 3, row 1) */}
-        <div className={`${styles.photo} ${styles.photoLang}`} data-node-id="80:423">
+        <div className={`${styles.photo} ${styles.photoLang} ${rc}`} style={s(180)} data-node-id="80:423">
           <img src={imgLanguage} alt="Language learning session" />
         </div>
 
         {/* Presentation photo — Figma 80:432 (col 2, row 2) */}
-        <div className={`${styles.photo} ${styles.photoPres}`} data-node-id="80:432">
+        <div className={`${styles.photo} ${styles.photoPres} ${rc}`} style={s(240)} data-node-id="80:432">
           <img src={imgPresentation} alt="Team presentation" />
         </div>
 
         {/* Education Reimbursement — Figma 79:317 (col 3, row 2) */}
-        <article className={`${styles.benefit} ${styles.benefitEdu}`} data-node-id="79:317">
+        <article className={`${styles.benefit} ${styles.benefitEdu} ${rc}`} style={s(300)} data-node-id="79:317">
           <p className={styles.benefitTitle} data-node-id="79:318">Education Reimbursement</p>
           <p className={styles.benefitBody} data-node-id="79:319">
             We help cover your education costs
@@ -64,12 +70,12 @@ export function WorkplaceSection({
         </article>
 
         {/* Team photo — Figma 80:438 (col 1, row 3) */}
-        <div className={`${styles.photo} ${styles.teamPhoto}`} data-node-id="80:438">
+        <div className={`${styles.photo} ${styles.teamPhoto} ${rc}`} style={s(360)} data-node-id="80:438">
           <img src={imgTeam} alt="SquareGPS team" />
         </div>
 
         {/* Health Insurance Support — Figma 79:351 (col 2, row 3) */}
-        <article className={`${styles.benefit} ${styles.benefitHealth}`} data-node-id="79:351">
+        <article className={`${styles.benefit} ${styles.benefitHealth} ${rc}`} style={s(420)} data-node-id="79:351">
           <p className={styles.benefitTitle} data-node-id="79:352">Health Insurance Support</p>
           <p className={styles.benefitBody} data-node-id="79:353">
             We help cover your medical insurance costs
@@ -77,7 +83,7 @@ export function WorkplaceSection({
         </article>
 
         {/* Tech photo — Figma 80:435 (col 3, row 3) */}
-        <div className={`${styles.photo} ${styles.photoTech}`} data-node-id="80:435">
+        <div className={`${styles.photo} ${styles.photoTech} ${rc}`} style={s(480)} data-node-id="80:435">
           <img src={imgTech} alt="Technical presentation" />
         </div>
       </div>
