@@ -200,8 +200,13 @@ function HeroDecorIcons() {
 }
 
 function MissionText() {
+  const { ref, visible } = useReveal(0.2)
   return (
-    <div className={styles.missionTextWrap} data-node-id="40:707">
+    <div
+      ref={ref}
+      className={`${styles.missionTextWrap} reveal${visible ? ' reveal--in' : ''}`}
+      data-node-id="40:707"
+    >
       <p className={styles.missionText} data-node-id="40:708">
         We are passionate about empowering <br aria-hidden="true" />
         our employees to grow, make an impact, and feel confident in shaping both their careers and the future of SquareGPS.

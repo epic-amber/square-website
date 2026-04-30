@@ -115,6 +115,8 @@
 
 /* Header: полоса на всю ширину, лого + меню внутри max 1280px по центру */
 .header {
+  position: relative;
+  z-index: 10;
   width: 100%;
   padding: var(--space-6) var(--content-pad-x);
   box-sizing: border-box;
@@ -216,27 +218,23 @@
   padding: 6px 16px;
   border: none;
   border-radius: var(--radius-2xl);
-  background-color: var(--color-sky-500);
-  background-image: var(--gradient-hero-cta);
-  background-size: 240% 100%;
-  background-position: 0% 50%;
-  background-repeat: no-repeat;
-  color: var(--color-white);
+  background: var(--color-slate-300);
+  color: var(--color-slate-700);
   font-family: var(--font-sans);
   font-size: var(--text-sm);
   font-weight: 500;
   line-height: normal;
   cursor: pointer;
   white-space: nowrap;
-  transition: background-position 0.55s cubic-bezier(0.33, 0, 0.2, 1);
+  transition: background 0.15s;
 }
 
 .navCta:hover {
-  background-position: 100% 50%;
+  background: var(--color-slate-200);
 }
 
 .navCta:focus-visible {
-  outline: 2px solid var(--color-sky-400);
+  outline: 2px solid var(--color-slate-400);
   outline-offset: 3px;
 }
 
@@ -387,19 +385,7 @@
   max-width: calc(100% - 2 * var(--content-pad-x));
   height: 477px;
   border-radius: var(--radius-3xl);
-  padding: 14px;
-  box-sizing: border-box;
-  background: linear-gradient(
-    180deg,
-    #f3fbff 0%,
-    #d4f0ff 25%,
-    #dcf3ff 25%,
-    #ffffff 38%,
-    #b9e7ff 50%,
-    #5fbff2 68%,
-    #ffffff 92%
-  );
-  box-shadow: 0 4px 34.9px -17px #06a1ff;
+  overflow: hidden;
 }
 
 .videoEl {
@@ -407,8 +393,6 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  border-radius: 10px;
-  overflow: hidden;
 }
 
 .missionTextWrap {
@@ -1158,12 +1142,11 @@
 
   .officeCards {
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
   }
 
   .officeCard {
     width: 100%;
-    max-width: 520px;
   }
 
   .careers {
@@ -1339,7 +1322,6 @@
   }
 
   .video {
-    padding: 8px;
     border-radius: var(--radius-2xl);
   }
 
