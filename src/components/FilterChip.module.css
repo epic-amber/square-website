@@ -1,0 +1,69 @@
+.chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: var(--radius-xl); /* 12px */
+  font-family: var(--font-sans);
+  font-weight: 400;
+  line-height: normal;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+  flex-shrink: 0;
+}
+
+/* ── Sizes ───────────────────────────────────────────────────── */
+
+/* Top location filter: 95×49px, 18px text */
+.md {
+  width: 95px;
+  height: 49px;
+  font-size: var(--text-lg); /* 18px */
+}
+
+/* Sidebar filter groups: 95×43px, 16px text */
+.sm {
+  width: 95px;
+  height: 43px;
+  font-size: var(--text-base); /* 16px */
+}
+
+/* ── States ──────────────────────────────────────────────────── */
+
+.active {
+  background: var(--color-slate-700); /* #314158 */
+  color: var(--color-slate-100);      /* #f1f5f9 */
+}
+
+.active:hover {
+  background: var(--color-slate-600); /* #45556c */
+}
+
+.inactive {
+  background: var(--color-slate-100); /* #f1f5f9 */
+  color: var(--color-slate-900);      /* #0f172b */
+}
+
+.inactive:hover {
+  background: var(--color-slate-200); /* #e2e8f0 */
+}
+
+.chip:focus-visible {
+  outline: 2px solid var(--color-slate-400);
+  outline-offset: 2px;
+}
+
+/* ── Mobile: slightly smaller on narrow screens ──────────────── */
+@media (max-width: 480px) {
+  .md {
+    width: 80px;
+    height: 42px;
+    font-size: var(--text-base);
+  }
+
+  .sm {
+    width: 78px;
+    height: 38px;
+  }
+}

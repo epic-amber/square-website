@@ -1,0 +1,82 @@
+.header {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  padding: var(--space-6) var(--content-pad-x);
+  box-sizing: border-box;
+}
+
+.headerBar {
+  max-width: var(--content-width);
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+}
+
+.logo {
+  width: 145px;
+  height: 29.966px;
+}
+
+.logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-9);
+  padding: 0 var(--space-2);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 400;
+  line-height: normal;
+  color: var(--color-slate-600);
+  white-space: nowrap;
+}
+
+.navCta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 16px;
+  border: none;
+  border-radius: var(--radius-2xl);
+  background: var(--color-slate-300);
+  color: var(--color-slate-700);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  line-height: normal;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+  text-decoration: none;
+}
+
+.navCta:hover {
+  background: var(--color-slate-200);
+}
+
+.navCta:focus-visible {
+  outline: 2px solid var(--color-slate-400);
+  outline-offset: 3px;
+}
+
+@media (max-width: 767px) {
+  .header {
+    padding: var(--space-4) var(--content-pad-x);
+  }
+
+  .nav {
+    gap: var(--space-4);
+  }
+}

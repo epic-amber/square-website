@@ -15,7 +15,8 @@
     "@fontsource/mona-sans": "^5.2.8",
     "maplibre-gl": "^5.24.0",
     "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "react-dom": "^19.2.4",
+    "react-router-dom": "^7.15.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",

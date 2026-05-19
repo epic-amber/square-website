@@ -4,15 +4,14 @@ import styles from './SquarePage.module.css'
 import { WorkplaceSection } from './components/WorkplaceSection'
 import { VacanciesSection } from './components/VacanciesSection'
 import { OurProductsSection } from './components/OurProductsSection'
+import { SiteHeader } from './components/SiteHeader'
+import { SiteFooter } from './components/SiteFooter'
 import { useReveal } from './hooks/useReveal'
 
 const OfficesMap = lazy(() =>
   import('./components/OfficesMap').then((m) => ({ default: m.OfficesMap })),
 )
 
-import logoColor from './assets/logo-squaregps.svg'
-import linkedinIcon from './assets/linkedin-icon.svg'
-import youtubeIcon from './assets/youtube-icon.svg'
 import heroVideo from './assets/hero-video.mp4'
 import workplaceLanguage from './assets/workplace-language.png'
 import workplacePresentation from './assets/workplace-presentation.png'
@@ -232,16 +231,7 @@ export function SquarePage() {
       <HeroDecorIcons />
 
       <div className={styles.inner}>
-        <header className={styles.header} data-node-id="40:675">
-          <div className={styles.headerBar}>
-            <a className={styles.logo} href="/" data-node-id="40:676">
-              <img src={logoColor} alt="SquareGPS" width={145} height={30} />
-            </a>
-            <nav className={styles.nav} aria-label="Primary" data-node-id="40:681">
-              <button type="button" className={styles.navCta} data-node-id="40:682">Careers</button>
-            </nav>
-          </div>
-        </header>
+        <SiteHeader />
 
         <div className={styles.stack}>
           <div className={styles.topPageGradient} data-node-id="55:81">
@@ -357,62 +347,10 @@ export function SquarePage() {
             <VacanciesSection />
             </div>
 
-            <footer ref={footerRef} className={`${styles.siteFooter} reveal ${footerVisible ? 'reveal--in' : ''}`} data-node-id="40:748">
-            <div className={styles.bgEllipseFooter} aria-hidden>
-              <img src={figmaAssets.ellipse4} alt="" />
-            </div>
-            <div className={styles.footerInner}>
-            <div className={styles.footerGrid} data-node-id="40:749">
-              <div className={styles.footerLogo} data-node-id="40:750">
-                <img src={logoColor} alt="SquareGPS" data-node-id="40:751" />
-              </div>
-              <div className={styles.footerCol} data-node-id="40:755">
-                <p className={styles.footerHeading} data-node-id="40:757">
-                  Products
-                </p>
-                <ul className={styles.footerLinks}>
-                  <li data-node-id="40:759">
-                    <a href="https://navixy.com/" target="_blank" rel="noopener noreferrer">Navixy</a>
-                  </li>
-                  <li data-node-id="40:760">
-                    <a href="https://b2field.com/" target="_blank" rel="noopener noreferrer">B2Field</a>
-                  </li>
-                </ul>
-              </div>
-              <div className={styles.footerCol} data-node-id="40:761">
-                <p className={styles.footerHeading} data-node-id="40:763">
-                  Company
-                </p>
-                <ul className={styles.footerLinks}>
-                  <li data-node-id="40:766">Careers</li>
-                </ul>
-              </div>
-              <div className={`${styles.footerCol} ${styles.footerColGrow}`} data-node-id="40:767">
-                <p className={styles.footerHeading} data-node-id="40:769">
-                  Contact
-                </p>
-                <ul className={styles.footerLinks}>
-                  <li data-node-id="40:771"><a href="mailto:info@squaregps.com">info@squaregps.com</a></li>
-                  <li data-node-id="40:772">2945 Townsgate Rd, Suite 200, Westlake Village, CA 91361, USA</li>
-                </ul>
-              </div>
-            </div>
-
-            <div className={styles.legalRow} data-node-id="40:773">
-              <p className={styles.legal} data-node-id="40:774">
-                Copyright © 2002-2026
-              </p>
-              <div className={styles.social} data-node-id="40:777">
-                <a href="https://www.linkedin.com/company/squaregps" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" data-node-id="40:778">
-                  <img src={linkedinIcon} alt="" width={24} height={24} />
-                </a>
-                <a href="https://www.youtube.com/@Navixy" target="_blank" rel="noopener noreferrer" aria-label="YouTube" data-node-id="40:782">
-                  <img src={youtubeIcon} alt="" width={24} height={24} />
-                </a>
-              </div>
-            </div>
-            </div>
-          </footer>
+            <SiteFooter
+              revealRef={footerRef}
+              revealClass={`reveal ${footerVisible ? 'reveal--in' : ''}`}
+            />
           </div>
         </div>
       </div>
