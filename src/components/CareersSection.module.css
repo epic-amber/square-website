@@ -1,12 +1,18 @@
-/* ── Section wrapper (Figma 125:1596) ────────────────────────── */
+/* ── Section wrapper — full-width background ─────────────────── */
 .section {
+  width: 100%;
+  background: var(--color-white);
+  padding: 48px var(--content-pad-x) 80px;
+  box-sizing: border-box;
+}
+
+/* ── Inner content — constrained to content-width ────────────── */
+.inner {
   display: flex;
   flex-direction: column;
   gap: 40px;
-  width: 100%;
-  padding: 48px var(--content-pad-x) 80px;
-  box-sizing: border-box;
-  background: var(--color-white);
+  max-width: var(--content-width);
+  margin: 0 auto;
 }
 
 /* ── Top location filter row (Figma 106:225) ─────────────────── */
@@ -20,8 +26,8 @@
 /* ── Two-column body: job list + sidebar (Figma 106:189) ──────── */
 .body {
   display: grid;
-  /* Desktop: ~1017px jobs + auto sidebar (~425px) */
-  grid-template-columns: minmax(0, 1017px) 425px;
+  /* Desktop: fluid job list + fixed 360px sidebar, fits within 1280px */
+  grid-template-columns: minmax(0, 1fr) 360px;
   gap: 48px;
   align-items: start;
 }
@@ -37,21 +43,24 @@
 .card {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
   padding: var(--space-9); /* 36px */
   border-radius: var(--radius-lg); /* 8px */
-  border: 1.5px solid var(--color-slate-300); /* #cad5e2 */
-  background: var(--color-white);
+  border: none;
+  background: var(--color-slate-100);
   box-sizing: border-box;
   text-decoration: none;
   color: var(--color-slate-900);
   cursor: pointer;
-  transition: box-shadow 0.1s ease, border-color 0.1s ease;
+  box-shadow: 0 0 0 1.5px transparent;
+  transition:
+    box-shadow 0.07s ease,
+    color      0.07s ease;
 }
 
 .card:hover {
-  box-shadow: 0 4px 16px 0 rgba(49, 65, 88, 0.1);
-  border-color: var(--color-slate-400);
+  color: var(--color-sky-500);
+  box-shadow: 0 0 0 1.5px var(--color-slate-300);
 }
 
 /* Top row: title + location */
@@ -62,34 +71,34 @@
   gap: var(--space-4);
 }
 
-/* Job title — Figma 32px SemiBold */
+/* Job title */
 .jobTitle {
   margin: 0;
   font-family: var(--font-sans);
-  font-size: 32px;
+  font-size: 22px;
   font-weight: 600;
-  line-height: 1.25;
-  color: var(--color-slate-900);
+  line-height: 1.3;
+  color: inherit;
 }
 
 /* Location group */
 .location {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: var(--space-1);
   flex-shrink: 0;
 }
 
 .locationIcon {
-  width: 24px;
-  height: 24px;
+  width: 18px;
+  height: 18px;
   flex-shrink: 0;
 }
 
 .locationText {
   margin: 0;
   font-family: var(--font-sans);
-  font-size: var(--text-lg); /* 18px */
+  font-size: var(--text-base); /* 16px */
   font-weight: 600;
   line-height: normal;
   color: var(--color-slate-900);
@@ -108,9 +117,9 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  color: var(--color-slate-700); /* #314158 */
+  color: var(--color-slate-700);
   font-family: var(--font-sans);
-  font-size: var(--text-lg); /* 18px */
+  font-size: var(--text-base); /* 16px */
   font-weight: 400;
   line-height: normal;
 }
@@ -122,10 +131,10 @@
 .date {
   margin: 0;
   font-family: var(--font-sans);
-  font-size: var(--text-lg); /* 18px */
+  font-size: var(--text-base); /* 16px */
   font-weight: 400;
   line-height: normal;
-  color: var(--color-slate-600); /* #45556c */
+  color: var(--color-slate-600);
   white-space: nowrap;
 }
 
@@ -137,13 +146,12 @@
   padding: var(--space-9) 0;
 }
 
-/* ── Sidebar (Figma 106:188, 425px wide) ─────────────────────── */
+/* ── Sidebar (Figma 106:188) ─────────────────────────────────── */
 .sidebar {
   display: flex;
   flex-direction: column;
   gap: 51px;
   width: 100%;
-  max-width: 425px;
 }
 
 .sidebarSection {
@@ -238,6 +246,9 @@
 @media (max-width: 767px) {
   .section {
     padding: 32px var(--content-pad-x) 48px;
+  }
+
+  .inner {
     gap: 28px;
   }
 
@@ -246,8 +257,8 @@
   }
 
   .card {
-    padding: var(--space-5); /* 20px */
-    gap: 12px;
+    padding: var(--space-5);
+    gap: 16px;
   }
 
   .cardTop {
@@ -256,16 +267,16 @@
   }
 
   .jobTitle {
-    font-size: 20px;
+    font-size: 18px;
   }
 
-  .tags,
-  .date {
-    font-size: var(--text-base);
+  .cardBottom {
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 14px;
   }
 
   .locationText {
-    font-size: var(--text-base);
     white-space: normal;
   }
 
@@ -279,12 +290,12 @@
   }
 }
 
-@media (max-width: 480px) {
-  .jobTitle {
-    font-size: 18px;
+@media (max-width: 380px) {
+  .card {
+    padding: var(--space-4);
   }
 
-  .card {
-    padding: var(--space-4); /* 16px */
+  .jobTitle {
+    font-size: 17px;
   }
 }

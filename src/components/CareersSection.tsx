@@ -103,8 +103,8 @@ function JobCard({ job }: { job: Job }) {
             src={locationPinIcon}
             alt=""
             aria-hidden
-            width={24}
-            height={24}
+            width={18}
+            height={18}
           />
           <p className={styles.locationText}>{job.location}</p>
         </div>
@@ -257,43 +257,45 @@ export function CareersSection() {
 
   return (
     <section ref={sectionRef} className={styles.section} data-node-id="125:1596">
-      {/* Top location filter row — Figma 106:225 */}
-      <div className={styles.topFilter} data-node-id="106:225">
-        {LOCATION_FILTERS.map((l) => (
-          <FilterChip
-            key={l}
-            label={l}
-            size="md"
-            active={location === l}
-            onClick={() => handleLocation(l)}
-          />
-        ))}
-      </div>
-
-      {/* Two-column layout: job list + sidebar */}
-      <div className={styles.body} data-node-id="106:189">
-        {/* Job list — Figma 106:186 */}
-        <div className={styles.jobList} data-node-id="106:186">
-          {visibleJobs.length > 0 ? (
-            visibleJobs.map((j) => <JobCard key={j.id} job={j} />)
-          ) : (
-            <p className={styles.empty}>No open positions match the selected filters.</p>
-          )}
+      <div className={styles.inner}>
+        {/* Top location filter row — Figma 106:225 */}
+        <div className={styles.topFilter} data-node-id="106:225">
+          {LOCATION_FILTERS.map((l) => (
+            <FilterChip
+              key={l}
+              label={l}
+              size="md"
+              active={location === l}
+              onClick={() => handleLocation(l)}
+            />
+          ))}
         </div>
 
-        {/* Sidebar — Figma 106:188 */}
-        <FilterSidebar
-          employment={employment}
-          experience={experience}
-          onEmployment={handleEmployment}
-          onExperience={handleExperience}
-        />
-      </div>
+        {/* Two-column layout: job list + sidebar */}
+        <div className={styles.body} data-node-id="106:189">
+          {/* Job list — Figma 106:186 */}
+          <div className={styles.jobList} data-node-id="106:186">
+            {visibleJobs.length > 0 ? (
+              visibleJobs.map((j) => <JobCard key={j.id} job={j} />)
+            ) : (
+              <p className={styles.empty}>No open positions match the selected filters.</p>
+            )}
+          </div>
 
-      {/* Pagination — shown only when total > 1 page */}
-      {totalPages > 1 && (
-        <Pagination page={page} total={totalPages} onChange={setPage} />
-      )}
+          {/* Sidebar — Figma 106:188 */}
+          <FilterSidebar
+            employment={employment}
+            experience={experience}
+            onEmployment={handleEmployment}
+            onExperience={handleExperience}
+          />
+        </div>
+
+        {/* Pagination — shown only when total > 1 page */}
+        {totalPages > 1 && (
+          <Pagination page={page} total={totalPages} onChange={setPage} />
+        )}
+      </div>
     </section>
   )
 }
