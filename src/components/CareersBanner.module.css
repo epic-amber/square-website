@@ -1,167 +1,281 @@
-/* ── Banner wrapper (Figma 117:964, 1920×328px) ─────────────── */
+/* ── Outer wrapper ────────────────────────────────────────────────── */
+.bannerWrap {
+  width: 100%;
+  padding: 0 var(--content-pad-x);
+  box-sizing: border-box;
+}
+
+/* ── Banner — 1280×420px, rounded, overflow hidden ───────────────── */
 .banner {
   position: relative;
   width: 100%;
-  height: 328px;
+  max-width: var(--content-width);
+  margin: 0 auto;
+  aspect-ratio: 1280 / 420;
+  border-radius: 12px;
   overflow: hidden;
-  /* Figma fill: #0ea9f4 */
-  background: #0ea9f4;
+  background: linear-gradient(97.15deg, #0e79da 13.82%, #0e9ee8 73.05%);
+  container-type: inline-size;
   flex-shrink: 0;
 }
 
-/* Left wave group (node 117:965) — full banner area */
-.waveLeft {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: left center;
-  display: block;
-  pointer-events: none;
-  user-select: none;
-}
-
-/* Right wave group (node 117:1386) — right portion, 1198px wide */
-.waveRight {
-  position: absolute;
-  right: 0;
-  top: 0;
-  height: 100%;
-  width: auto;
-  display: block;
-  pointer-events: none;
-  user-select: none;
-}
-
-/* Left gradient overlay (Figma 117:1177) — #0d75d7 → transparent, 667px wide */
-.gradientLeft {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 34.7%; /* 667/1920 */
-  height: 100%;
-  background: linear-gradient(to right, #0d75d7 0%, rgba(14, 169, 244, 0) 91.35%);
-  pointer-events: none;
-}
-
-/* Right gradient overlay (Figma 117:1178) — #0ea9f4 → transparent, 186px wide */
-.gradientRight {
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 9.7%; /* 186/1920 */
-  height: 100%;
-  background: linear-gradient(to left, #0ea9f4 0%, rgba(14, 169, 244, 0) 85.48%);
-  pointer-events: none;
-}
-
-/* Text content (Figma 117:1180) — vertically centered, left=90px */
-.content {
+/* Сцена в координатах макета 1280×420, центрирована, масштабируется по ширине */
+.stage {
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
-  left: var(--content-pad-x);
-  width: min(1017px, 55%);
+  left: 50%;
+  width: 1280px;
+  height: 420px;
+  transform-origin: center center;
+  transform: translate(-50%, -50%) scale(calc(100cqw / 1280px));
+}
+
+/* ── Wave 01 — Figma 175:1076: left=-333px top=-605px 1946×1228px ── */
+.wave01 {
+  position: absolute;
+  left: -333px;
+  top: -605px;
+  width: 1946px;
+  height: 1228px;
   z-index: 2;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ── Wave 02 — Figma 175:1079: left=231px top=-763px 2143×1352px ─── */
+.wave02 {
+  position: absolute;
+  left: 231px;
+  top: -763px;
+  width: 2143px;
+  height: 1352px;
+  z-index: 2;
+  pointer-events: none;
+  user-select: none;
+}
+
+.waveImg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+/* ── Ellipse glow — Figma 167:1033 — CSS radial gradient ────────── */
+.ellipseGlow {
+  position: absolute;
+  left: calc(50% - 30px);
+  top: 282px;
+  width: 406px;
+  height: 387px;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at center, rgba(137, 210, 255, 0.45) 0%, transparent 70%);
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+/* ── Act global — Figma 167:1017 — behind waves ──────────────────── */
+/* PNG 441×433 @2x, render at 198px — rotation baked in              */
+.actGlobal {
+  position: absolute;
+  left: 713.07px;
+  top: 21.77px;
+  width: 198px;
+  height: auto;
+  z-index: 1;
+  pointer-events: none;
+  display: block;
+}
+
+/* ── Navixy icon — Figma 170:1068 ───────────────────────────────── */
+/* PNG 108×108, Figma position left=98px top=83px, rotation baked in */
+.navixyIcon {
+  position: absolute;
+  left: 98px;
+  top: 43px;
+  width: 80px;
+  height: auto;
+  z-index: 3;
+  pointer-events: none;
+  display: block;
+}
+
+/* ── Icon-code — Figma 167:1024: left=375px top=119px 104×91px ─── */
+/* PNG @2x (211×183), render at 104px — rotation baked in            */
+.iconCode {
+  position: absolute;
+  left: 400.16px;
+  top: 118.91px;
+  width: 104px;
+  height: auto;
+  z-index: 3;
+  pointer-events: none;
+  display: block;
+}
+
+/* ── Icon-telematics — Figma 170:1043: left=640px top=248px 131×108px */
+/* PNG @2x (262×215), render at 131px — rotation baked in             */
+.iconTelematics {
+  position: absolute;
+  left: 640px;
+  top: 248px;
+  width: 131px;
+  height: auto;
+  z-index: 3;
+  pointer-events: none;
+  display: block;
+}
+
+/* ── Sam bubble — Figma 167:815 ─────────────────────────────────── */
+/* PNG 94×57, Figma position left=1089px top=81px */
+.iconSam {
+  position: absolute;
+  left: 1089px;
+  top: 81px;
+  width: 94px;
+  height: auto;
+  z-index: 3;
+  pointer-events: none;
+  display: block;
+}
+
+/* ── Danil bubble — Figma 170:1053 ──────────────────────────────── */
+/* PNG 88×58, Figma position left=383px top=301px */
+.danil {
+  position: absolute;
+  left: 383px;
+  top: 301px;
+  width: 88px;
+  height: auto;
+  z-index: 3;
+  pointer-events: none;
+  display: block;
+}
+
+/* ── Location pin — Figma 167:822 ───────────────────────────────── */
+/* PNG 75×102, Figma inset: top=33.33% right=20.08% bottom=41.26% left=73.2% */
+/* → on 1280×420: left≈937px top≈140px, rotate=-12.66deg */
+.locationPin {
+  position: absolute;
+  left: 937px;
+  top: 140px;
+  width: 75px;
+  height: auto;
+  transform: rotate(-12.66deg);
+  transform-origin: center center;
+  z-index: 3;
+  pointer-events: none;
+  display: block;
+}
+
+/* ── Animations ──────────────────────────────────────────────────── */
+@keyframes cbAppear {
+  from {
+    opacity: 0;
+    transform: translateY(-16px) scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes cbFloat {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-9px); }
+}
+
+/* Base: appear once, then float forever */
+.navixyIcon,
+.actGlobal,
+.iconCode,
+.iconTelematics,
+.iconSam,
+.danil {
+  animation:
+    cbAppear 0.75s cubic-bezier(0.34, 1.45, 0.64, 1) both,
+    cbFloat  8s ease-in-out infinite;
+}
+
+/* Per-icon delays: appear-delay, float-delay — stagger so they move out of phase */
+.navixyIcon    { animation-delay: 0.10s, 0.00s; }
+.actGlobal     { animation-delay: 0.25s, 2.00s; }
+.iconCode      { animation-delay: 0.35s, 1.50s; }
+.iconTelematics{ animation-delay: 0.50s, 2.80s; }
+.iconSam       { animation-delay: 0.20s, 0.80s; }
+.danil         { animation-delay: 0.60s, 3.50s; }
+
+/* Location pin keeps its tilt during appear + float */
+@keyframes cbAppearPin {
+  from { opacity: 0; transform: translateY(-16px) scale(0.85) rotate(-12.66deg); }
+  to   { opacity: 1; transform: translateY(0)    scale(1)    rotate(-12.66deg); }
+}
+@keyframes cbFloatPin {
+  0%, 100% { transform: translateY(0px)  rotate(-12.66deg); }
+  50%      { transform: translateY(-9px) rotate(-12.66deg); }
+}
+.locationPin {
+  animation:
+    cbAppearPin 0.75s cubic-bezier(0.34, 1.45, 0.64, 1) both,
+    cbFloatPin  8s ease-in-out infinite;
+  animation-delay: 0.40s, 4.20s;
+}
+
+/* ── Heading group — vertically centered left ────────────────────── */
+.headingGroup {
+  position: absolute;
+  left: 82px;
+  top: 50%;
+  transform: translateY(calc(-50% + 20px));
+  width: min(1007px, calc(100% - 164px));
+  z-index: 4;
+  pointer-events: none;
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-/* "Careers at Squaregos" (Figma 117:1181) — 18px Regular white */
-.eyebrow {
-  margin: 0;
-  font-family: var(--font-sans);
-  font-size: var(--text-lg); /* 18px */
-  font-weight: 400;
-  line-height: normal;
-  color: rgba(255, 255, 255, 0.9);
-}
-
-/* "Find the role that's right for you" (Figma 117:1182) — 48px SemiBold white */
 .heading {
-  margin: 0;
   font-family: var(--font-sans);
-  font-size: 48px;
+  font-size: clamp(28px, 5vw, 72px);
   font-weight: 600;
-  line-height: 1.15;
+  line-height: 1;
   color: #ffffff;
+  margin: 0;
 }
 
-/* ── Decorative elements ──────────────────────────────────────── */
-.decor {
-  position: absolute;
-  z-index: 3;
-  pointer-events: none;
-  user-select: none;
-  display: block;
+.subheading {
+  font-family: var(--font-sans);
+  font-size: clamp(13px, 1.25vw, 18px);
+  font-weight: 400;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0;
 }
 
-/* Location pin (Figma 117:1171) — left=1178px/1920, top=177px/328px */
-.decorPin {
-  left: 61.35%;
-  top: 53.96%;
-  transform: translateY(-50%);
-  width: clamp(60px, 5.05vw, 97px);
-  height: auto;
-}
-
-/* Cursor bubble "Danil" (Figma 117:1172) — left=1389px/1920, top=118px/328px */
-.decorCursor {
-  left: 72.34%;
-  top: 35.98%;
-  transform: translateY(-50%);
-  width: clamp(60px, 4.58vw, 88px);
-  height: auto;
-}
-
-/* "act global" badge (Figma 117:1165) — left=1555px/1920, top=100px/328px */
-.decorActGlobal {
-  left: 81.0%;
-  top: 30.49%;
-  transform: translateY(-50%);
-  width: clamp(100px, 10.36vw, 199px);
-  height: auto;
-}
-
-/* ── Tablet (≤1024px) ─────────────────────────────────────────── */
-@media (max-width: 1024px) {
-  .banner {
-    height: 280px;
-  }
-
-  .heading {
-    font-size: 36px;
-  }
-}
-
-/* ── Large mobile (≤767px): hide decorative elements ──────────── */
+/* ── Mobile (≤767px) ────────────────────────────────────────────── */
 @media (max-width: 767px) {
+  .bannerWrap { padding: 0; }
   .banner {
-    height: 220px;
+    min-height: 200px;
+    border-radius: 0;
   }
 
-  .content {
+  .headingGroup {
+    left: var(--content-pad-x);
     width: calc(100% - 2 * var(--content-pad-x));
   }
 
-  .heading {
-    font-size: 26px;
-  }
-
-  .decor {
-    display: none;
-  }
+  /* Hide all decorative icons on mobile */
+  .actGlobal, .navixyIcon, .iconCode, .iconTelematics,
+  .iconSam, .danil, .locationPin, .ellipseGlow { display: none; }
 }
 
-/* ── Mobile (≤480px) ─────────────────────────────────────────── */
-@media (max-width: 480px) {
-  .banner {
-    height: 200px;
-  }
-
-  .heading {
-    font-size: clamp(20px, 6vw, 26px);
+/* ── Reduced motion ──────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .navixyIcon, .actGlobal, .iconCode, .iconTelematics,
+  .iconSam, .danil, .locationPin {
+    animation: none !important;
   }
 }
