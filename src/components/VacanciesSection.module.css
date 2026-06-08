@@ -1,255 +1,289 @@
-/* ── Section wrapper (Figma 82:574) ─────────────────────────── */
+/* ── Section wrapper ─────────────────────────────────────────── */
 .vacancies {
+  position: relative;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 48px;
-  width: 100%;
-  max-width: 1100px;
-  padding: 0 var(--space-9);
-  position: relative;
+  overflow: hidden;
 }
 
-/* ── Heading (Figma 82:453) ─────────────────────────────────── */
-.title {
-  margin: 0;
-  font-family: var(--font-sans);
-  font-size: 40px;
-  font-weight: 500;
-  line-height: normal;
-  color: var(--color-heading-muted);
+/* ── Atmospheric gradient background ────────────────────────── */
+.gradientBg {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: max(100%, 1920px);
+  height: 100%;
+  min-height: 700px;
+  background: var(--gradient-atmospheric);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Content block ───────────────────────────────────────────── */
+.inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--content-width);
+  padding: 96px var(--content-pad-x) 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 64px;
+  box-sizing: border-box;
+}
+
+/* ── Heading block ───────────────────────────────────────────── */
+.headingBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
   text-align: center;
   width: 100%;
 }
 
-/* ── Card list (Figma 82:573) ───────────────────────────────── */
-.list {
-  position: relative;
-  display: flex;
-  flex-direction: column;
+.title {
+  font-family: var(--font-sans);
+  font-size: clamp(28px, 3.5vw, 48px);
+  font-weight: 500;
+  color: #1a1a1a;
+  margin: 0;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+}
+
+.subtitle {
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  font-weight: 400;
+  color: #5a6a80;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ── Card grid — 3 columns ───────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   width: 100%;
-  z-index: 1;
+  align-items: stretch;
 }
 
-/* Figma 82:661 — лёгкий oval-gradient слева от списка */
-.ovalGradient {
-  position: absolute;
-  z-index: 0;
-  left: calc(-412px - 500px);
-  top: -21px;
-  width: calc(732px * 1.2);
-  height: calc(702px * 1.2);
-  pointer-events: none;
-}
-
-.ovalGradient img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: left center;
-}
-
-/* ── Single vacancy card (Figma 82:483 / 82:533 / …) ────────── */
+/* ── Single vacancy card ─────────────────────────────────────── */
 .card {
-  position: relative;
-  z-index: 1;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: var(--space-9);            /* 36px, на шаг больше space-6 */
-  border-radius: var(--radius-lg);
-  border: none;
-  background: var(--color-slate-100);
-  box-sizing: border-box;
-  width: 100%;
+  gap: 24px;
+  padding: 32px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.04);
   text-decoration: none;
-  /*
-   * Both box-shadow and color are transitioned on the same element so the
-   * browser drives them from the same style recalc — guaranteed sync.
-   * .jobTitle uses color: inherit, so its color is controlled from here.
-   */
   color: var(--color-slate-900);
-  cursor: pointer;
-  box-shadow: 0 0 0 1.5px transparent;
+  box-sizing: border-box;
   transition:
-    box-shadow 0.07s ease,
-    color      0.07s ease;
+    box-shadow 0.22s ease,
+    transform  0.22s ease;
 }
 
 .card:hover {
-  color: var(--color-sky-500);
-  box-shadow: 0 0 0 1.5px var(--color-slate-300);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(0, 0, 0, 0.06);
+  transform: translateY(-4px);
 }
 
-/* ── Card top row: title + location ─────────────────────────── */
-.cardTop {
+/* ── Card header: title + location ──────────────────────────── */
+.cardHeader {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  width: 100%;
-  gap: var(--space-4);
+  flex-direction: column;
+  gap: 12px;
 }
 
-/* Job title — inherits color from .card so both transitions stay in sync */
 .jobTitle {
-  margin: 0;
   font-family: var(--font-sans);
-  font-size: 22px;
-  font-weight: 600;
-  line-height: 1.3;
-  color: inherit;
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--color-slate-900);
+  margin: 0;
+  line-height: normal;
 }
 
-/* Job title as link */
-.jobTitleLink {
-  display: block;
-  margin: 0;
-  font-family: var(--font-sans);
-  font-size: 22px;
-  font-weight: 600;
-  line-height: 1.3;
-  color: inherit;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-/* Location group */
 .location {
   display: flex;
   align-items: center;
-  gap: var(--space-1);
-  flex-shrink: 0;
+  gap: 8px;
 }
 
 .locationIcon {
-  width: 18px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
   flex-shrink: 0;
 }
 
 .locationText {
-  margin: 0;
   font-family: var(--font-sans);
-  font-size: var(--text-base);       /* 16px */
-  font-weight: 600;
-  line-height: normal;
-  color: var(--color-slate-900); /* pinned — doesn't follow card's color transition */
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--color-slate-500);
+  margin: 0;
   white-space: nowrap;
 }
 
-/* ── Card bottom row: tags + date ──────────────────────────── */
-.cardBottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
+/* ── Description — max 3 lines with ellipsis ─────────────────── */
+.description {
   font-family: var(--font-sans);
-  font-size: var(--text-base);       /* 16px */
+  font-size: var(--text-base);
   font-weight: 400;
-  line-height: normal;
+  color: var(--color-slate-600);
+  line-height: 1.4;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
+/* ── Tags row ────────────────────────────────────────────────── */
 .tags {
   display: flex;
   align-items: center;
-  gap: 12px;
-  color: var(--color-slate-700); /* pinned */
+  gap: 8px;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: 400;
+  color: var(--color-slate-500);
+  margin: 0;
 }
 
 .tag {
   margin: 0;
+  padding: 4px 12px;
+  background: var(--color-slate-100);
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-slate-600);
 }
 
-.date {
+/* ── View role link ──────────────────────────────────────────── */
+.viewRole {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: 500;
+  color: #2563eb;
   margin: 0;
-  color: var(--color-slate-600); /* pinned */
-  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: gap 0.2s ease, color 0.2s ease;
 }
 
-/* ── Show more button (Figma 82:575) ────────────────────────── */
-.showMore {
+.viewRoleArrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.card:hover .viewRole {
+  gap: 6px;
+  color: #1d4ed8;
+}
+
+.card:hover .viewRoleArrow {
+  transform: translateX(3px);
+}
+
+/* ── CTA arrow icon ──────────────────────────────────────────── */
+.ctaArrow {
+  display: inline-block;
+  font-size: 13px;
+  opacity: 0.75;
+  transition: transform 0.2s ease;
+}
+
+.ctaButton:hover .ctaArrow {
+  transform: translate(2px, -2px);
+}
+
+/* ── CTA button — dark ───────────────────────────────────────── */
+.ctaButton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: var(--cta-py) var(--cta-pr) var(--cta-py) var(--cta-pl-wide);
-  border-radius: var(--radius-2xl);
-  background: var(--color-slate-300);
-  border: none;
-  cursor: pointer;
+  gap: 6px;
+  padding: 14px 28px;
+  border-radius: 100px;
+  background: var(--color-slate-900);
+  color: #ffffff;
   font-family: var(--font-sans);
-  font-size: var(--text-lg);
+  font-size: var(--text-base);
   font-weight: 500;
-  line-height: var(--leading-body);
-  color: var(--color-slate-700);
-  text-align: center;
+  line-height: 1;
+  text-decoration: none;
   white-space: nowrap;
-  transition: background 0.15s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  transition:
+    background 0.2s ease,
+    box-shadow  0.2s ease,
+    transform   0.2s ease;
 }
 
-.showMore:hover {
-  background: var(--color-slate-200);
+.ctaButton:hover {
+  background: #0f172a;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.28);
+  transform: translateY(-1px);
 }
 
-/* ── Responsive ─────────────────────────────────────────────── */
+/* ── Tablet ≤1024px — 2 columns ─────────────────────────────── */
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .inner {
+    padding-top: 72px;
+    padding-bottom: 96px;
+    gap: 48px;
+  }
+}
+
+/* ── Mobile ≤767px — 1 column ───────────────────────────────── */
 @media (max-width: 767px) {
-  .vacancies {
-    padding: 0 var(--content-pad-x);
-    gap: 32px;
+  .grid {
+    grid-template-columns: 1fr;
   }
 
-  .ovalGradient {
-    left: calc(-55% - 500px);
-    top: calc(48px - 100px);
-    width: min(calc(520px * 1.2), calc(140vw * 1.2));
-    height: auto;
-    aspect-ratio: 732 / 702;
-  }
-
-  .title {
-    font-size: var(--text-h1);
+  .inner {
+    padding-top: 64px;
+    padding-bottom: 80px;
+    gap: 40px;
   }
 
   .card {
-    padding: var(--space-5);
+    padding: 24px;
     gap: 16px;
   }
 
-  .cardTop {
-    flex-direction: column;
-    gap: var(--space-2);
-  }
-
-  .jobTitle,
-  .jobTitleLink {
-    font-size: 18px;
-  }
-
-  .cardBottom {
-    flex-wrap: wrap;
-    gap: 12px;
-    font-size: 14px;
+  .jobTitle {
+    font-size: 20px;
   }
 
   .locationText {
     white-space: normal;
   }
 
-  .showMore {
-    min-height: 44px; /* tap target */
-    padding: 12px 24px;
+  .ctaButton {
+    min-height: 44px;
   }
 }
 
-/* Very narrow: even more compact */
+/* ── Very narrow ≤380px ──────────────────────────────────────── */
 @media (max-width: 380px) {
   .card {
-    padding: var(--space-4);
-  }
-
-  .jobTitle,
-  .jobTitleLink {
-    font-size: 17px;
+    padding: 20px;
   }
 }
