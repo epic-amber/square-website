@@ -1,0 +1,139 @@
+/* ── Stage — full-section atmospheric backdrop ────────────────── */
+/* top + bottom = 0 → растягивается на всю section по вертикали     */
+/* (растёт вместе с контентом). Full-bleed width: max(100%, 1920px) */
+/* выходит за viewport на широких экранах. No overflow clip — wave  */
+/* path рендерится свободно. Contain layout paint изолирует blur от */
+/* rest of page.                                                     */
+/* Wave shifted on +300 в viewBox-space (см. <g transform>) → главная */
+/* масса волны живёт в нижней половине stage, не пересекая контент   */
+/* в верхней зоне (sidebar/heading).                                 */
+.stage {
+  position: absolute;
+  top: 0;
+  /* bottom: -200px → wave заходит лишь в верхнюю padding-зону       */
+  /* следующей секции (footer/next section) — subtle continuity.     */
+  bottom: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: max(100%, 1920px);
+  pointer-events: none;
+  z-index: 0;
+  contain: layout paint;
+  /* Mask fade-out нижних 30% stage → wave плавно растворяется к низу */
+  /* следующей секции, нет «контейнер» границы.                       */
+  mask-image: linear-gradient(
+    to bottom,
+    black 0%,
+    black 70%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    black 0%,
+    black 70%,
+    transparent 100%
+  );
+}
+
+/* ── Layer base — each SVG ribbon ─────────────────────────────── */
+/* GPU layer hint: will-change + translate3d + backface-visibility.  */
+.layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+}
+
+.layer svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+
+/* ── Per-layer blur depths + animation ───────────────────────── */
+.layer1 {
+  filter: blur(10px);
+  animation: bwbSway1 16s ease-in-out infinite alternate;
+}
+.layer2 {
+  filter: blur(20px);
+  animation: bwbSway2 20s ease-in-out infinite alternate;
+}
+.layer3 {
+  filter: blur(22px);
+  animation: bwbSway3 24s ease-in-out infinite alternate;
+}
+.layer4 {
+  filter: blur(38px);
+  animation: bwbSway4 28s ease-in-out infinite alternate;
+}
+.layer5 {
+  filter: blur(48px);
+  animation: bwbSway5 30s ease-in-out infinite alternate;
+}
+.layerLeft {
+  filter: blur(28px);
+  animation: bwbSwayLeft 34s ease-in-out infinite alternate;
+}
+
+/* ── Sway keyframes — subtle drift, alternate direction per layer  */
+/* для organic non-synchronized motion (Stripe vibe).                */
+@keyframes bwbSway1 {
+  0%   { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(20px, -18px, 0); }
+}
+@keyframes bwbSway2 {
+  0%   { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-22px, 24px, 0); }
+}
+@keyframes bwbSway3 {
+  0%   { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(28px, 14px, 0); }
+}
+@keyframes bwbSway4 {
+  0%   { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-26px, -16px, 0); }
+}
+@keyframes bwbSway5 {
+  0%   { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(34px, -22px, 0); }
+}
+@keyframes bwbSwayLeft {
+  0%   { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-28px, 18px, 0); }
+}
+
+/* ── Reduced motion — static wave, no sway ─────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .layer1, .layer2, .layer3, .layer4, .layer5, .layerLeft {
+    animation: none;
+  }
+}
+
+/* ── Tablet ≤1024px — reduced blur (cheaper compositing) ──────── */
+@media (max-width: 1024px) {
+  .layer1     { filter: blur(7px); }
+  .layer2     { filter: blur(14px); }
+  .layer3     { filter: blur(16px); }
+  .layer4     { filter: blur(26px); }
+  .layer5     { filter: blur(34px); }
+  .layerLeft  { filter: blur(20px); }
+}
+
+/* ── Mobile ≤767px — drop 2 heaviest layers, smaller blur ───────  */
+/* layer5 (48px violet halo) и layer4 (38px pink wash) самые        */
+/* дорогие — скрываем для battery/perf. Оставшиеся 4 layer          */
+/* достаточны для visual richness на маленьком экране.              */
+@media (max-width: 767px) {
+  .layer4, .layer5 {
+    display: none;
+  }
+  .layer1     { filter: blur(5px); }
+  .layer2     { filter: blur(10px); }
+  .layer3     { filter: blur(12px); }
+  .layerLeft  { filter: blur(14px); }
+}

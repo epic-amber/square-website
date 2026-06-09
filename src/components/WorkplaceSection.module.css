@@ -55,23 +55,34 @@
 .photoTech     { grid-area: pTech; }
 
 /* ── Hero card (Figma 79:312) ───────────────────────────────── */
+/* position: relative — containing block для HeroWaveAccent (abs).   */
+/* overflow: hidden остаётся — blur ribbon'ов не вылезает за rounded */
+/* corners карточки.                                                   */
 .hero {
+  position: relative;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   border-radius: var(--radius-lg);
   padding: var(--space-6);
+  /* Палитра 1:1 с CareersBanner (linear sky → navy) — brand cohesion. */
+  /* Верх-право — насыщенный sky #0e9ee8, низ-лево — глубокий #013e87.  */
+  /* Wave accent с deep stops (#00132e/#012762) читается как естественное*/
+  /* продолжение этого base'а, без диссонанса.                           */
   background-image: linear-gradient(
     235.59deg,
-    rgb(59, 209, 255) 6.0047%,
-    rgb(59, 182, 255) 26.446%,
-    rgb(13, 105, 169) 71.149%,
-    rgb(9, 83, 145)   95.59%
+    #0e9ee8 6%,
+    #0e79da 30%,
+    #075ba7 70%,
+    #013e87 95%
   );
   color: var(--color-white);
 }
 
+/* z-index: 1 — текст hero сидит над wave accent (z:0).               */
 .heroText {
+  position: relative;
+  z-index: 1;
   margin: 0;
   font-family: var(--font-sans);
   font-size: 32px;

@@ -14,7 +14,17 @@
   aspect-ratio: 1280 / 420;
   border-radius: 12px;
   overflow: hidden;
-  background: linear-gradient(97.15deg, #0e79da 13.82%, #0e9ee8 73.05%);
+  /* Layered: оригинальный sky linear (base) + radial navy blob       */
+  /* anchored в bottom-left → depth боль heading area, top-left near  */
+  /* wave остаётся оригинальный sky.                                   */
+  background:
+    radial-gradient(
+      ellipse 1400px 700px at -200px 460px,
+      rgba(1, 62, 135, 0.95) 0%,
+      rgba(7, 91, 167, 0.55) 30%,
+      transparent 65%
+    ),
+    linear-gradient(97.15deg, #0e79da 13.82%, #0e9ee8 73.05%);
   container-type: inline-size;
   flex-shrink: 0;
 }

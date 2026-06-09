@@ -9,26 +9,29 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* background: transparent — orbs из CareersPage просвечивают сквозь   */
-  /* секцию в боковых margin-зонах за content-area (1280px centered).    */
-  /* Cards имеют свой собственный white bg + hairline border, читаются   */
-  /* поверх атмосферы корректно.                                          */
-  background: transparent;
+  background: #ffffff;
   padding: 0 var(--content-pad-x);
   box-sizing: border-box;
+  /* overflow visible → wave-stage свободно вылезает в footer-зону   */
+  /* (см. .stage в BrandWaveBackdrop.module.css → bottom: -200px).   */
 }
 
-/* Banner hint и footer strip заменены на radial orbs                 */
-/* (см. .orb*  в CareersPage.module.css) — atmosphere живёт на         */
-/* page-уровне, не зависит от секции и количества карточек.            */
+/* Атмосферный wave-backdrop живёт в отдельном компоненте              */
+/* BrandWaveBackdrop (bottom-anchored SVG ribbons + animations).        */
+/* z-index: 0 у `.stage` — за `.inner` (z:1).                           */
 
 /* ── Inner layout: sidebar (left) + cards column (right) ───── */
+/* min-height: 1260px → stable floor. Wave SVG slice-scaled с этой    */
+/* высотой → layer-5 halo top edge ниже sidebar bottom на ~90px,     */
+/* фильтры (включая Mexico/USA) на чистом фоне.                       */
+/* При 10 карточках inner ~1900px → min-height не активен.            */
 .inner {
   position: relative;
   z-index: 1;
   width: 100%;
   max-width: var(--content-width);
   margin: 0 auto;
+  min-height: 1260px;
   padding: 64px 0 120px;
   box-sizing: border-box;
   display: grid;
@@ -108,7 +111,9 @@
 .resultsHeader {
   display: flex;
   align-items: baseline;
-  justify-content: flex-start;
+  /* space-between → results count прижат влево, sort toggle вправо.    */
+  /* Сортировка визуально стабильна — не съезжает при смене кол-ва.    */
+  justify-content: space-between;
   flex-wrap: wrap;
   gap: 16px;
 }
@@ -121,9 +126,15 @@
   color: var(--color-slate-600);
 }
 
+/* min-width: 1.5em + inline-block + tabular-nums → счётчик 6→10        */
+/* не сдвигает соседний текст «open roles» при перерисовке. tabular-   */
+/* nums фиксирует ширину цифр в моноширинной сетке (без glyph jitter). */
 .resultsCount strong {
   color: var(--color-slate-900);
   font-weight: 600;
+  display: inline-block;
+  min-width: 1.5em;
+  font-variant-numeric: tabular-nums;
 }
 
 /* ── Sort toggle (right side of results header) ───────────── */
@@ -194,6 +205,32 @@
     opacity      0.7s  ease-out,
     border-color 0.18s ease,
     background   0.18s ease;
+}
+
+/* ── Card entry animation (Load more newly added) ─────────────── */
+/* Stagger fade + slide-up. animation-delay задаётся inline в JSX  */
+/* (idx * 0.08s) → волна сверху вниз для свежих карточек.          */
+/* Только cards с idx >= prevVisibleCount получают .cardEnter →    */
+/* старые карточки не «дёргаются» при ререндере.                    */
+@keyframes cardEnter {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cardEnter {
+  animation: cardEnter 0.45s cubic-bezier(0.33, 0, 0.2, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cardEnter {
+    animation: none;
+  }
 }
 
 .card:hover {
@@ -347,21 +384,29 @@
   color: var(--color-slate-600);
 }
 
+/* Empty state CTA — light hairline pill, low-key tone (нет вакансий → */
+/* кнопка не должна тянуть на себя внимание, мягкий reset).            */
 .emptyResetBtn {
-  background: var(--color-slate-900);
-  color: #ffffff;
-  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 22px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid var(--color-slate-300);
   border-radius: 100px;
-  padding: 10px 20px;
   font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 500;
+  color: var(--color-slate-900);
   cursor: pointer;
-  transition: background 0.18s ease;
+  transition:
+    background   0.18s ease,
+    border-color 0.18s ease;
 }
 
 .emptyResetBtn:hover {
-  background: var(--color-slate-700);
+  background: #ffffff;
+  border-color: var(--color-slate-500);
 }
 
 .emptyResetBtn:focus-visible {
@@ -376,33 +421,48 @@
   padding-top: 16px;
 }
 
+/* Load more — primary action: deep blue sweep как .ctaButton на главной */
+/* (VacanciesSection). Animated gradient swap on hover, royal-blue feel. */
 .loadMore {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 28px;
-  background: rgba(255, 255, 255, 0.7);
-  border: 1px solid var(--color-slate-300);
-  border-radius: 100px;
+  padding: var(--cta-py) var(--cta-pr) var(--cta-py) var(--cta-pl-wide);
+  background-color: #013070;
+  background-image: var(--gradient-cta-deep);
+  background-size: 200% 100%;
+  background-position: 100% 50%;
+  background-repeat: no-repeat;
+  border: none;
+  border-radius: var(--radius-2xl);
   font-family: var(--font-sans);
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--color-slate-900);
+  font-size: var(--text-lg);
+  font-weight: 400;
+  line-height: var(--leading-body);
+  color: var(--color-white);
   cursor: pointer;
-  transition:
-    background   0.18s ease,
-    border-color 0.18s ease,
-    color        0.18s ease;
+  transition: background-position 0.5s cubic-bezier(0.33, 0, 0.2, 1);
 }
 
+/* Hover — sweep gradient slides left → reveal lighter #013e87 side */
 .loadMore:hover {
-  background: #ffffff;
-  border-color: var(--color-slate-500);
+  background-position: 0% 50%;
 }
 
 .loadMore:focus-visible {
-  outline: 2px solid var(--color-sky-500);
-  outline-offset: 2px;
+  outline: 2px solid var(--color-white);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loadMore {
+    transition: none;
+    background-image: none;
+  }
+  .loadMore:hover {
+    background-color: #013e87;
+  }
 }
 
 /* ── Tablet ≤1024px ──────────────────────────────────────────── */
@@ -411,6 +471,7 @@
     grid-template-columns: 240px minmax(0, 1fr);
     gap: 24px;
     padding: 48px 0 96px;
+    min-height: 1040px;
   }
 
   .card {
@@ -428,6 +489,9 @@
     grid-template-columns: 1fr;
     gap: 24px;
     padding: 40px 0 72px;
+    /* На mobile sidebar выше cards (single column) → overlap не       */
+    /* проблема. Min-height просто для атмосферы при 1-2 карточках.     */
+    min-height: 640px;
   }
 
   /* Load more full-width on mobile — proper tap target ≥48px */

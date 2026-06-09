@@ -1,0 +1,127 @@
+/* ── Accent stage — full-width, bottom-anchored within hero card ──── */
+/* width: 100% + left/right: 0 → wave покрывает всю ширину карточки.   */
+/* height: 55% — нижняя половина карточки; верхняя ~45% свободна под    */
+/* текст hero (он получает z-index: 1, сидит сверху аккорда).            */
+/* Даже если wave частично заходит за текст (на узких экранах), deep-   */
+/* navy-стопы gradient'а гарантируют темный фон под белым текстом —     */
+/* legibility сохраняется.                                                */
+/* Hero имеет overflow:hidden → blur не вылезает за rounded corners.    */
+/* contain: layout paint — изолирует blur compositing от rest of grid.  */
+.accent {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 55%;
+  pointer-events: none;
+  z-index: 0;
+  contain: layout paint;
+  /* Mask fade-out верхних 30% accent → wave плавно «всплывает» из     */
+  /* hero base, нет резкой границы от contain: paint и blur halo top.  */
+  /* Зеркально к bottom-fade в BrandWaveBackdrop — единый подход.      */
+  mask-image: linear-gradient(
+    to top,
+    black 0%,
+    black 70%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to top,
+    black 0%,
+    black 70%,
+    transparent 100%
+  );
+}
+
+/* ── Layer base ───────────────────────────────────────────────────── */
+.layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+}
+
+.layer svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+
+/* ── Per-layer blur + sway animation ─────────────────────────────── */
+/* Меньший blur, чем в большом BrandWaveBackdrop — на меньшем масштабе */
+/* ribbon'ы выглядят чётче, иначе превращаются в кляксу.                */
+.layer1 {
+  filter: blur(6px);
+  animation: hwaSway1 14s ease-in-out infinite alternate;
+}
+.layer2 {
+  filter: blur(14px);
+  animation: hwaSway2 18s ease-in-out infinite alternate;
+}
+.layer3 {
+  filter: blur(28px);
+  animation: hwaSway3 22s ease-in-out infinite alternate;
+}
+.layerLeft {
+  filter: blur(20px);
+  animation: hwaSwayLeft 26s ease-in-out infinite alternate;
+}
+
+/* ── Sway keyframes — non-synchronized drift per layer ──────────── */
+@keyframes hwaSway1 {
+  0%   { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-12px, -10px, 0); }
+}
+@keyframes hwaSway2 {
+  0%   { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(14px, -14px, 0); }
+}
+@keyframes hwaSway3 {
+  0%   { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-18px, 12px, 0); }
+}
+@keyframes hwaSwayLeft {
+  0%   { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-16px, -12px, 0); }
+}
+
+/* ── Reduced motion — static accent ─────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .layer1, .layer2, .layer3, .layerLeft {
+    animation: none;
+  }
+}
+
+/* ── Tablet ≤1279px — hero becomes wider+shorter (16/7 aspect) ─── */
+/* Карточка низкая (~263px на 600px ширине), wave занимает ~70%       */
+/* высоты — текст (3-4 строки × 28px) умещается в верхних 30% + pad.  */
+/* Blur уменьшаем (cheaper compositing).                              */
+@media (max-width: 1279px) {
+  .accent {
+    height: 70%;
+  }
+  .layer1     { filter: blur(5px); }
+  .layer2     { filter: blur(10px); }
+  .layer3     { filter: blur(22px); }
+  .layerLeft  { filter: blur(16px); }
+}
+
+/* ── Mobile ≤639px — height 50%, halo + left-tail отключаем ───── */
+/* На mobile карточка min-height 240px + текст растёт. Wave занимает  */
+/* ровно нижние 50% → даже при многострочном тексте overlap минимален.*/
+/* layer3 (halo) и layerLeft (теплый tail) — самые дорогие, скрываем  */
+/* для battery/perf. Оставшиеся 2 ribbon'а достаточны для visual richness.*/
+@media (max-width: 639px) {
+  .accent {
+    height: 50%;
+  }
+  .layer3, .layerLeft {
+    display: none;
+  }
+  .layer1 { filter: blur(4px); }
+  .layer2 { filter: blur(9px); }
+}

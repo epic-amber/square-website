@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'react'
 import styles from './WorkplaceSection.module.css'
 import { useReveal } from '../hooks/useReveal'
+import { HeroWaveAccent } from './HeroWaveAccent'
 
 interface WorkplaceProps {
   imgLanguage: string
@@ -38,6 +39,8 @@ export function WorkplaceSection({
       <div className={styles.grid} data-node-id="79:357">
         {/* Hero — Figma 79:312 (col 1, rows 1-2) */}
         <article className={`${styles.hero} ${rc}`} style={s(60)} data-node-id="79:312">
+          {/* Wave accent — мини-эхо BrandWaveBackdrop, анкорится bottom-right. */}
+          <HeroWaveAccent />
           <p className={styles.heroText} data-node-id="79:310">
             Invest in your future with continuous learning, global exposure, and real career growth
           </p>

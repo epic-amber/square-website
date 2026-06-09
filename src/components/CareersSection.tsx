@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { forwardRef, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styles from './CareersSection.module.css'
 import { FilterChip } from './FilterChip'
+import { BrandWaveBackdrop } from './BrandWaveBackdrop'
 import locationPinIcon from '../assets/icon-location-pin.svg'
 
 /* ── Data types ──────────────────────────────────────────────── */
@@ -162,62 +163,87 @@ type SortDir = 'newest' | 'oldest'
 
 /* ── JobCard — wide single-column card ──────────────────────── */
 
-function JobCard({ job }: { job: Job }) {
-  const inner = (
-    <>
-      <div className={styles.cardHeader}>
-        <h3 className={styles.jobTitle}>{job.title}</h3>
-        <span className={styles.levelPill}>{job.level}</span>
-      </div>
+interface JobCardProps {
+  job: Job
+  /** Если true → играем cardEnter animation (только для newly added). */
+  isNew?: boolean
+  /** Animation delay в секундах для stagger эффекта. */
+  enterDelay?: number
+}
 
-      <div className={styles.location}>
-        <img
-          className={styles.locationIcon}
-          src={locationPinIcon}
-          alt=""
-          width={18}
-          height={18}
-          aria-hidden
-        />
-        <p className={styles.locationText}>
-          <span>{job.location}</span>
-          <span className={styles.locationDot} aria-hidden>·</span>
-          <span>{job.format}</span>
-        </p>
-      </div>
+const JobCard = forwardRef<HTMLAnchorElement, JobCardProps>(
+  ({ job, isNew, enterDelay }, ref) => {
+    const className = `${styles.card}${isNew ? ` ${styles.cardEnter}` : ''}`
+    const style: React.CSSProperties | undefined =
+      isNew && enterDelay !== undefined
+        ? { animationDelay: `${enterDelay}s` }
+        : undefined
 
-      <p className={styles.description}>{job.description}</p>
+    const inner = (
+      <>
+        <div className={styles.cardHeader}>
+          <h3 className={styles.jobTitle}>{job.title}</h3>
+          <span className={styles.levelPill}>{job.level}</span>
+        </div>
 
-      <div className={styles.cardFooter}>
-        <p className={styles.postedDate}>Posted {job.postedAgo}</p>
-        <p className={styles.viewRole}>
-          <span>View role</span>
-          <span className={styles.viewRoleArrow}>→</span>
-        </p>
-      </div>
-    </>
-  )
+        <div className={styles.location}>
+          <img
+            className={styles.locationIcon}
+            src={locationPinIcon}
+            alt=""
+            width={18}
+            height={18}
+            aria-hidden
+          />
+          <p className={styles.locationText}>
+            <span>{job.location}</span>
+            <span className={styles.locationDot} aria-hidden>·</span>
+            <span>{job.format}</span>
+          </p>
+        </div>
 
-  if (job.href) {
+        <p className={styles.description}>{job.description}</p>
+
+        <div className={styles.cardFooter}>
+          <p className={styles.postedDate}>Posted {job.postedAgo}</p>
+          <p className={styles.viewRole}>
+            <span>View role</span>
+            <span className={styles.viewRoleArrow}>→</span>
+          </p>
+        </div>
+      </>
+    )
+
+    if (job.href) {
+      return (
+        <a
+          ref={ref}
+          className={className}
+          style={style}
+          href={job.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-node-id={job.id}
+        >
+          {inner}
+        </a>
+      )
+    }
+
     return (
-      <a
-        className={styles.card}
-        href={job.href}
-        target="_blank"
-        rel="noopener noreferrer"
+      <Link
+        ref={ref}
+        className={className}
+        style={style}
+        to="/careers"
         data-node-id={job.id}
       >
         {inner}
-      </a>
+      </Link>
     )
-  }
-
-  return (
-    <Link className={styles.card} to="/careers" data-node-id={job.id}>
-      {inner}
-    </Link>
-  )
-}
+  },
+)
+JobCard.displayName = 'JobCard'
 
 /* ── Filter Sidebar (left, sticky on desktop) ──────────────── */
 
@@ -311,6 +337,14 @@ export function CareersSection() {
   const [sort, setSort] = useState<SortDir>('newest')
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE)
 
+  // Tracking для Load more UX:
+  //   prevVisibleRef — visibleCount на момент предыдущего render
+  //   newCardStartIdx — индекс первой newly added карточки (для animation + scroll)
+  //   firstNewCardRef — DOM-ref на первую новую карточку (target для scrollIntoView)
+  const prevVisibleRef = useRef(INITIAL_VISIBLE)
+  const newCardStartIdx = prevVisibleRef.current
+  const firstNewCardRef = useRef<HTMLAnchorElement>(null)
+
   const filtered = JOBS.filter((j) => {
     if (location !== 'All' && j.country !== location) return false
     if (employment && j.format !== employment) return false
@@ -348,8 +382,26 @@ export function CareersSection() {
     setVisibleCount((v) => v + LOAD_STEP)
   }
 
+  // После каждого изменения visibleCount: если он вырос (Load more clicked) —
+  // плавно скроллим первую новую карточку в top viewport.
+  // resetVisible (filter/sort change) → visibleCount уменьшается → скролл skip.
+  useEffect(() => {
+    if (visibleCount > prevVisibleRef.current && firstNewCardRef.current) {
+      firstNewCardRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      })
+    }
+    prevVisibleRef.current = visibleCount
+  }, [visibleCount])
+
   return (
     <section className={styles.section} data-node-id="125:1596">
+      {/* Animated Stripe-style wave — атмосфера в нижней части section.    */}
+      {/* Bottom-anchored, full-bleed. Сидит ПОД sidebar благодаря          */}
+      {/* min-height на .inner → не пересекает filter chips.                */}
+      <BrandWaveBackdrop />
+
       <div className={styles.inner}>
         <FilterSidebar
           location={location}
@@ -382,7 +434,19 @@ export function CareersSection() {
 
           <div className={styles.jobList}>
             {visibleJobs.length > 0 ? (
-              visibleJobs.map((j) => <JobCard key={j.id} job={j} />)
+              visibleJobs.map((j, idx) => {
+                const isNew = idx >= newCardStartIdx
+                const enterDelay = isNew ? (idx - newCardStartIdx) * 0.08 : 0
+                return (
+                  <JobCard
+                    key={j.id}
+                    job={j}
+                    isNew={isNew}
+                    enterDelay={enterDelay}
+                    ref={idx === newCardStartIdx ? firstNewCardRef : undefined}
+                  />
+                )
+              })
             ) : (
               <div className={styles.empty}>
                 <p>No open positions match the selected filters.</p>

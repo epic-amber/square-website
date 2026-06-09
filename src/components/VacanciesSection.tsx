@@ -5,6 +5,7 @@ import styles from './VacanciesSection.module.css'
 import locationPinIcon from '../assets/icon-location-pin.svg'
 import arrowForward from '../assets/arrow-forward.svg'
 import { useReveal } from '../hooks/useReveal'
+import { BrandWaveBackdrop } from './BrandWaveBackdrop'
 
 interface Vacancy {
   id: string
@@ -78,8 +79,8 @@ export function VacanciesSection() {
 
   return (
     <section ref={ref} className={styles.vacancies} data-node-id="82:441">
-      {/* Atmospheric gradient background */}
-      <div className={styles.gradientBg} aria-hidden />
+      {/* Stripe-style animated wave backdrop — shared with CareersSection. */}
+      <BrandWaveBackdrop />
 
       <div className={styles.inner}>
         {/* Heading block */}
