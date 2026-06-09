@@ -6,20 +6,52 @@
   flex-direction: column;
   align-items: center;
   overflow: hidden;
+  background: #ffffff;
 }
 
 /* ── Atmospheric gradient background ────────────────────────── */
 .gradientBg {
   position: absolute;
-  top: 0;
+  top: 100px;
   left: 50%;
   transform: translateX(-50%);
   width: max(100%, 1920px);
-  height: 100%;
+  height: calc(100% - 100px);
   min-height: 700px;
-  background: var(--gradient-atmospheric);
+  background: var(--gradient-atmospheric-soft);
   pointer-events: none;
   z-index: 0;
+  animation: cbGradientBreathe 18s ease-in-out infinite;
+  will-change: filter, opacity;
+}
+
+/* SVG noise overlay — breaks up color banding on smooth gradient surfaces */
+.gradientBg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+@keyframes cbGradientBreathe {
+  0%, 100% {
+    filter: brightness(1) saturate(1);
+    opacity: 1;
+  }
+  50% {
+    filter: brightness(1.04) saturate(1.08);
+    opacity: 0.97;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gradientBg {
+    animation: none;
+  }
 }
 
 /* ── Content block ───────────────────────────────────────────── */
@@ -87,13 +119,23 @@
   color: var(--color-slate-900);
   box-sizing: border-box;
   transition:
-    box-shadow 0.22s ease,
-    transform  0.22s ease;
+    opacity    0.7s ease-out,
+    transform  0.22s ease,
+    box-shadow 0.22s ease;
 }
 
 .card:hover {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(0, 0, 0, 0.06);
   transform: translateY(-4px);
+}
+
+/* Reveal-on-scroll override: softer 8px slide instead of global 28px jump */
+.card:global(.reveal) {
+  transform: translateY(8px);
+}
+
+.card:global(.reveal.reveal--in) {
+  transform: translateY(0);
 }
 
 /* ── Card header: title + location ──────────────────────────── */
@@ -105,42 +147,57 @@
 
 .jobTitle {
   font-family: var(--font-sans);
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 500;
   color: var(--color-slate-900);
   margin: 0;
-  line-height: normal;
+  line-height: 1.3;
+  min-height: calc(1.3em * 2);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .location {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .locationIcon {
-  width: 24px;
-  height: 24px;
+  width: 18px;
+  height: 18px;
   flex-shrink: 0;
+  opacity: 0.85;
 }
 
 .locationText {
   font-family: var(--font-sans);
   font-size: 15px;
-  font-weight: 400;
-  color: var(--color-slate-500);
+  font-weight: 500;
+  color: var(--color-slate-700);
   margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   white-space: nowrap;
+}
+
+.locationDot {
+  color: var(--color-slate-400, #94a3b8);
+  font-weight: 400;
 }
 
 /* ── Description — max 3 lines with ellipsis ─────────────────── */
 .description {
   font-family: var(--font-sans);
-  font-size: var(--text-base);
+  font-size: var(--text-sm);
   font-weight: 400;
   color: var(--color-slate-600);
-  line-height: 1.4;
+  line-height: 1.5;
   margin: 0;
+  min-height: calc(1.5em * 3);
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -170,72 +227,95 @@
   color: var(--color-slate-600);
 }
 
-/* ── View role link ──────────────────────────────────────────── */
+/* ── CTA link (Apply now / View role) ────────────────────────── */
 .viewRole {
   font-family: var(--font-sans);
-  font-size: var(--text-base);
-  font-weight: 500;
-  color: #2563eb;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-slate-900);
   margin: 0;
+  margin-top: auto;
+  padding-top: 4px;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
+  letter-spacing: 0.1px;
   transition: gap 0.2s ease, color 0.2s ease;
 }
 
 .viewRoleArrow {
   display: inline-block;
+  font-size: 16px;
   transition: transform 0.2s ease;
 }
 
 .card:hover .viewRole {
-  gap: 6px;
-  color: #1d4ed8;
+  gap: 10px;
+  color: var(--color-slate-700);
 }
 
 .card:hover .viewRoleArrow {
-  transform: translateX(3px);
+  transform: translateX(4px);
+}
+
+/* ── CTA button — rich royal-blue sweep ─────────────────────── */
+.ctaButton {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--cta-py) var(--cta-pr) var(--cta-py) var(--cta-pl-wide);
+  border-radius: var(--radius-2xl);
+  background-color: #013070;
+  background-image: var(--gradient-cta-deep);
+  background-size: 200% 100%;
+  background-position: 100% 50%;
+  background-repeat: no-repeat;
+  color: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  font-weight: 400;
+  line-height: var(--leading-body);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-position 0.55s cubic-bezier(0.33, 0, 0.2, 1);
+}
+
+.ctaButton:hover {
+  background-position: 0% 50%;
+}
+
+.ctaButton:focus-visible {
+  outline: 2px solid var(--color-white);
+  outline-offset: 3px;
 }
 
 /* ── CTA arrow icon ──────────────────────────────────────────── */
 .ctaArrow {
-  display: inline-block;
-  font-size: 13px;
-  opacity: 0.75;
-  transition: transform 0.2s ease;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  transition: transform 0.35s cubic-bezier(0.33, 0, 0.2, 1);
 }
 
 .ctaButton:hover .ctaArrow {
-  transform: translate(2px, -2px);
+  transform: translateX(4px);
 }
 
-/* ── CTA button — dark ───────────────────────────────────────── */
-.ctaButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 14px 28px;
-  border-radius: 100px;
-  background: var(--color-slate-900);
-  color: #ffffff;
-  font-family: var(--font-sans);
-  font-size: var(--text-base);
-  font-weight: 500;
-  line-height: 1;
-  text-decoration: none;
-  white-space: nowrap;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
-  transition:
-    background 0.2s ease,
-    box-shadow  0.2s ease,
-    transform   0.2s ease;
-}
+@media (prefers-reduced-motion: reduce) {
+  .ctaButton {
+    transition: none;
+    background-image: none;
+  }
 
-.ctaButton:hover {
-  background: #0f172a;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.28);
-  transform: translateY(-1px);
+  .ctaButton:hover {
+    background-color: #013e87;
+  }
+
+  .ctaArrow {
+    transition: none;
+  }
 }
 
 /* ── Tablet ≤1024px — 2 columns ─────────────────────────────── */
@@ -269,11 +349,22 @@
   }
 
   .jobTitle {
-    font-size: 20px;
+    font-size: 18px;
+    min-height: auto;
+  }
+
+  .description {
+    min-height: auto;
+    -webkit-line-clamp: 3;
+  }
+
+  .viewRole {
+    margin-top: 16px;
   }
 
   .locationText {
     white-space: normal;
+    flex-wrap: wrap;
   }
 
   .ctaButton {

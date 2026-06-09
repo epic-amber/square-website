@@ -83,6 +83,29 @@
     #ffffff 100%
   );
 
+  /*
+   * Atmospheric SOFT — облегчённая версия для секций с текстом поверх (Open Roles).
+   * Равномерные шаги, без плато, плавный выход в белый — минимизирует banding.
+   */
+  --gradient-atmospheric-soft: linear-gradient(
+    in oklab to bottom,
+    #ffffff 0%,
+    #f0f9ff 10%,
+    #d6ebff 18%,
+    #b8dcf5 24%,
+    #99c8f0 32%,
+    #7eb6e5 40%,
+    #5fa6e0 48%,
+    #3f8dd0 56%,
+    #2a7fc4 64%,
+    #1c71c4 70%,
+    #2a7fc4 76%,
+    #5fa6e0 84%,
+    #99c8f0 90%,
+    #dcefff 95%,
+    #ffffff 100%
+  );
+
   /* Navixy tile gradient */
   --gradient-navixy-tile: linear-gradient(
     148.21310004419968deg,
@@ -109,6 +132,17 @@
     #012762 100%
   );
 
+  /*
+   * CTA Deep — глубокий blue sweep для тёмных CTA-кнопок (VacanciesSection).
+   * Обе стороны в одной саторированной семье — hover ощущается как «внутреннее
+   * свечение», без диссонанса с brand navy.
+   */
+  --gradient-cta-deep: linear-gradient(
+    90deg,
+    #013e87 0%,
+    #013070 100%
+  );
+
   /* Spacing (Figma token fallbacks) */
   --space-1: 4px;
   --space-2: 8px;
@@ -126,8 +160,8 @@
   --space-42: 42px;
   --gap-contact-cols: 133px; /* Contact us: левый текст ↔ форма (59:130) */
   --gap-contact-copy: 17px; /* Contact us: заголовок ↔ описание (59:131) */
-  /* Global Offices ↔ Contact us (нижний блок .lowerBackdrop; раньше было 160px = --space-40) */
-  --gap-global-offices-contact: 224px;
+  /* Global Offices ↔ VacanciesSection (нижний блок .lowerBackdrop) */
+  --gap-global-offices-contact: 120px;
   --gap-office-stack: 9px; /* Office card: флаг ↔ город ↔ адрес */
   --space-64: 64px; /* Careers: фото ↔ текст */
   --space-footer-link-gap: 14px; /* Footer: между ссылками */
@@ -192,7 +226,7 @@
     --space-28: 56px;
     --space-40: 96px;
     --space-64: 40px;
-    --gap-global-offices-contact: 96px;
+    --gap-global-offices-contact: 64px;
   }
 }
 
@@ -206,7 +240,7 @@
     --space-28: 36px;
     --space-40: 64px;
     --space-64: 32px;
-    --gap-global-offices-contact: 64px;
+    --gap-global-offices-contact: 48px;
     /* Headings */
     --text-hero: 36px;
     --text-h1: 28px;
@@ -275,6 +309,25 @@
       #f3fdff 98.4%,
       #f8feff 99.1%,
       #fcffff 99.6%,
+      #ffffff 100%
+    );
+
+    --gradient-atmospheric-soft: linear-gradient(
+      in oklab to bottom,
+      #ffffff 0%,
+      #f0f9ff 10%,
+      #d6ebff 18%,
+      #b8dcf5 24%,
+      #99c8f0 32%,
+      #7eb6e5 40%,
+      #5fa6e0 48%,
+      #3f8dd0 56%,
+      #2a7fc4 64%,
+      #1c71c4 70%,
+      #2a7fc4 76%,
+      #5fa6e0 84%,
+      #99c8f0 90%,
+      #dcefff 95%,
       #ffffff 100%
     );
   }

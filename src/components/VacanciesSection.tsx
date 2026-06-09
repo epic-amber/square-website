@@ -3,6 +3,7 @@ import type { CSSProperties } from 'react'
 import { Link } from 'react-router-dom'
 import styles from './VacanciesSection.module.css'
 import locationPinIcon from '../assets/icon-location-pin.svg'
+import arrowForward from '../assets/arrow-forward.svg'
 import { useReveal } from '../hooks/useReveal'
 
 interface Vacancy {
@@ -37,7 +38,7 @@ const VACANCIES: Vacancy[] = [
   },
   {
     id: '82:546',
-    title: 'Technical Writer (Russian-speaking)',
+    title: 'Technical Writer',
     location: 'Belgrade, Serbia',
     level: 'Middle',
     format: 'Hybrid',
@@ -61,29 +62,6 @@ export function VacanciesSection() {
   const rc = `reveal${visible ? ' reveal--in' : ''}`
   const s = (delay: number): CSSProperties => ({ transitionDelay: `${delay}ms` })
 
-  // #region agent log
-  const subtitleRef = useRef<HTMLParagraphElement>(null)
-  const innerRef = useRef<HTMLDivElement>(null)
-  const headingBlockRef = useRef<HTMLDivElement>(null)
-  useEffect(() => {
-    const subtitle = subtitleRef.current
-    const inner = innerRef.current
-    const headingBlock = headingBlockRef.current
-    if (!subtitle || !inner || !headingBlock) return
-    const subtitleRect = subtitle.getBoundingClientRect()
-    const innerRect = inner.getBoundingClientRect()
-    const headingBlockRect = headingBlock.getBoundingClientRect()
-    const data = {
-      subtitleWidth: subtitleRect.width,
-      subtitleComputedMaxWidth: getComputedStyle(subtitle).maxWidth,
-      innerWidth: innerRect.width,
-      headingBlockWidth: headingBlockRect.width,
-      viewportWidth: window.innerWidth,
-    }
-    fetch('http://127.0.0.1:7467/ingest/5f799d40-434e-4d5d-8163-90401f235ed6',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'1ec3b5'},body:JSON.stringify({sessionId:'1ec3b5',location:'VacanciesSection.tsx:widths',message:'Subtitle and container widths',data,timestamp:Date.now(),hypothesisId:'H-A,H-B,H-C'})}).catch(()=>{})
-  }, [])
-  // #endregion
-
   const clearedRef = useRef(false)
   useEffect(() => {
     if (!visible || clearedRef.current) return
@@ -103,13 +81,13 @@ export function VacanciesSection() {
       {/* Atmospheric gradient background */}
       <div className={styles.gradientBg} aria-hidden />
 
-      <div className={styles.inner} ref={innerRef}>
+      <div className={styles.inner}>
         {/* Heading block */}
-        <div className={`${styles.headingBlock} ${rc}`} style={s(0)} ref={headingBlockRef}>
+        <div className={`${styles.headingBlock} ${rc}`} style={s(0)}>
           <h2 className={styles.title} data-node-id="82:453">
             Join the team building the future of telematics
           </h2>
-          <p className={styles.subtitle} data-node-id="192:1497" ref={subtitleRef}>
+          <p className={styles.subtitle} data-node-id="192:1497">
             SquareGPS was founded in 2005 by a team of global experts and innovators
             passionate to unite people and things together by developing top-notch
             software products for the Telematics industry.
@@ -129,11 +107,15 @@ export function VacanciesSection() {
                       className={styles.locationIcon}
                       src={locationPinIcon}
                       alt=""
-                      width={24}
-                      height={24}
+                      width={20}
+                      height={20}
                       aria-hidden
                     />
-                    <p className={styles.locationText}>{v.location}</p>
+                    <p className={styles.locationText}>
+                      <span>{v.location}</span>
+                      <span className={styles.locationDot} aria-hidden>·</span>
+                      <span>{v.format}</span>
+                    </p>
                   </div>
                 </div>
 
@@ -141,7 +123,6 @@ export function VacanciesSection() {
 
                 <div className={styles.tags}>
                   <p className={styles.tag}>{v.level}</p>
-                  <p className={styles.tag}>{v.format}</p>
                 </div>
 
                 <p className={styles.viewRole}>
@@ -165,15 +146,16 @@ export function VacanciesSection() {
                 {inner}
               </a>
             ) : (
-              <article
+              <Link
                 key={v.id}
+                to="/careers"
                 className={`${styles.card} ${rc}`}
                 style={s(cardDelay)}
                 data-node-id={v.id}
                 data-vacancy-card
               >
                 {inner}
-              </article>
+              </Link>
             )
           })}
         </div>
@@ -185,8 +167,15 @@ export function VacanciesSection() {
           style={s(480)}
           data-node-id="82:575"
         >
-          View all open roles
-          <span className={styles.ctaArrow} aria-hidden>↗</span>
+          <span>See open roles</span>
+          <img
+            className={styles.ctaArrow}
+            src={arrowForward}
+            alt=""
+            width={20}
+            height={20}
+            aria-hidden
+          />
         </Link>
       </div>
     </section>
