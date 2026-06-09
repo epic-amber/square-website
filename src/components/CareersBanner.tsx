@@ -1,4 +1,3 @@
-import { useEffect, useRef } from 'react'
 import styles from './CareersBanner.module.css'
 
 import wave01        from '../assets/cb-wave-01.png'
@@ -13,32 +12,9 @@ import danil         from '../assets/cb-danil.png'
 
 /** Careers page banner — Figma node 167:603, 1280×420px */
 export function CareersBanner() {
-  const bannerRef = useRef<HTMLElement>(null)
-
-  useEffect(() => {
-    const banner = bannerRef.current
-    if (!banner) return
-    const bRect = banner.getBoundingClientRect()
-    const bCs = window.getComputedStyle(banner)
-    // #region agent log
-    fetch('http://127.0.0.1:7467/ingest/5f799d40-434e-4d5d-8163-90401f235ed6', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-Debug-Session-Id': '1ec3b5' },
-      body: JSON.stringify({
-        sessionId: '1ec3b5', runId: 'post-fix-v4', hypothesisId: 'all',
-        location: 'CareersBanner.tsx:useEffect',
-        message: 'banner final diagnostics',
-        data: { bannerW: bRect.width, bannerH: bRect.height, bannerBg: bCs.background.slice(0, 80) },
-        timestamp: Date.now(),
-      }),
-    }).catch(() => {})
-    // #endregion
-  }, [])
-
   return (
     <div className={styles.bannerWrap}>
       <section
-        ref={bannerRef}
         className={styles.banner}
         aria-label="Careers at SquareGPS"
         data-node-id="167:603"

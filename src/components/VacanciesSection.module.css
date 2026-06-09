@@ -107,29 +107,38 @@
 }
 
 /* ── Single vacancy card ─────────────────────────────────────── */
+/* Modern hairline approach (синхронизировано с CareersSection):    */
+/* flat white card, 1px border, no shadow. Hover signals tactility  */
+/* через border-darkening + title color shift, не через lift/shadow.*/
 .card {
   display: flex;
   flex-direction: column;
   gap: 24px;
   padding: 32px;
   background: #ffffff;
+  border: 1px solid var(--color-slate-200);
   border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.04);
   text-decoration: none;
   color: var(--color-slate-900);
   box-sizing: border-box;
   transition:
-    opacity    0.7s ease-out,
-    transform  0.22s ease,
-    box-shadow 0.22s ease;
+    opacity      0.7s  ease-out,
+    border-color 0.18s ease,
+    background   0.18s ease;
 }
 
 .card:hover {
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(0, 0, 0, 0.06);
-  transform: translateY(-4px);
+  border-color: var(--color-slate-400);
 }
 
-/* Reveal-on-scroll override: softer 8px slide instead of global 28px jump */
+.card:focus-visible {
+  outline: 2px solid var(--color-sky-500);
+  outline-offset: 2px;
+  border-color: var(--color-slate-400);
+}
+
+/* Reveal-on-scroll: softer 8px slide (intersection-observer-driven  */
+/* onboarding анимация, отдельно от hover). Остаётся без изменений.  */
 .card:global(.reveal) {
   transform: translateY(8px);
 }
@@ -157,6 +166,11 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  transition: color 0.18s ease;
+}
+
+.card:hover .jobTitle {
+  color: var(--color-slate-700);
 }
 
 .location {
@@ -185,7 +199,7 @@
 }
 
 .locationDot {
-  color: var(--color-slate-400, #94a3b8);
+  color: var(--color-slate-400);
   font-weight: 400;
 }
 

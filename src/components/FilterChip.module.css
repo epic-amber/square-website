@@ -1,69 +1,54 @@
+/* ── Hairline pill chip — Linear/Vercel/Stripe paradigm ────── */
+/* Auto-width (padding-based), 32px height, full pill, soft border. */
+/* Active = navy-deep — solid anchor против bright sky orbs в bg.  */
 .chip {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: none;
-  border-radius: var(--radius-xl); /* 12px */
+  height: 32px;
+  padding: 0 14px;
+  border: 1px solid var(--color-slate-200);
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.7);
   font-family: var(--font-sans);
-  font-weight: 400;
-  line-height: normal;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
   white-space: nowrap;
+  color: var(--color-slate-700);
   cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease;
+  transition:
+    background   0.18s ease,
+    border-color 0.18s ease,
+    color        0.18s ease;
   flex-shrink: 0;
 }
 
-/* ── Sizes ───────────────────────────────────────────────────── */
-
-/* Top location filter: 95×49px, 18px text */
-.md {
-  width: 95px;
-  height: 49px;
-  font-size: var(--text-lg); /* 18px */
+.chip:hover {
+  border-color: var(--color-slate-400);
+  background: #ffffff;
+  color: var(--color-slate-900);
 }
 
-/* Sidebar filter groups: 95×43px, 16px text */
-.sm {
-  width: 95px;
-  height: 43px;
-  font-size: var(--text-base); /* 16px */
+.chip:focus-visible {
+  outline: 2px solid var(--color-sky-500);
+  outline-offset: 2px;
 }
 
 /* ── States ──────────────────────────────────────────────────── */
 
 .active {
-  background: var(--color-slate-700); /* #314158 */
-  color: var(--color-slate-100);      /* #f1f5f9 */
+  background: var(--color-navy-deep);
+  border-color: var(--color-navy-deep);
+  color: #ffffff;
 }
 
 .active:hover {
-  background: var(--color-slate-600); /* #45556c */
+  background: #013e87; /* navy-deep slightly lighter (brand atmospheric stop) */
+  border-color: #013e87;
+  color: #ffffff;
 }
 
 .inactive {
-  background: var(--color-slate-100); /* #f1f5f9 */
-  color: var(--color-slate-900);      /* #0f172b */
-}
-
-.inactive:hover {
-  background: var(--color-slate-200); /* #e2e8f0 */
-}
-
-.chip:focus-visible {
-  outline: 2px solid var(--color-slate-400);
-  outline-offset: 2px;
-}
-
-/* ── Mobile: slightly smaller on narrow screens ──────────────── */
-@media (max-width: 480px) {
-  .md {
-    width: 80px;
-    height: 42px;
-    font-size: var(--text-base);
-  }
-
-  .sm {
-    width: 78px;
-    height: 38px;
-  }
+  /* base styles уже в .chip — отдельных override'ов не нужно */
 }
