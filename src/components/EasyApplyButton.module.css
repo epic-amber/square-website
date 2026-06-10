@@ -1,0 +1,61 @@
+/* ── Easy Apply button — LinkedIn brand ───────────────────────── */
+/* Shape/size match site primary CTA convention (.loadMore / .ctaButton): */
+/* 16px radius, --cta-py/pl/pr padding tokens, --text-lg, 400 weight.     */
+/* Only difference vs other primaries — LinkedIn blue background.         */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: var(--cta-py) var(--cta-pr) var(--cta-py) var(--cta-pl-wide);
+  background-color: #0A66C2;
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  font-weight: 400;
+  line-height: var(--leading-body);
+  text-decoration: none;
+  border: none;
+  border-radius: var(--radius-2xl);
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.18s ease,
+    transform 0.12s ease;
+  user-select: none;
+}
+
+.btn:hover {
+  background-color: #084e96; /* deeper LinkedIn blue */
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn:focus-visible {
+  outline: 2px solid #0A66C2;
+  outline-offset: 3px;
+}
+
+/* ── Full-width (для sticky mobile bar, sidebar) ──────────────── */
+.fullWidth {
+  width: 100%;
+}
+
+/* ── Icon ──────────────────────────────────────────────────────── */
+.icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* ── Reduced motion ────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .btn {
+    transition: none;
+  }
+  .btn:active {
+    transform: none;
+  }
+}

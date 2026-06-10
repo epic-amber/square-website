@@ -3,147 +3,9 @@ import { Link } from 'react-router-dom'
 import styles from './CareersSection.module.css'
 import { FilterChip } from './FilterChip'
 import { BrandWaveBackdrop } from './BrandWaveBackdrop'
+import { FilterBottomSheet } from './FilterBottomSheet'
 import locationPinIcon from '../assets/icon-location-pin.svg'
-
-/* ── Data types ──────────────────────────────────────────────── */
-
-interface Job {
-  id: string
-  title: string
-  href?: string
-  location: string
-  country: 'Serbia' | 'Mexico' | 'USA'
-  level: string
-  format: string
-  postedAt: string  // ISO date YYYY-MM-DD — used for sorting
-  postedAgo: string // display string ("1 month ago")
-  description: string
-}
-
-const JOBS: Job[] = [
-  {
-    id: '106:90',
-    title: 'Head of Data Platform',
-    location: 'Belgrade, Serbia',
-    country: 'Serbia',
-    level: 'Senior',
-    format: 'Hybrid',
-    postedAt: '2026-05-08',
-    postedAgo: '1 month ago',
-    description:
-      'Lead the architecture of data systems behind global telematics products. Drive technical strategy and mentor a cross-functional team building scalable pipelines.',
-  },
-  {
-    id: '106:103',
-    title: 'Senior Backend Developer',
-    href: 'https://www.linkedin.com/jobs/view/4382027831/',
-    location: 'Belgrade, Serbia',
-    country: 'Serbia',
-    level: 'Senior',
-    format: 'Hybrid',
-    postedAt: '2026-05-12',
-    postedAgo: '1 month ago',
-    description:
-      'Build and scale the backend infrastructure powering real-time fleet tracking for thousands of customers worldwide. Work with modern stack and a senior team.',
-  },
-  {
-    id: '106:115',
-    title: 'Technical Writer',
-    location: 'Belgrade, Serbia',
-    country: 'Serbia',
-    level: 'Middle',
-    format: 'Hybrid',
-    postedAt: '2026-05-15',
-    postedAgo: '1 month ago',
-    description:
-      'Create clear, precise documentation for developer APIs and end-user guides across SquareGPS product lines. Collaborate with engineering and product teams.',
-  },
-  {
-    id: '106:127',
-    title: 'Technical Support Engineer L2',
-    href: 'https://www.linkedin.com/jobs/view/4378891572/',
-    location: 'Mexico City, Mexico',
-    country: 'Mexico',
-    level: 'Senior',
-    format: 'Full-time',
-    postedAt: '2026-05-05',
-    postedAgo: '1 month ago',
-    description:
-      'Resolve complex technical issues for enterprise clients and collaborate with engineering to continuously improve product reliability and customer experience.',
-  },
-  {
-    id: '127:2040',
-    title: 'Product Manager',
-    location: 'Westlake Village, USA',
-    country: 'USA',
-    level: 'Lead',
-    format: 'Full-time',
-    postedAt: '2026-04-10',
-    postedAgo: '2 months ago',
-    description:
-      'Own the product roadmap for our flagship telematics platform. Partner with design, engineering and customer success to ship features that move the business.',
-  },
-  {
-    id: 'extra:1',
-    title: 'Frontend Developer',
-    location: 'Belgrade, Serbia',
-    country: 'Serbia',
-    level: 'Middle',
-    format: 'Remote',
-    postedAt: '2026-05-20',
-    postedAgo: '3 weeks ago',
-    description:
-      'Build delightful, performant interfaces for SquareGPS web products. Work closely with design system, backend, and product to ship polished features end-to-end.',
-  },
-  {
-    id: 'extra:2',
-    title: 'Senior DevOps Engineer',
-    location: 'Belgrade, Serbia',
-    country: 'Serbia',
-    level: 'Senior',
-    format: 'Remote',
-    postedAt: '2026-05-22',
-    postedAgo: '3 weeks ago',
-    description:
-      'Own and evolve our cloud infrastructure, CI/CD pipelines, and observability stack. Help engineering teams ship faster with confidence at telematics scale.',
-  },
-  {
-    id: 'extra:3',
-    title: 'Product Designer',
-    location: 'Belgrade, Serbia',
-    country: 'Serbia',
-    level: 'Middle',
-    format: 'Hybrid',
-    postedAt: '2026-05-18',
-    postedAgo: '3 weeks ago',
-    description:
-      'Shape the visual and interaction design of our fleet management products. Partner with product, engineering, and research to deliver intuitive experiences for global customers.',
-  },
-  {
-    id: 'extra:4',
-    title: 'Customer Success Manager',
-    location: 'Mexico City, Mexico',
-    country: 'Mexico',
-    level: 'Middle',
-    format: 'Hybrid',
-    postedAt: '2026-05-02',
-    postedAgo: '5 weeks ago',
-    description:
-      'Build long-term partnerships with enterprise customers. Drive adoption, identify expansion opportunities, and serve as the trusted advisor on telematics best practices.',
-  },
-  {
-    id: 'extra:5',
-    title: 'Sales Director, North America',
-    location: 'Westlake Village, USA',
-    country: 'USA',
-    level: 'Lead',
-    format: 'Full-time',
-    postedAt: '2026-04-25',
-    postedAgo: '6 weeks ago',
-    description:
-      'Lead and scale our North American sales organization. Define go-to-market strategy, build the playbook, and grow a high-performing team across enterprise and mid-market segments.',
-  },
-]
+import { JOBS, type Job } from '../data/jobs'
 
 /* ── Filter options ──────────────────────────────────────────── */
 
@@ -214,28 +76,14 @@ const JobCard = forwardRef<HTMLAnchorElement, JobCardProps>(
       </>
     )
 
-    if (job.href) {
-      return (
-        <a
-          ref={ref}
-          className={className}
-          style={style}
-          href={job.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          data-node-id={job.id}
-        >
-          {inner}
-        </a>
-      )
-    }
-
+    /* Все cards теперь ведут на внутреннюю VacancyPage. Кнопка Easy Apply  */
+    /* там ведёт на LinkedIn (job.href или generic search fallback).        */
     return (
       <Link
         ref={ref}
         className={className}
         style={style}
-        to="/careers"
+        to={`/careers/${encodeURIComponent(job.id)}`}
         data-node-id={job.id}
       >
         {inner}
@@ -336,6 +184,8 @@ export function CareersSection() {
   const [experience, setExperience] = useState<ExperienceFilter>(null)
   const [sort, setSort] = useState<SortDir>('newest')
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE)
+  /* Mobile filter sheet open state — desktop sidebar всегда visible. */
+  const [filterSheetOpen, setFilterSheetOpen] = useState(false)
 
   // Tracking для Load more UX:
   //   prevVisibleRef — visibleCount на момент предыдущего render
@@ -360,6 +210,13 @@ export function CareersSection() {
   const visibleJobs = sorted.slice(0, visibleCount)
   const remaining = Math.max(0, sorted.length - visibleCount)
   const hasActiveFilters = location !== 'All' || employment !== null || experience !== null
+
+  /* Active filter count для mobile button badge ("Filters · 2").       */
+  /* Считаем все три оси: location !== 'All', employment/experience !== null. */
+  const activeFilterCount =
+    (location !== 'All' ? 1 : 0) +
+    (employment !== null ? 1 : 0) +
+    (experience !== null ? 1 : 0)
 
   // Любая смена filters/sort сбрасывает visibleCount —
   // иначе после "Show more" фильтр может неожиданно показать слишком много.
@@ -420,16 +277,48 @@ export function CareersSection() {
               <strong>{sorted.length}</strong> open {sorted.length === 1 ? 'role' : 'roles'}
             </p>
 
-            <button
-              type="button"
-              className={styles.sortToggle}
-              onClick={handleSort}
-              aria-label={`Sort by date, currently ${sort === 'newest' ? 'newest first' : 'oldest first'}. Click to switch.`}
-            >
-              <span className={styles.sortLabel}>Sort:</span>
-              <span className={styles.sortValue}>{sort === 'newest' ? 'Newest' : 'Oldest'}</span>
-              <span className={styles.sortArrow} aria-hidden>{sort === 'newest' ? '↓' : '↑'}</span>
-            </button>
+            <div className={styles.resultsActions}>
+              <button
+                type="button"
+                className={styles.sortToggle}
+                onClick={handleSort}
+                aria-label={`Sort by date, currently ${sort === 'newest' ? 'newest first' : 'oldest first'}. Click to switch.`}
+              >
+                <span className={styles.sortLabel}>Sort:</span>
+                <span className={styles.sortValue}>{sort === 'newest' ? 'Newest' : 'Oldest'}</span>
+                <span className={styles.sortArrow} aria-hidden>{sort === 'newest' ? '↓' : '↑'}</span>
+              </button>
+
+              {/* Mobile-only Filters trigger → opens FilterBottomSheet.        */}
+              {/* Hidden on desktop через CSS (.filterTrigger media query).      */}
+              <button
+                type="button"
+                className={styles.filterTrigger}
+                onClick={() => setFilterSheetOpen(true)}
+                aria-label={`Open filters${activeFilterCount > 0 ? `, ${activeFilterCount} active` : ''}`}
+                aria-haspopup="dialog"
+                aria-expanded={filterSheetOpen}
+              >
+                <svg
+                  viewBox="0 0 20 20"
+                  width="16"
+                  height="16"
+                  aria-hidden
+                  className={styles.filterTriggerIcon}
+                >
+                  <path
+                    d="M3 5h14M5.5 10h9M8 15h4"
+                    stroke="currentColor"
+                    strokeWidth="1.6"
+                    strokeLinecap="round"
+                  />
+                </svg>
+                <span>Filters</span>
+                {activeFilterCount > 0 && (
+                  <span className={styles.filterTriggerBadge}>{activeFilterCount}</span>
+                )}
+              </button>
+            </div>
           </div>
 
           <div className={styles.jobList}>
@@ -470,6 +359,22 @@ export function CareersSection() {
           )}
         </div>
       </div>
+
+      {/* Mobile filter modal — open via .filterTrigger button. Instant apply: */}
+      {/* tap по чипу мгновенно обновляет state → cards в background.          */}
+      <FilterBottomSheet
+        open={filterSheetOpen}
+        onClose={() => setFilterSheetOpen(false)}
+        resultsCount={sorted.length}
+        activeCount={activeFilterCount}
+        location={location}
+        employment={employment}
+        experience={experience}
+        onLocation={handleLocation}
+        onEmployment={handleEmployment}
+        onExperience={handleExperience}
+        onReset={handleReset}
+      />
     </section>
   )
 }

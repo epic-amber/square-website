@@ -179,6 +179,66 @@
   transform: translateY(-1px);
 }
 
+/* ── Results actions (right side of results header) ─────────── */
+/* Wraps sort toggle + (mobile-only) filter trigger button.       */
+.resultsActions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* ── Filter trigger button (mobile only, opens BottomSheet) ──── */
+/* Desktop: hidden — sidebar always visible. Mobile: visible inline */
+/* в .resultsActions рядом со .sortToggle.                          */
+.filterTrigger {
+  display: none; /* mobile-only — overridden в @media ≤767px */
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-slate-300);
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-slate-900);
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.filterTrigger:hover {
+  background-color: var(--color-slate-100);
+  border-color: var(--color-slate-400);
+}
+
+.filterTrigger:focus-visible {
+  outline: 2px solid var(--color-slate-900);
+  outline-offset: 2px;
+}
+
+.filterTriggerIcon {
+  color: var(--color-slate-700);
+}
+
+/* Active count badge — pill справа от label. */
+.filterTriggerBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 6px;
+  background-color: #013070;
+  color: var(--color-white);
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 999px;
+  line-height: 1;
+}
+
 /* ── Job list (single column, wide cards) ────────────────────── */
 .jobList {
   display: flex;
@@ -486,12 +546,27 @@
 /* ── Mobile ≤767px ───────────────────────────────────────────── */
 @media (max-width: 767px) {
   .inner {
+    /* Single column, no sidebar row — sidebar скрыт, filtering через    */
+    /* BottomSheet modal (см. .sidebar / .filterTrigger).                 */
     grid-template-columns: 1fr;
     gap: 24px;
     padding: 40px 0 72px;
-    /* На mobile sidebar выше cards (single column) → overlap не       */
-    /* проблема. Min-height просто для атмосферы при 1-2 карточках.     */
     min-height: 640px;
+  }
+
+  /* Desktop sidebar полностью скрыт — filtering через BottomSheet. */
+  .sidebar {
+    display: none;
+  }
+
+  /* Filter trigger button shown inline в results header. */
+  .filterTrigger {
+    display: inline-flex;
+  }
+
+  /* Tighten gap между Sort и Filters на mobile (mass экрана дорогая). */
+  .resultsActions {
+    gap: 10px;
   }
 
   /* Load more full-width on mobile — proper tap target ≥48px */

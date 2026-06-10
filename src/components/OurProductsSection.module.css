@@ -91,11 +91,16 @@
   transition: filter 0.35s ease;
 }
 
-/* Soft glow on hover — drop-shadow traces the actual SVG rounded shape */
+/* Intense 3-layer brand-aligned glow on hover. Palette mirrors            */
+/* BrandWaveBackdrop stops (cyan light → sky → navy) для unified brand    */
+/* language. Tight bright core + mid halo + far spread = rich falloff.    */
+/* brightness(1.05) добавляет «оживление» icon самому себе.                */
 .icon:hover img {
   filter:
-    drop-shadow(0 0 10px rgba(80, 195, 255, 0.55))
-    drop-shadow(0 0 22px rgba(0, 150, 240, 0.35));
+    drop-shadow(0 0 8px rgba(130, 220, 255, 0.85))
+    drop-shadow(0 0 20px rgba(56, 185, 255, 0.65))
+    drop-shadow(0 0 44px rgba(7, 91, 167, 0.45))
+    brightness(1.05);
 }
 
 @media (prefers-reduced-motion: reduce) {

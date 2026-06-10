@@ -6,57 +6,12 @@ import locationPinIcon from '../assets/icon-location-pin.svg'
 import arrowForward from '../assets/arrow-forward.svg'
 import { useReveal } from '../hooks/useReveal'
 import { BrandWaveBackdrop } from './BrandWaveBackdrop'
+import { JOBS } from '../data/jobs'
 
-interface Vacancy {
-  id: string
-  title: string
-  href?: string
-  location: string
-  level: string
-  format: string
-  description: string
-}
-
-const VACANCIES: Vacancy[] = [
-  {
-    id: '82:483',
-    title: 'Head of Data Platform',
-    location: 'Belgrade, Serbia',
-    level: 'Senior',
-    format: 'Hybrid',
-    description:
-      'Lead the architecture of data systems behind global telematics products. Drive technical strategy and mentor a cross-functional team.',
-  },
-  {
-    id: '82:533',
-    title: 'Senior Backend Developer',
-    href: 'https://www.linkedin.com/jobs/view/4382027831/',
-    location: 'Belgrade, Serbia',
-    level: 'Senior',
-    format: 'Hybrid',
-    description:
-      'Build and scale the backend infrastructure powering real-time fleet tracking for thousands of customers worldwide.',
-  },
-  {
-    id: '82:546',
-    title: 'Technical Writer',
-    location: 'Belgrade, Serbia',
-    level: 'Middle',
-    format: 'Hybrid',
-    description:
-      'Create clear, precise documentation for developer APIs and end-user guides across SquareGPS product lines.',
-  },
-  {
-    id: '82:560',
-    title: 'Technical Support Engineer L2',
-    href: 'https://www.linkedin.com/jobs/view/4378891572/',
-    location: 'Mexico City, Mexico',
-    level: 'Senior',
-    format: 'Full-time',
-    description:
-      'Resolve complex technical issues for enterprise clients and collaborate with engineering to improve product reliability.',
-  },
-]
+/* Main page показывает первые 3 вакансии из shared JOBS data. Order      */
+/* совпадает с массивом → правка в data/jobs.ts автоматически синкается   */
+/* с main page без правок здесь.                                          */
+const FEATURED_VACANCIES = JOBS.slice(0, 3)
 
 export function VacanciesSection() {
   const { ref, visible } = useReveal()
@@ -97,10 +52,19 @@ export function VacanciesSection() {
 
         {/* Card grid */}
         <div className={styles.grid} data-node-id="82:573">
-          {VACANCIES.slice(0, 3).map((v, i) => {
+          {FEATURED_VACANCIES.map((v, i) => {
             const cardDelay = 80 + i * 100
-            const inner = (
-              <>
+            /* Все cards → VacancyPage (`/careers/:id`). LinkedIn открывается  */
+            /* только из Easy Apply на detail page (использует v.href).        */
+            return (
+              <Link
+                key={v.id}
+                to={`/careers/${encodeURIComponent(v.id)}`}
+                className={`${styles.card} ${rc}`}
+                style={s(cardDelay)}
+                data-node-id={v.id}
+                data-vacancy-card
+              >
                 <div className={styles.cardHeader}>
                   <p className={styles.jobTitle}>{v.title}</p>
                   <div className={styles.location}>
@@ -130,32 +94,6 @@ export function VacanciesSection() {
                   <span>View role</span>
                   <span className={styles.viewRoleArrow}>→</span>
                 </p>
-              </>
-            )
-
-            return v.href ? (
-              <a
-                key={v.id}
-                className={`${styles.card} ${rc}`}
-                style={s(cardDelay)}
-                href={v.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                data-node-id={v.id}
-                data-vacancy-card
-              >
-                {inner}
-              </a>
-            ) : (
-              <Link
-                key={v.id}
-                to="/careers"
-                className={`${styles.card} ${rc}`}
-                style={s(cardDelay)}
-                data-node-id={v.id}
-                data-vacancy-card
-              >
-                {inner}
               </Link>
             )
           })}
