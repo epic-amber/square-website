@@ -1,0 +1,174 @@
+.section {
+  width: 100%;
+  padding: var(--space-24) var(--content-pad-x);
+  background: #F7F9FC;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 64px;
+  box-sizing: border-box;
+}
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-5);
+  text-align: center;
+  max-width: 680px;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 48px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--color-heading-muted);
+}
+
+.subtitle {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  font-weight: 400;
+  line-height: var(--leading-body);
+  color: var(--color-slate-600);
+}
+
+/*
+ * Bento gallery — 6 photos, WorkplaceSection-style named areas.
+ * Layout:
+ *   ┌──────────┬──────┬──────┐
+ *   │          │  p2  │  p3  │
+ *   │   main   ├──────┼──────┤
+ *   │  (tall)  │  p4  │  p5  │
+ *   ├──────────┴──────┴──────┤
+ *   │         p6 (wide)      │
+ *   └────────────────────────┘
+ */
+.bento {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 0.85fr;
+  grid-template-areas:
+    "main     topRight  midRight"
+    "main     bottomMid bottomRight"
+    "bottomLeft bottomLeft bottomLeft";
+  gap: var(--space-5);
+  width: 100%;
+  max-width: var(--content-width);
+  aspect-ratio: 1280 / 720;
+}
+
+.cell {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--color-white);
+  border: 1px solid var(--color-slate-200);
+  min-width: 0;
+  min-height: 0;
+}
+
+.main         { grid-area: main; }
+.topRight     { grid-area: topRight; }
+.midRight     { grid-area: midRight; }
+.bottomLeft   { grid-area: bottomLeft; }
+.bottomMid    { grid-area: bottomMid; }
+.bottomRight  { grid-area: bottomRight; }
+
+.placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-slate-100);
+  color: var(--color-slate-400);
+}
+
+/* When real photos are added:
+.cell img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+*/
+
+/* ── Tablet — 2-column bento ─────────────────────────────────── */
+@media (max-width: 1024px) {
+  .title {
+    font-size: 36px;
+  }
+
+  .bento {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+      "main        main"
+      "topRight    midRight"
+      "bottomMid   bottomRight"
+      "bottomLeft  bottomLeft";
+    aspect-ratio: auto;
+  }
+
+  .main {
+    aspect-ratio: 16 / 9;
+  }
+
+  .topRight,
+  .midRight,
+  .bottomMid,
+  .bottomRight {
+    aspect-ratio: 4 / 3;
+  }
+
+  .bottomLeft {
+    aspect-ratio: 21 / 9;
+  }
+}
+
+/* ── Mobile — stacked with varied heights ────────────────────── */
+@media (max-width: 640px) {
+  .section {
+    gap: 40px;
+  }
+
+  .title {
+    font-size: var(--text-h1);
+  }
+
+  .subtitle {
+    font-size: var(--text-base);
+  }
+
+  .bento {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "main       main"
+      "topRight   midRight"
+      "bottomMid  bottomRight"
+      "bottomLeft bottomLeft";
+    gap: var(--space-4);
+  }
+
+  .main {
+    aspect-ratio: 16 / 10;
+  }
+
+  .topRight,
+  .midRight {
+    aspect-ratio: 1 / 1;
+  }
+
+  .bottomMid,
+  .bottomRight {
+    aspect-ratio: 4 / 3;
+  }
+
+  .bottomLeft {
+    aspect-ratio: 2 / 1;
+  }
+}

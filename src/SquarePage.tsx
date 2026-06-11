@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { figmaAssets } from './figmaAssets'
 import styles from './SquarePage.module.css'
 import { WorkplaceSection } from './components/WorkplaceSection'
@@ -6,21 +6,14 @@ import { VacanciesSection } from './components/VacanciesSection'
 import { OurProductsSection } from './components/OurProductsSection'
 import { SiteHeader } from './components/SiteHeader'
 import { SiteFooter } from './components/SiteFooter'
+import { GlobalOfficesSection } from './components/GlobalOfficesSection'
 import { useReveal } from './hooks/useReveal'
-
-const OfficesMap = lazy(() =>
-  import('./components/OfficesMap').then((m) => ({ default: m.OfficesMap })),
-)
 
 import heroVideo from './assets/hero-video.mp4'
 import workplaceLanguage from './assets/workplace-language.png'
 import workplacePresentation from './assets/workplace-presentation.png'
 import workplaceTeam from './assets/workplace-team.png'
 import workplaceTech from './assets/workplace-tech.png'
-
-const FLAG_US = 'https://flagcdn.com/w80/us.png'
-const FLAG_RS = 'https://flagcdn.com/w80/rs.png'
-const FLAG_MX = 'https://flagcdn.com/w80/mx.png'
 
 /* ── Count-up animation ───────────────────────────────────── */
 
@@ -223,7 +216,6 @@ export function SquarePage() {
   }, [])
 
   const { ref: missionRef, visible: missionVisible } = useReveal()
-  const { ref: officesRef, visible: officesVisible } = useReveal()
   const { ref: footerRef, visible: footerVisible } = useReveal(0.05)
 
   return (
@@ -302,47 +294,7 @@ export function SquarePage() {
 
           <div className={styles.lowerRegion}>
             <div className={styles.lowerBackdrop}>
-            <section ref={officesRef} className={`${styles.offices} reveal ${officesVisible ? 'reveal--in' : ''}`} data-node-id="40:730">
-              <h2 className={styles.officesTitle} data-node-id="40:731">
-                Global Offices
-              </h2>
-              <div className={styles.officesInner}>
-                <div className={styles.officesMapWrap}>
-                  <Suspense fallback={<div className={styles.officesMapFallback} aria-hidden />}>
-                    <OfficesMap />
-                  </Suspense>
-                </div>
-                <div className={styles.officeCards} data-node-id="49:91">
-                <article className={styles.officeCard} data-node-id="49:92">
-                  <img className={styles.flag} src={FLAG_US} width={36} height={24} alt="" />
-                  <h3 className={styles.officeCity} data-node-id="49:94">
-                    Westlake Village, USA
-                  </h3>
-                  <p className={styles.officeAddr} data-node-id="49:95">
-                    2945 Townsgate Rd, Suite 200 Westlake Village, CA 91361
-                  </p>
-                </article>
-                <article className={styles.officeCard} data-node-id="49:96">
-                  <img className={styles.flag} src={FLAG_RS} width={36} height={24} alt="" />
-                  <h3 className={styles.officeCity} data-node-id="49:97">
-                    Belgrade, Serbia
-                  </h3>
-                  <p className={styles.officeAddr} data-node-id="49:98">
-                    Kneza Mihaila 3, 5. sprat, Poslovna zgrada Zepter, Beograd
-                  </p>
-                </article>
-                <article className={styles.officeCard} data-node-id="49:99">
-                  <img className={styles.flag} src={FLAG_MX} width={36} height={24} alt="" />
-                  <h3 className={styles.officeCity} data-node-id="49:100">
-                    Mexico City, Mexico
-                  </h3>
-                  <p className={styles.officeAddr} data-node-id="49:101">
-                    Av. Benjamín Franklin 235, Piso 3, Mexico City
-                  </p>
-                </article>
-              </div>
-              </div>
-            </section>
+            <GlobalOfficesSection />
 
             <VacanciesSection />
             </div>

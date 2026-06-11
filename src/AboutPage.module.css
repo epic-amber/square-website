@@ -1,0 +1,100 @@
+.page {
+  position: relative;
+  width: 100%;
+  overflow-x: clip;
+  background-color: var(--color-white);
+  color: var(--color-slate-900);
+}
+
+/*
+ * Reuses the same --gradient-atmospheric token as SquarePage but stretched
+ * to ~2.5× the container height. This gives each color stop ~55px of real
+ * pixels, eliminating 8-bit color banding. background-position shifts the
+ * navy zone up behind the "About Us" title.
+ */
+.atmosphereRegion {
+  position: relative;
+  width: 100%;
+  overflow: visible;
+  background-color: var(--color-white);
+  background-image: var(--gradient-atmospheric);
+  background-size: 100% 1600px;
+  background-position: 0 -500px;
+  background-repeat: no-repeat;
+}
+
+/* ── Ellipse decorations — scoped to atmosphere zone ─────────── */
+.ellipseTop {
+  position: absolute;
+  left: 50%;
+  top: calc(-500px + 5dvh);
+  width: var(--bg-ellipse-width);
+  aspect-ratio: 1800 / 702;
+  height: auto;
+  transform: translateX(calc(-50% + 11px));
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.55;
+  mix-blend-mode: soft-light;
+}
+
+.ellipse2 {
+  position: absolute;
+  left: calc(50% - 2486 * 100vw / 1920);
+  top: 25%;
+  width: var(--bg-ellipse-secondary-width);
+  aspect-ratio: 1770 / 922;
+  height: auto;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
+  mix-blend-mode: soft-light;
+}
+
+.ellipseTop img,
+.ellipse2 img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ellipseTop {
+    animation: ellipseTopDrift 12s ease-in-out infinite;
+  }
+
+  .ellipse2 {
+    animation: ellipse2Drift 14s ease-in-out infinite;
+    animation-delay: -4s;
+  }
+}
+
+@keyframes ellipseTopDrift {
+  0%, 100% { transform: translateX(calc(-50% + 11px)) scale(1); }
+  50% { transform: translateX(calc(-50% + 11px)) scale(1.04) translateY(-8px); }
+}
+
+@keyframes ellipse2Drift {
+  0%, 100% { transform: translateX(-50%) scale(1); }
+  50% { transform: translateX(-50%) scale(1.03) translateY(6px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ellipseTop,
+  .ellipse2 {
+    animation: none;
+  }
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.officesWrap {
+  padding: 0 var(--content-pad-x);
+  box-sizing: border-box;
+}
