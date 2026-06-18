@@ -29,40 +29,25 @@
   font-weight: 600;
   letter-spacing: 1.2px;
   text-transform: uppercase;
-  color: var(--color-blue-600, #0252a2);
+  color: rgba(255, 255, 255, 0.65);
 }
 
 .text {
   margin: 0;
   font-family: var(--font-sans);
-  font-size: 48px;
+  font-size: var(--text-statement);
   font-weight: 500;
   line-height: 1.35;
-  color: var(--color-navy-deep, #01265e);
-}
-
-/* ── Tablet ──────────────────────────────────────────────────── */
-@media (max-width: 1024px) {
-  .text {
-    font-size: 36px;
-  }
+  color: var(--color-white);
 }
 
 /* ── Mobile ──────────────────────────────────────────────────── */
 @media (max-width: 767px) {
   .section {
-    padding: calc(var(--space-12) + 48px) var(--content-pad-x) var(--space-12);
+    padding: calc(var(--space-12) + 72px) var(--content-pad-x) var(--space-12);
   }
 
   .text {
-    font-size: 26px;
     line-height: 1.4;
-  }
-}
-
-/* ── Small mobile ────────────────────────────────────────────── */
-@media (max-width: 480px) {
-  .text {
-    font-size: 22px;
   }
 }

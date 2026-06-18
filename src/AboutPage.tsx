@@ -31,7 +31,7 @@ export function AboutPage() {
           <img src={figmaAssets.ellipse2} alt="" />
         </div>
 
-        <SiteHeader variant="dark" />
+        <SiteHeader />
         <AboutHero />
         <MissionSection />
       </div>

@@ -134,8 +134,8 @@
 }
 
 .logo {
-  width: 145px;
-  height: 29.966px;
+  width: 137.75px;
+  height: 28.468px;
 }
 
 .logo img {
@@ -410,7 +410,7 @@
   flex: 1 1 auto;
   max-width: 1056px;
   font-family: var(--font-serif);
-  font-size: 48px;
+  font-size: var(--text-statement);
   font-weight: 500;
   /* чуть выше 1.3: плашки grow / confident на соседних строках не визуально слипаются */
   line-height: 1.45;
@@ -831,8 +831,8 @@
 }
 
 .footerLogo img {
-  width: 144.501px;
-  height: 29.924px;
+  width: 137.276px;
+  height: 28.428px;
   object-fit: contain;
   object-position: left center;
 }
@@ -938,13 +938,17 @@
   align-items: center;
   width: 100%;
   gap: var(--space-40);
+  /* Push content below the fixed navbar + 60px visual gap */
+  padding-top: calc(var(--header-h) + 80px);
   /* Градиент продлён ниже секции Our Products */
   padding-bottom: 80px;
   background-color: var(--color-white);
   background-image: var(--gradient-atmospheric);
-  /* Градиент занимает всю высоту за вычетом 404px — начинается ровно там, где Figma */
-  background-size: 100% calc(100% - 404px);
-  background-position: 0 404px;
+  /* background-position and background-size are updated in lockstep with
+     padding-top so the gradient visual origin stays at the same distance
+     from the hero text regardless of the top gap value. */
+  background-size: 100% calc(100% - 404px - var(--header-h) - 80px);
+  background-position: 0 calc(404px + var(--header-h) + 80px);
   background-repeat: no-repeat;
 }
 

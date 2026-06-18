@@ -1,62 +1,20 @@
-/* ── Base header ─────────────────────────────────────────────── */
+/* ── Base header — simple fixed navbar ───────────────────────── */
 .header {
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
   width: 100%;
-  padding: var(--space-6) var(--content-pad-x);
+  padding: var(--space-4) var(--content-pad-x);
+  background: var(--color-white);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
   box-sizing: border-box;
-  transition: background 0.3s ease, box-shadow 0.3s ease, border-radius 0.3s ease;
 }
 
-/* Spacer inserted when header is fixed to prevent layout shift */
-.headerSpacer {
-  height: 62px;
-}
-
-/* ── Scrolled state — floating island ────────────────────────── */
 .headerScrolled {
-  position: fixed;
-  top: 12px;
-  left: var(--content-pad-x);
-  right: var(--content-pad-x);
-  width: auto;
-  padding: var(--space-4) var(--space-8);
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-radius: 16px;
-  box-shadow:
-    0 4px 24px rgba(0, 0, 0, 0.06),
-    0 1px 4px rgba(0, 0, 0, 0.04);
-  animation: slideDown 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* ── Dark variant (transparent bg, white text) ───────────────── */
-.headerDark .navLink {
-  color: rgba(255, 255, 255, 0.85);
-}
-
-.headerDark .navLink:hover {
-  color: #ffffff;
-}
-
-.headerDark .hamburgerLine {
-  background: rgba(255, 255, 255, 0.9);
-}
-
-.headerDark .hamburger:hover {
-  background: rgba(255, 255, 255, 0.1);
+  border-bottom-color: var(--color-slate-200);
 }
 
 /* ── Header bar inner layout ─────────────────────────────────── */
@@ -72,8 +30,8 @@
 }
 
 .logo {
-  width: 145px;
-  height: 29.966px;
+  width: 137.75px;
+  height: 28.468px;
   flex-shrink: 0;
 }
 
@@ -82,7 +40,6 @@
   height: 100%;
   object-fit: contain;
   object-position: left center;
-  transition: opacity 0.2s ease;
 }
 
 /* ── Desktop nav ─────────────────────────────────────────────── */
@@ -113,6 +70,40 @@
   outline: 2px solid var(--color-sky-500);
   outline-offset: 3px;
   border-radius: 2px;
+}
+
+/* ── CTA button — mirrors hero gradient sweep, navbar size ──── */
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px 10px 24px;
+  background-color: var(--color-sky-500);
+  background-image: var(--gradient-hero-cta);
+  background-size: 240% 100%;
+  background-position: 0% 50%;
+  background-repeat: no-repeat;
+  color: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  line-height: 1.4;
+  text-decoration: none;
+  white-space: nowrap;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-position 0.55s cubic-bezier(0.33, 0, 0.2, 1);
+}
+
+.cta:hover {
+  background-position: 100% 50%;
+}
+
+.cta:focus-visible {
+  outline: 2px solid var(--color-white);
+  outline-offset: 3px;
 }
 
 /* ── Hamburger button — hidden on desktop ────────────────────── */
@@ -193,7 +184,7 @@
 
 .overlayLogo {
   display: block;
-  width: 145px;
+  width: 137.75px;
 }
 
 .overlayLogo img {
@@ -286,19 +277,7 @@
 /* ── Responsive ──────────────────────────────────────────────── */
 @media (max-width: 767px) {
   .header {
-    padding: var(--space-4) var(--content-pad-x);
-  }
-
-  .headerSpacer {
-    height: 52px;
-  }
-
-  .headerScrolled {
-    top: 8px;
-    left: 12px;
-    right: 12px;
-    padding: var(--space-3) var(--space-5);
-    border-radius: 14px;
+    padding: 12px var(--content-pad-x);
   }
 
   .nav {
@@ -315,8 +294,13 @@
     transition: none;
   }
 
-  .headerScrolled {
-    animation: none;
+  .cta {
+    transition: none;
+    background-image: none;
+  }
+
+  .cta:hover {
+    background-color: var(--color-navy-deep);
   }
 
   .overlay {

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import styles from './HowWeWork.module.css'
 import { useReveal } from '../hooks/useReveal'
 import workplaceTeam from '../assets/workplace-team.png'
@@ -33,6 +34,11 @@ export function HowWeWork() {
             <span className={styles.pill}>Remote-first</span>
             <span className={styles.pill}>Continuous improvement</span>
           </div>
+
+          <Link to="/careers" className={styles.joinLink}>
+            <span>Join our team</span>
+            <span className={styles.joinArrow}>→</span>
+          </Link>
         </div>
       </div>
     </section>

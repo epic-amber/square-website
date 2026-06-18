@@ -1,37 +1,22 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import styles from './SiteHeader.module.css'
 import logoColor from '../assets/logo-squaregps.svg'
-import logoWhite from '../assets/logo-footer-white.svg'
 
-const NAV_LINKS = [
-  { to: '/about', label: 'About' },
-  { to: '/careers', label: 'Careers' },
-]
-
-const SCROLL_THRESHOLD = 60
-
-interface SiteHeaderProps {
-  variant?: 'light' | 'dark'
-}
-
-export function SiteHeader({ variant = 'light' }: SiteHeaderProps) {
+export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const location = useLocation()
 
-  const handleScroll = useCallback(() => {
-    setScrolled(window.scrollY > SCROLL_THRESHOLD)
-  }, [])
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    handleScroll()
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [handleScroll])
-
   useEffect(() => {
     setMenuOpen(false)
+  }, [location.pathname])
+
+  useEffect(() => {
+    setScrolled(false)
+    const onScroll = () => setScrolled(window.scrollY > 0)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
   }, [location.pathname])
 
   useEffect(() => {
@@ -50,34 +35,21 @@ export function SiteHeader({ variant = 'light' }: SiteHeaderProps) {
     return () => window.removeEventListener('keydown', onKey)
   }, [menuOpen])
 
-  const isDark = variant === 'dark' && !scrolled
-  const logo = isDark ? logoWhite : logoColor
-
-  const headerClass = [
-    styles.header,
-    scrolled ? styles.headerScrolled : '',
-    isDark ? styles.headerDark : '',
-  ]
-    .filter(Boolean)
-    .join(' ')
-
   return (
     <>
-      {/* Spacer prevents layout jump when header becomes fixed */}
-      {scrolled && <div className={styles.headerSpacer} />}
-
-      <header className={headerClass} data-node-id="40:675">
+      <header className={`${styles.header}${scrolled ? ` ${styles.headerScrolled}` : ''}`} data-node-id="40:675">
         <div className={styles.headerBar}>
           <Link className={styles.logo} to="/" data-node-id="40:676">
-            <img src={logo} alt="SquareGPS" width={145} height={30} />
+            <img src={logoColor} alt="SquareGPS" width={138} height={28} />
           </Link>
 
           <nav className={styles.nav} aria-label="Primary" data-node-id="40:681">
-            {NAV_LINKS.map(({ to, label }) => (
-              <Link key={to} to={to} className={styles.navLink}>
-                {label}
-              </Link>
-            ))}
+            <Link to="/about" className={styles.navLink}>
+              About
+            </Link>
+            <Link to="/careers" className={styles.cta}>
+              See open roles
+            </Link>
           </nav>
 
           <button
@@ -94,7 +66,6 @@ export function SiteHeader({ variant = 'light' }: SiteHeaderProps) {
         </div>
       </header>
 
-      {/* Fullscreen mobile overlay */}
       <div
         id="mobile-nav"
         className={`${styles.overlay} ${menuOpen ? styles.overlayOpen : ''}`}
@@ -102,7 +73,7 @@ export function SiteHeader({ variant = 'light' }: SiteHeaderProps) {
       >
         <div className={styles.overlayTop}>
           <Link className={styles.overlayLogo} to="/" onClick={() => setMenuOpen(false)}>
-            <img src={logoWhite} alt="SquareGPS" width={145} height={30} />
+            <img src={logoColor} alt="SquareGPS" width={138} height={28} />
           </Link>
           <button
             className={styles.closeBtn}
@@ -115,17 +86,22 @@ export function SiteHeader({ variant = 'light' }: SiteHeaderProps) {
         </div>
 
         <nav className={styles.overlayNav} aria-label="Mobile primary">
-          {NAV_LINKS.map(({ to, label }, i) => (
-            <Link
-              key={to}
-              to={to}
-              className={styles.overlayLink}
-              style={{ transitionDelay: menuOpen ? `${80 + i * 60}ms` : '0ms' }}
-              onClick={() => setMenuOpen(false)}
-            >
-              {label}
-            </Link>
-          ))}
+          <Link
+            to="/about"
+            className={styles.overlayLink}
+            style={{ transitionDelay: menuOpen ? '80ms' : '0ms' }}
+            onClick={() => setMenuOpen(false)}
+          >
+            About
+          </Link>
+          <Link
+            to="/careers"
+            className={styles.overlayLink}
+            style={{ transitionDelay: menuOpen ? '140ms' : '0ms' }}
+            onClick={() => setMenuOpen(false)}
+          >
+            See open roles
+          </Link>
         </nav>
       </div>
     </>

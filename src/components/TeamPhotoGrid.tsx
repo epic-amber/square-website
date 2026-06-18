@@ -1,13 +1,13 @@
 import type { CSSProperties } from 'react'
 import styles from './TeamPhotoGrid.module.css'
 import { useReveal } from '../hooks/useReveal'
+import { BrandWaveBackdrop } from './BrandWaveBackdrop'
 
 /* 6 bento slots — replace inner content with <img src={...} alt="" /> when photos ready */
 const BENTO_PHOTOS = [
   { id: 'main', area: 'main' },
   { id: 'topRight', area: 'topRight' },
   { id: 'midRight', area: 'midRight' },
-  { id: 'bottomLeft', area: 'bottomLeft' },
   { id: 'bottomMid', area: 'bottomMid' },
   { id: 'bottomRight', area: 'bottomRight' },
 ] as const
@@ -31,23 +31,29 @@ export function TeamPhotoGrid() {
 
   return (
     <section className={styles.section}>
-      <div ref={ref} className={`${styles.heading} ${rc}`} style={s(0)}>
-        <h2 className={styles.title}>Our Team</h2>
-        <p className={styles.subtitle}>
-          Meet the people behind SquareGPS — passionate experts building the future of telematics together
-        </p>
+      <div className={styles.waveWrap}>
+        <BrandWaveBackdrop />
       </div>
 
-      <div className={styles.bento}>
-        {BENTO_PHOTOS.map((photo, i) => (
-          <div
-            key={photo.id}
-            className={`${styles.cell} ${styles[photo.area]} ${rc}`}
-            style={s(80 + i * 70)}
-          >
-            <PhotoPlaceholder />
-          </div>
-        ))}
+      <div className={styles.inner}>
+        <div ref={ref} className={`${styles.heading} ${rc}`} style={s(0)}>
+          <h2 className={styles.title}>Our Team</h2>
+          <p className={styles.subtitle}>
+            Meet the people behind SquareGPS — passionate experts building the future of telematics together
+          </p>
+        </div>
+
+        <div className={styles.bento}>
+          {BENTO_PHOTOS.map((photo, i) => (
+            <div
+              key={photo.id}
+              className={`${styles.cell} ${styles[photo.area]} ${rc}`}
+              style={s(80 + i * 70)}
+            >
+              <PhotoPlaceholder />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   )

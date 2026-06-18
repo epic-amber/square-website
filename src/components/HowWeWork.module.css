@@ -12,18 +12,16 @@
   width: 100%;
   max-width: var(--content-width);
   margin: 0 auto;
-  background: #F7F9FC;
-  border-radius: var(--radius-2xl);
-  overflow: hidden;
 }
 
 /* ── Left image ──────────────────────────────────────────────── */
 .imageWrap {
   position: relative;
   flex-shrink: 0;
-  width: 480px;
-  height: 380px;
+  width: 460px;
+  aspect-ratio: 1 / 1;
   overflow: hidden;
+  border-radius: var(--radius-2xl);
 }
 
 .image {
@@ -41,7 +39,6 @@
   gap: var(--space-6);
   flex: 1 1 auto;
   min-width: 0;
-  padding: var(--space-12) var(--space-12) var(--space-12) 0;
 }
 
 .eyebrow {
@@ -79,6 +76,40 @@
   margin-top: var(--space-2);
 }
 
+/* ── Join our team link — mirrors "View role" in vacancy cards ── */
+.joinLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-slate-900);
+  text-decoration: none;
+  margin-top: var(--space-2);
+  transition: gap 0.2s ease, color 0.2s ease;
+}
+
+.joinLink:hover {
+  gap: 10px;
+  color: var(--color-slate-700);
+}
+
+.joinArrow {
+  font-size: 16px;
+  transition: transform 0.2s ease;
+}
+
+.joinLink:hover .joinArrow {
+  transform: translateX(4px);
+}
+
+.joinLink:focus-visible {
+  outline: 2px solid var(--color-sky-500);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
 .pill {
   display: inline-flex;
   align-items: center;
@@ -100,12 +131,7 @@
   }
 
   .imageWrap {
-    width: 360px;
-    height: 320px;
-  }
-
-  .copy {
-    padding: var(--space-9) var(--space-9) var(--space-9) 0;
+    width: 320px;
   }
 
   .title {
@@ -117,19 +143,12 @@
 @media (max-width: 767px) {
   .inner {
     flex-direction: column;
-    gap: 0;
-    border-radius: var(--radius-2xl);
-    overflow: hidden;
+    gap: var(--space-6);
   }
 
   .imageWrap {
     width: 100%;
-    height: 260px;
-    flex-shrink: 0;
-  }
-
-  .copy {
-    padding: var(--space-6);
+    aspect-ratio: 4 / 3;
   }
 
   .title {

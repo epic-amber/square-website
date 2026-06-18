@@ -16,7 +16,7 @@
 .title {
   margin: 0;
   font-family: var(--font-serif);
-  font-size: 48px;
+  font-size: var(--text-h1);
   font-weight: 500;
   line-height: normal;
   color: var(--color-heading-muted);
@@ -181,10 +181,6 @@
     gap: 40px;
     /* Outer .stack provides side gutter via tokens, but workplace lives outside it on mobile — keep a small inner pad */
     padding: 0 var(--content-pad-x);
-  }
-
-  .title {
-    font-size: var(--text-h1);
   }
 
   .grid {

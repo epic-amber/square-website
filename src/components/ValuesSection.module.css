@@ -1,7 +1,7 @@
 .section {
   width: 100%;
-  padding: var(--space-24) var(--content-pad-x);
-  background: var(--color-white);
+  padding: calc(var(--space-24) + 48px) var(--content-pad-x) var(--space-24);
+  background: transparent;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -30,7 +30,7 @@
 .title {
   margin: 0;
   font-family: var(--font-sans);
-  font-size: 48px;
+  font-size: var(--text-h1);
   font-weight: 500;
   line-height: 1.2;
   color: var(--color-heading-muted);
@@ -92,10 +92,6 @@
 
 /* ── Tablet ──────────────────────────────────────────────────── */
 @media (max-width: 1024px) {
-  .title {
-    font-size: 36px;
-  }
-
   .card {
     padding: 32px;
   }
@@ -105,10 +101,6 @@
 @media (max-width: 640px) {
   .section {
     gap: 48px;
-  }
-
-  .title {
-    font-size: var(--text-h1);
   }
 
   .grid {

@@ -4,23 +4,98 @@
   overflow-x: clip;
   background-color: var(--color-white);
   color: var(--color-slate-900);
+
+  /* Local override — bottom half mirrors the top for a symmetric fade.
+     Sky blue moved from 89% → 80%, dark plateau compressed from 14% → 7%,
+     added #d0eeff at 92% to mirror the 8% stop on the top. */
+  --gradient-atmospheric: linear-gradient(
+    to bottom,
+    #ffffff   0%,
+    #d0eeff   8%,
+    #82cdfc  16%,
+    #37acf6  22%,
+    #1984d7  30%,
+    #0252a2  37%,
+    #013e87  50%,
+    #0d4d9a  65%,
+    #1c71c4  72%,
+    #37acf6  80%,
+    #82cdfc  86%,
+    #d0eeff  92%,
+    #ffffff 100%
+  );
+}
+
+@supports (background: linear-gradient(in oklab, red 0%, blue 100%)) {
+  .page {
+    --gradient-atmospheric: linear-gradient(
+      in oklab to bottom,
+      #ffffff   0%,
+      #d0eeff   8%,
+      #82cdfc  16%,
+      #37acf6  22%,
+      #1984d7  30%,
+      #0252a2  37%,
+      #013e87  50%,
+      #0d4d9a  65%,
+      #1c71c4  72%,
+      #37acf6  80%,
+      #82cdfc  86%,
+      #d0eeff  92%,
+      #ffffff 100%
+    );
+  }
+}
+
+.page::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.10;
+  mix-blend-mode: soft-light;
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.page::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--gradient-atmospheric);
+  background-size: 100% 1200px;
+  background-position: 0 310px;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(6px);
+  /* Sky blue (80%) lands at 1270px — fully visible before fade starts at 1300px.
+     Gradient itself ends white at 1510px, inside the 260px fade window. */
+  mask-image: linear-gradient(
+    to bottom,
+    black 0,
+    black 1300px,
+    transparent 1560px
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    black 0,
+    black 1300px,
+    transparent 1560px
+  );
 }
 
 /*
- * Reuses the same --gradient-atmospheric token as SquarePage but stretched
- * to ~2.5× the container height. This gives each color stop ~55px of real
- * pixels, eliminating 8-bit color banding. background-position shifts the
- * navy zone up behind the "About Us" title.
+ * Atmospheric gradient now lives on .page so it spans the full page height,
+ * including ValuesSection. This region is transparent so the gradient shows through.
  */
 .atmosphereRegion {
   position: relative;
   width: 100%;
   overflow: visible;
-  background-color: var(--color-white);
-  background-image: var(--gradient-atmospheric);
-  background-size: 100% 1600px;
-  background-position: 0 -500px;
-  background-repeat: no-repeat;
+  background-color: transparent;
+  padding-bottom: 80px;
 }
 
 /* ── Ellipse decorations — scoped to atmosphere zone ─────────── */

@@ -18,7 +18,7 @@
   position: relative; /* anchor для .heroAccent (top-right brand wave). */
   flex: 1;
   width: 100%;
-  padding: 32px var(--content-pad-x) 80px;
+  padding: calc(var(--header-h) + 32px) var(--content-pad-x) 80px;
   box-sizing: border-box;
 }
 
@@ -250,11 +250,11 @@
 }
 
 /* Sticky positioning теперь на CARD (внутреннем элементе), а не на       */
-/* grid item. Card pinned top: 100px от viewport, scroll'ится в пределах */
+/* grid item. Card pinned below navbar + 20px gap, scroll'ится в пределах */
 /* высоты родителя (.sidebar = row height).                               */
 .sidebarCard {
   position: sticky;
-  top: 100px;
+  top: calc(var(--header-h) + 20px);
   display: flex;
   flex-direction: column;
   background-color: var(--color-white);
@@ -315,7 +315,7 @@
 @media (max-width: 767px) {
   .main {
     /* Extra bottom padding чтобы content не прятался под sticky bar. */
-    padding: 24px var(--content-pad-x) 120px;
+    padding: calc(var(--header-h) + 24px) var(--content-pad-x) 120px;
   }
 
   /* Hero accent скрыт на mobile — utility-mode, без декора чтобы не */

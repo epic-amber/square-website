@@ -43,43 +43,19 @@
   /* Те же стопы, что в oklab-варианте; без цветового пространства — для старых движков */
   --gradient-atmospheric: linear-gradient(
     to bottom,
-    #ffffff 0%,
-    #f8fdff 3%,
-    #f0faff 6%,
-    #e1f5ff 9%,
-    #cdedff 12%,
-    #afe0ff 15%,
-    #82cdfc 18%,
-    #55b9f9 21%,
-    #37acf6 23%,
-    #289beb 26%,
-    #1984d7 29%,
-    #0a69bc 33%,
-    #0252a2 37%,
-    #013e87 41%,
-    #013070 45%,
-    #012861 48%,
-    #01265e 51%,
-    #01265e 56%,
-    #012963 59%,
-    #022e6b 63%,
-    #043578 67%,
-    #073e88 70%,
-    #0d4d9a 73%,
-    #145eae 77%,
-    #1c71c4 80%,
-    #2887d2 83%,
-    #33a0ea 86%,
-    #37acf6 89%,
-    #50c0fc 91%,
-    #82dcff 93%,
-    #b4eeff 94.5%,
-    #dcf9ff 96%,
-    #e8fbff 97%,
-    #f0fcff 97.8%,
-    #f3fdff 98.4%,
-    #f8feff 99.1%,
-    #fcffff 99.6%,
+    #ffffff   0%,
+    #d0eeff   8%,
+    #82cdfc  16%,
+    #37acf6  22%,
+    #1984d7  30%,
+    #0252a2  37%,
+    #013e87  41%,
+    #01265e  53%,
+    #013e87  67%,
+    #0d4d9a  72%,
+    #1c71c4  80%,
+    #37acf6  89%,
+    #82dcff  93%,
     #ffffff 100%
   );
 
@@ -184,7 +160,17 @@
   --font-sans: 'Mona Sans', system-ui, -apple-system, sans-serif;
   --font-form: 'Proxima Nova', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
+  /* Type scale:
+     --text-hero      → single main hero only: "Design and Development of Telematics Solutions"
+     --text-statement → standalone accent text blocks:
+                          "Transforming enterprise mobility…" (MissionSection)
+                          "We are passionate about empowering…" (SquarePage mission)
+     --text-h1        → all section headings: Our Products · More than a workplace ·
+                        Global Offices · Join the team building the future of telematics ·
+                        About Us · What drives us every day · Our Team ·
+                        Built for collaboration, driven by purpose               */
   --text-hero: 72px;
+  --text-statement: 48px;
   --text-h1: 36px;
   --text-stat: 60px;
   --text-lg: 18px;
@@ -201,6 +187,7 @@
   --blur-section: 100px;
 
   /* Layout */
+  --header-h: 72px; /* height of fixed SiteHeader — desktop */
   --page-width: 1440px;
   --content-pad-x: 80px;
   /* основная колонка контента (Figma Section Container) */
@@ -217,6 +204,13 @@
    Scale down major spacing tokens on tablet and mobile so layouts
    built with the desktop-first values automatically tighten up.
    ────────────────────────────────────────────────────────────── */
+
+/* Mobile header height (≤767px) — padding shrinks from --space-5 to --space-4 */
+@media (max-width: 767px) {
+  :root {
+    --header-h: 64px;
+  }
+}
 
 /* Tablet (≤1024px) */
 @media (max-width: 1024px) {
@@ -243,6 +237,7 @@
     --gap-global-offices-contact: 48px;
     /* Headings */
     --text-hero: 36px;
+    --text-statement: 28px;
     --text-h1: 28px;
     --text-stat: 40px;
     --text-lg: 16px;
@@ -272,43 +267,19 @@
   :root {
     --gradient-atmospheric: linear-gradient(
       in oklab to bottom,
-      #ffffff 0%,
-      #f8fdff 3%,
-      #f0faff 6%,
-      #e1f5ff 9%,
-      #cdedff 12%,
-      #afe0ff 15%,
-      #82cdfc 18%,
-      #55b9f9 21%,
-      #37acf6 23%,
-      #289beb 26%,
-      #1984d7 29%,
-      #0a69bc 33%,
-      #0252a2 37%,
-      #013e87 41%,
-      #013070 45%,
-      #012861 48%,
-      #01265e 51%,
-      #01265e 56%,
-      #012963 59%,
-      #022e6b 63%,
-      #043578 67%,
-      #073e88 70%,
-      #0d4d9a 73%,
-      #145eae 77%,
-      #1c71c4 80%,
-      #2887d2 83%,
-      #33a0ea 86%,
-      #37acf6 89%,
-      #50c0fc 91%,
-      #82dcff 93%,
-      #b4eeff 94.5%,
-      #dcf9ff 96%,
-      #e8fbff 97%,
-      #f0fcff 97.8%,
-      #f3fdff 98.4%,
-      #f8feff 99.1%,
-      #fcffff 99.6%,
+      #ffffff   0%,
+      #d0eeff   8%,
+      #82cdfc  16%,
+      #37acf6  22%,
+      #1984d7  30%,
+      #0252a2  37%,
+      #013e87  41%,
+      #01265e  53%,
+      #013e87  67%,
+      #0d4d9a  72%,
+      #1c71c4  80%,
+      #37acf6  89%,
+      #82dcff  93%,
       #ffffff 100%
     );
 

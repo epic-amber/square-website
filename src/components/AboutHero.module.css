@@ -18,7 +18,7 @@
   align-items: center;
   width: 100%;
   max-width: var(--content-width);
-  padding: var(--space-24) var(--content-pad-x) 0;
+  padding: calc(var(--header-h) + 80px) var(--content-pad-x) 0;
   box-sizing: border-box;
 }
 
@@ -35,10 +35,10 @@
 .title {
   margin: 0;
   font-family: var(--font-sans);
-  font-size: var(--text-hero);
+  font-size: var(--text-h1);
   font-weight: 500;
   line-height: var(--leading-tight);
-  color: var(--color-white);
+  color: var(--color-slate-900);
 }
 
 .subtitle {
@@ -48,7 +48,7 @@
   font-size: var(--text-lg);
   font-weight: 400;
   line-height: var(--leading-body);
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--color-slate-600);
 }
 
 /* ── 4-photo strip ───────────────────────────────────────────── */
@@ -107,10 +107,6 @@
     padding-bottom: 80px;
   }
 
-  .title {
-    font-size: 56px;
-  }
-
   .photoStrip {
     margin-bottom: -80px;
   }
@@ -123,16 +119,12 @@
   }
 
   .inner {
-    padding-top: var(--space-12);
+    padding-top: calc(var(--header-h) + 80px);
   }
 
   .content {
     padding-bottom: var(--space-9);
     gap: var(--space-5);
-  }
-
-  .title {
-    font-size: clamp(36px, 9vw, 52px);
   }
 
   .subtitle {

@@ -1,7 +1,26 @@
 .section {
+  position: relative;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--color-white);
+}
+
+/* Shift the shared wave backdrop 15% higher than default bottom-anchored position */
+.waveWrap {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transform: translateY(-15%);
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--content-width);
   padding: var(--space-24) var(--content-pad-x);
-  background: #F7F9FC;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -21,7 +40,7 @@
 .title {
   margin: 0;
   font-family: var(--font-sans);
-  font-size: 48px;
+  font-size: var(--text-h1);
   font-weight: 500;
   line-height: 1.2;
   color: var(--color-heading-muted);
@@ -50,15 +69,14 @@
 .bento {
   display: grid;
   grid-template-columns: 1.4fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 0.85fr;
+  grid-template-rows: 1fr 1fr;
   grid-template-areas:
-    "main     topRight  midRight"
-    "main     bottomMid bottomRight"
-    "bottomLeft bottomLeft bottomLeft";
+    "main topRight  midRight"
+    "main bottomMid bottomRight";
   gap: var(--space-5);
   width: 100%;
   max-width: var(--content-width);
-  aspect-ratio: 1280 / 720;
+  aspect-ratio: 1280 / 620;
 }
 
 .cell {
@@ -74,7 +92,6 @@
 .main         { grid-area: main; }
 .topRight     { grid-area: topRight; }
 .midRight     { grid-area: midRight; }
-.bottomLeft   { grid-area: bottomLeft; }
 .bottomMid    { grid-area: bottomMid; }
 .bottomRight  { grid-area: bottomRight; }
 
@@ -99,18 +116,13 @@
 
 /* ── Tablet — 2-column bento ─────────────────────────────────── */
 @media (max-width: 1024px) {
-  .title {
-    font-size: 36px;
-  }
-
   .bento {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto;
     grid-template-areas:
-      "main        main"
-      "topRight    midRight"
-      "bottomMid   bottomRight"
-      "bottomLeft  bottomLeft";
+      "main      main"
+      "topRight  midRight"
+      "bottomMid bottomRight";
     aspect-ratio: auto;
   }
 
@@ -124,20 +136,12 @@
   .bottomRight {
     aspect-ratio: 4 / 3;
   }
-
-  .bottomLeft {
-    aspect-ratio: 21 / 9;
-  }
 }
 
 /* ── Mobile — stacked with varied heights ────────────────────── */
 @media (max-width: 640px) {
-  .section {
+  .inner {
     gap: 40px;
-  }
-
-  .title {
-    font-size: var(--text-h1);
   }
 
   .subtitle {
@@ -147,10 +151,9 @@
   .bento {
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
-      "main       main"
-      "topRight   midRight"
-      "bottomMid  bottomRight"
-      "bottomLeft bottomLeft";
+      "main      main"
+      "topRight  midRight"
+      "bottomMid bottomRight";
     gap: var(--space-4);
   }
 
@@ -166,9 +169,5 @@
   .bottomMid,
   .bottomRight {
     aspect-ratio: 4 / 3;
-  }
-
-  .bottomLeft {
-    aspect-ratio: 2 / 1;
   }
 }

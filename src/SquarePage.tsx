@@ -220,10 +220,9 @@ export function SquarePage() {
 
   return (
     <div className={styles.page} data-node-id="55:168">
-      <HeroDecorIcons />
-
       <div className={styles.inner}>
         <SiteHeader />
+        <HeroDecorIcons />
 
         <div className={styles.stack}>
           <div className={styles.topPageGradient} data-node-id="55:81">
