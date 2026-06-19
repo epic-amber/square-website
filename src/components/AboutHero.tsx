@@ -1,22 +1,15 @@
 import { useEffect, useState } from 'react'
 import styles from './AboutHero.module.css'
+import { BrandWaveBackdrop } from './BrandWaveBackdrop'
 
-const HERO_PHOTOS = [
-  { id: 1, alt: 'SquareGPS team photo 1', shift: 20, flex: 1.15, ratio: '5 / 3' },
-  { id: 2, alt: 'SquareGPS team photo 2', shift: -12, flex: 0.8, ratio: '1 / 1' },
-  { id: 3, alt: 'SquareGPS team photo 3', shift: 20, flex: 1.0, ratio: '4 / 3' },
-  { id: 4, alt: 'SquareGPS team photo 4', shift: -12, flex: 0.85, ratio: '5 / 4' },
-]
-
-function PhotoPlaceholder({ label }: { label: string }) {
+function PhotoPlaceholder() {
   return (
     <div className={styles.photoPlaceholder} aria-hidden>
-      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-        <rect x="4" y="8" width="24" height="18" rx="2" stroke="currentColor" strokeWidth="1.5" />
-        <circle cx="12" cy="15" r="2.5" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M4 24l7-6 5 4 6-7 6 9" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+        <rect x="5" y="10" width="30" height="22" rx="2" stroke="currentColor" strokeWidth="1.5" />
+        <circle cx="15" cy="19" r="3" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M5 30l9-8 6 5 8-9 9 11" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
       </svg>
-      <span className={styles.photoLabel}>{label}</span>
     </div>
   )
 }
@@ -31,30 +24,34 @@ export function AboutHero() {
 
   return (
     <section className={styles.hero}>
-      <div className={styles.inner}>
-        <div className={`${styles.content} reveal ${visible ? 'reveal--in' : ''}`}>
-          <h1 className={styles.title}>About Us</h1>
+      <div className={styles.waveWrap}>
+        <BrandWaveBackdrop />
+      </div>
+      <div className={`${styles.inner} reveal ${visible ? 'reveal--in' : ''}`}>
+        {/* Left: text column */}
+        <div className={styles.textCol}>
+          <p className={styles.eyebrow}>About the company</p>
+          <h1 className={styles.title}>
+            We're shaping the future of telematics solutions
+          </h1>
           <p className={styles.subtitle}>
-            Founded in 2005, we unite people and technology — building the world's most trusted telematics solutions across 134+ countries.
+            SquareGPS connects people, vehicles, and data through smart telematics solutions.
+            Since 2005, we've helped companies around the world improve visibility, streamline
+            operations, and make better decisions with reliable, intuitive software.
           </p>
         </div>
-      </div>
 
-      <div className={`${styles.photoStrip} reveal ${visible ? 'reveal--in' : ''}`}>
-        {HERO_PHOTOS.map((photo, i) => (
-          <div
-            key={photo.id}
-            className={styles.photoSlot}
-            style={{
-              transitionDelay: `${120 + i * 60}ms`,
-              transform: `translateY(${photo.shift}px)`,
-              flex: photo.flex,
-              aspectRatio: photo.ratio,
-            }}
-          >
-            <PhotoPlaceholder label={`Photo ${photo.id}`} />
+        {/* Right: two overlapping photo cards (Figma node 282:97) */}
+        <div className={styles.imgGroup} aria-hidden>
+          {/* photo-02 — large card, background layer (top-right) */}
+          <div className={`${styles.slot} ${styles.photo2}`}>
+            <PhotoPlaceholder />
           </div>
-        ))}
+          {/* photo-01 — smaller card, foreground layer (bottom-left) */}
+          <div className={`${styles.slot} ${styles.photo1}`}>
+            <PhotoPlaceholder />
+          </div>
+        </div>
       </div>
     </section>
   )

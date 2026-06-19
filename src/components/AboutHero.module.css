@@ -1,49 +1,73 @@
+/* ── Hero section ─────────────────────────────────────────────── */
+/* Full-viewport two-column hero: text left, overlapping photos right. */
+/* Figma reference: node 277:95 / 282:98.                             */
 .hero {
   position: relative;
   width: 100%;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  overflow: visible;
-  padding-bottom: 140px;
   background: transparent;
-}
-
-/* ── Inner layout ────────────────────────────────────────────── */
-.inner {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: var(--content-width);
-  padding: calc(var(--header-h) + 80px) var(--content-pad-x) 0;
+  padding: 0 var(--content-pad-x);
   box-sizing: border-box;
 }
 
-.content {
+/* ── Brand wave backdrop — mirrored right-to-left ────────────── */
+/* scaleX(-1) flips all SVG paths and gradients horizontally so   */
+/* the wave sweeps from right to left. The BrandWaveBackdrop      */
+/* .stage has bottom: -200px which bleeds naturally into Mission. */
+.waveWrap {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+  pointer-events: none;
+  transform: translateY(35%) scaleX(-1);
+}
+
+/* ── Inner row ────────────────────────────────────────────────── */
+.inner {
   display: flex;
-  flex-direction: column;
   align-items: center;
   gap: var(--space-6);
   width: 100%;
-  text-align: center;
-  padding-bottom: var(--space-24);
+  max-width: var(--content-width);
+  padding: calc(var(--header-h) + var(--space-12)) 0 var(--space-24);
+  box-sizing: border-box;
+}
+
+/* ── Left: text column ────────────────────────────────────────── */
+.textCol {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.eyebrow {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--color-slate-900);
 }
 
 .title {
   margin: 0;
   font-family: var(--font-sans);
-  font-size: var(--text-h1);
+  font-size: var(--text-hero);
   font-weight: 500;
-  line-height: var(--leading-tight);
+  line-height: 1.1;
   color: var(--color-slate-900);
 }
 
 .subtitle {
   margin: 0;
-  max-width: 680px;
+  max-width: 560px;
   font-family: var(--font-sans);
   font-size: var(--text-lg);
   font-weight: 400;
@@ -51,97 +75,159 @@
   color: var(--color-slate-600);
 }
 
-/* ── 4-photo strip ───────────────────────────────────────────── */
-.photoStrip {
+/* ── Right: overlapping photo group (Figma node 282:97) ───────── */
+/* Scaled 0.75× from Figma 1920px artboard to fit content-width.  */
+/* photo-01: 244×321px  at left:0,   top:0    (foreground, z:1)   */
+/* photo-02: 335×368px  at left:205, top:38px (background, z:0)   */
+/* Group total: 540×406px                                          */
+/* Layout check: 1280px inner − 540px photos − 24px gap = 716px   */
+/*               for text column → 3 lines at 72px heading ✓      */
+.imgGroup {
   position: relative;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  gap: var(--space-5);
-  width: 100%;
-  max-width: var(--content-width);
-  margin-bottom: -100px;
+  flex-shrink: 0;
+  width: 540px;
+  height: 406px;
 }
 
-.photoSlot {
-  flex: 1;
-  min-width: 0;
-  min-height: 240px;
+.slot {
+  position: absolute;
   border-radius: var(--radius-2xl);
   overflow: hidden;
-  background: var(--color-white);
-  border: 3px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 0 8px 32px rgba(1, 39, 98, 0.12);
-  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease;
+  background: var(--color-slate-100);
+  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.10), 0 2px 8px rgba(15, 23, 42, 0.06);
 }
 
-.photoImg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+/* photo-01 — foreground, smaller, top-left */
+.photo1 {
+  width: 244px;
+  height: 321px;
+  left: 0;
+  top: 0;
+  z-index: 1;
+}
+
+/* photo-02 — background, larger, offset right and down */
+.photo2 {
+  width: 335px;
+  height: 368px;
+  left: 205px;
+  top: 38px;
+  z-index: 0;
 }
 
 .photoPlaceholder {
   width: 100%;
   height: 100%;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--space-2);
   background: var(--color-slate-100);
   color: var(--color-slate-400);
 }
 
-.photoLabel {
-  font-family: var(--font-sans);
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--color-slate-400);
+/* Real photo class — swap <PhotoPlaceholder /> for <img className={styles.photo} /> */
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
-/* ── Tablet ──────────────────────────────────────────────────── */
+/* ── Mid desktop ≤1280px — 0.63× of base (340×255px) ─────────── */
+/* Handles 1025–1280px viewports; font clamp keeps title at 3 lines */
+@media (max-width: 1280px) {
+  .inner {
+    gap: var(--space-64);
+  }
+
+  .imgGroup {
+    width: 340px;
+    height: 255px;
+  }
+
+  .photo1 {
+    width: 154px;
+    height: 202px;
+  }
+
+  .photo2 {
+    width: 211px;
+    height: 232px;
+    left: 129px;
+    top: 24px;
+  }
+
+  .title {
+    font-size: clamp(44px, 4.5vw, var(--text-hero));
+  }
+}
+
+/* ── Tablet ≤1024px — ~65% of desktop ────────────────────────── */
 @media (max-width: 1024px) {
-  .hero {
-    padding-bottom: 80px;
+  .inner {
+    gap: var(--space-12);
   }
 
-  .photoStrip {
-    margin-bottom: -80px;
+  .imgGroup {
+    width: 351px;
+    height: 264px;
+  }
+
+  .photo1 {
+    width: 159px;
+    height: 209px;
+  }
+
+  .photo2 {
+    width: 218px;
+    height: 239px;
+    left: 133px;
+    top: 25px;
+  }
+
+  .title {
+    font-size: clamp(40px, 5vw, var(--text-hero));
   }
 }
 
-/* ── Mobile ──────────────────────────────────────────────────── */
+/* ── Mobile ≤767px ────────────────────────────────────────────── */
 @media (max-width: 767px) {
   .hero {
-    padding-bottom: 60px;
+    min-height: auto;
+    padding-bottom: 0;
   }
 
   .inner {
-    padding-top: calc(var(--header-h) + 80px);
+    flex-direction: column;
+    gap: var(--space-9);
+    padding-top: calc(var(--header-h) + var(--space-9));
+    padding-bottom: var(--space-12);
+    align-items: flex-start;
   }
 
-  .content {
-    padding-bottom: var(--space-9);
-    gap: var(--space-5);
+  .title {
+    font-size: clamp(32px, 9vw, 48px);
   }
 
-  .subtitle {
-    font-size: var(--text-base);
+  /* Stack photos side-by-side on mobile, simpler layout */
+  .imgGroup {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    position: relative;
   }
 
-  .photoStrip {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-4);
-    margin-bottom: -48px;
-    padding: 0 var(--content-pad-x);
-    box-sizing: border-box;
+  .photo1 {
+    width: 55%;
+    height: 100%;
+    left: 0;
+    top: 0;
   }
 
-  .photoSlot {
-    aspect-ratio: 4 / 3 !important;
-    transform: none !important;
+  .photo2 {
+    width: 55%;
+    height: 85%;
+    left: 45%;
+    top: 15%;
   }
 }

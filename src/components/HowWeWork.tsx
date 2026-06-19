@@ -23,7 +23,7 @@ export function HowWeWork() {
 
         {/* Right: text */}
         <div className={styles.copy}>
-          <p className={styles.eyebrow}>How We Work</p>
+
           <h2 className={styles.title}>Built for collaboration, driven by purpose</h2>
           <p className={styles.body}>
             We embrace agile methodologies and foster a culture of continuous improvement. Our distributed teams collaborate seamlessly across time zones, united by shared goals and passion for innovation.

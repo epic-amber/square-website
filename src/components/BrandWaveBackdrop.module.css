@@ -10,29 +10,16 @@
 .stage {
   position: absolute;
   top: 0;
-  /* bottom: -200px → wave заходит лишь в верхнюю padding-зону       */
-  /* следующей секции (footer/next section) — subtle continuity.     */
   bottom: -200px;
   left: 50%;
   transform: translateX(-50%);
   width: max(100%, 1920px);
   pointer-events: none;
   z-index: 0;
-  contain: layout paint;
-  /* Mask fade-out нижних 30% stage → wave плавно растворяется к низу */
-  /* следующей секции, нет «контейнер» границы.                       */
-  mask-image: linear-gradient(
-    to bottom,
-    black 0%,
-    black 70%,
-    transparent 100%
-  );
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    black 0%,
-    black 70%,
-    transparent 100%
-  );
+  border: 3px solid green; /* DEBUG */
+  /* contain: layout; */
+  /* mask-image: linear-gradient(to bottom, black 0%, black 90%, transparent 100%); */
+  /* -webkit-mask-image: linear-gradient(to bottom, black 0%, black 90%, transparent 100%); */
 }
 
 /* ── Layer base — each SVG ribbon ─────────────────────────────── */

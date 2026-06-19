@@ -1,0 +1,182 @@
+.section {
+  position: relative;
+  overflow: visible;
+  width: 100%;
+  padding: var(--space-24) var(--content-pad-x);
+  background: transparent;
+  box-sizing: border-box;
+}
+
+/* ── Wave between sections — behind HowWeWork content ────────── */
+/* bottom: 100% anchors waveWrap bottom to WorkWithUs top edge    */
+/* (the section boundary). HowWeWork has z-index:1 so its content */
+/* paints above this wave (z-index:0 in root stacking context).   */
+/* Right-side fade so the wave dissolves rightward.               */
+.waveWrap {
+  position: absolute;
+  top: -240px;
+  left: 0;
+  right: 0;
+  height: 480px;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 0;
+  border: 3px solid red; /* DEBUG */
+  /* mask-image: linear-gradient(to right, black 0%, black 35%, transparent 65%); */
+  /* -webkit-mask-image: linear-gradient(to right, black 0%, black 35%, transparent 65%); */
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-64);
+  width: 100%;
+  max-width: var(--content-width);
+  margin: 0 auto;
+}
+
+/* ── Left: text ──────────────────────────────────────────────── */
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-h1);
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--color-slate-900);
+}
+
+.body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  font-weight: 400;
+  line-height: var(--leading-body);
+  color: var(--color-slate-600);
+}
+
+/* ── CTA button — dark navy, mirrors VacanciesSection ────────── */
+.ctaButton {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--cta-py) var(--cta-pr) var(--cta-py) var(--cta-pl-wide);
+  border-radius: var(--radius-2xl);
+  background-color: #013070;
+  background-image: var(--gradient-cta-deep);
+  background-size: 200% 100%;
+  background-position: 100% 50%;
+  background-repeat: no-repeat;
+  color: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  font-weight: 500;
+  text-decoration: none;
+  transition:
+    background-position 0.4s ease,
+    box-shadow 0.2s ease;
+}
+
+.ctaButton:hover {
+  background-position: 0% 50%;
+  box-shadow: 0 4px 20px rgba(1, 48, 112, 0.35);
+}
+
+.ctaButton:focus-visible {
+  outline: 2px solid var(--color-sky-500);
+  outline-offset: 3px;
+}
+
+.ctaArrow {
+  flex-shrink: 0;
+  filter: brightness(0) invert(1);
+  transition: transform 0.2s ease;
+}
+
+.ctaButton:hover .ctaArrow {
+  transform: translateX(3px);
+}
+
+/* ── Right: image ────────────────────────────────────────────── */
+.imageWrap {
+  position: relative;
+  flex-shrink: 0;
+  width: 460px;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: var(--radius-2xl);
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+/* ── Tablet ──────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .inner {
+    gap: var(--space-10);
+  }
+
+  .imageWrap {
+    width: 320px;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+}
+
+/* ── Mobile — stack vertically ────────────────────────────────── */
+@media (max-width: 767px) {
+  .inner {
+    flex-direction: column-reverse;
+    gap: var(--space-6);
+  }
+
+  .imageWrap {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+  }
+
+  .title {
+    font-size: var(--text-h1);
+  }
+
+  .body {
+    font-size: var(--text-base);
+  }
+
+  .ctaButton {
+    font-size: var(--text-base);
+  }
+}
+
+/* ── Reduced motion ──────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .ctaButton {
+    transition: none;
+    background-image: none;
+  }
+
+  .ctaButton:hover {
+    background-color: #013e87;
+  }
+
+  .ctaArrow {
+    transition: none;
+  }
+}

@@ -4,91 +4,11 @@
   overflow-x: clip;
   background-color: var(--color-white);
   color: var(--color-slate-900);
-
-  /* Local override — bottom half mirrors the top for a symmetric fade.
-     Sky blue moved from 89% → 80%, dark plateau compressed from 14% → 7%,
-     added #d0eeff at 92% to mirror the 8% stop on the top. */
-  --gradient-atmospheric: linear-gradient(
-    to bottom,
-    #ffffff   0%,
-    #d0eeff   8%,
-    #82cdfc  16%,
-    #37acf6  22%,
-    #1984d7  30%,
-    #0252a2  37%,
-    #013e87  50%,
-    #0d4d9a  65%,
-    #1c71c4  72%,
-    #37acf6  80%,
-    #82cdfc  86%,
-    #d0eeff  92%,
-    #ffffff 100%
-  );
-}
-
-@supports (background: linear-gradient(in oklab, red 0%, blue 100%)) {
-  .page {
-    --gradient-atmospheric: linear-gradient(
-      in oklab to bottom,
-      #ffffff   0%,
-      #d0eeff   8%,
-      #82cdfc  16%,
-      #37acf6  22%,
-      #1984d7  30%,
-      #0252a2  37%,
-      #013e87  50%,
-      #0d4d9a  65%,
-      #1c71c4  72%,
-      #37acf6  80%,
-      #82cdfc  86%,
-      #d0eeff  92%,
-      #ffffff 100%
-    );
-  }
-}
-
-.page::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.10;
-  mix-blend-mode: soft-light;
-  background-repeat: repeat;
-  background-size: 200px 200px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-.page::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: var(--gradient-atmospheric);
-  background-size: 100% 1200px;
-  background-position: 0 310px;
-  background-repeat: no-repeat;
-  pointer-events: none;
-  z-index: 0;
-  filter: blur(6px);
-  /* Sky blue (80%) lands at 1270px — fully visible before fade starts at 1300px.
-     Gradient itself ends white at 1510px, inside the 260px fade window. */
-  mask-image: linear-gradient(
-    to bottom,
-    black 0,
-    black 1300px,
-    transparent 1560px
-  );
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    black 0,
-    black 1300px,
-    transparent 1560px
-  );
 }
 
 /*
- * Atmospheric gradient now lives on .page so it spans the full page height,
- * including ValuesSection. This region is transparent so the gradient shows through.
+ * atmosphereRegion is transparent so any absolute backdrops
+ * (BrandWaveBackdrop in AboutHero) show through.
  */
 .atmosphereRegion {
   position: relative;
@@ -96,71 +16,6 @@
   overflow: visible;
   background-color: transparent;
   padding-bottom: 80px;
-}
-
-/* ── Ellipse decorations — scoped to atmosphere zone ─────────── */
-.ellipseTop {
-  position: absolute;
-  left: 50%;
-  top: calc(-500px + 5dvh);
-  width: var(--bg-ellipse-width);
-  aspect-ratio: 1800 / 702;
-  height: auto;
-  transform: translateX(calc(-50% + 11px));
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.55;
-  mix-blend-mode: soft-light;
-}
-
-.ellipse2 {
-  position: absolute;
-  left: calc(50% - 2486 * 100vw / 1920);
-  top: 25%;
-  width: var(--bg-ellipse-secondary-width);
-  aspect-ratio: 1770 / 922;
-  height: auto;
-  transform: translateX(-50%);
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.5;
-  mix-blend-mode: soft-light;
-}
-
-.ellipseTop img,
-.ellipse2 img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center center;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .ellipseTop {
-    animation: ellipseTopDrift 12s ease-in-out infinite;
-  }
-
-  .ellipse2 {
-    animation: ellipse2Drift 14s ease-in-out infinite;
-    animation-delay: -4s;
-  }
-}
-
-@keyframes ellipseTopDrift {
-  0%, 100% { transform: translateX(calc(-50% + 11px)) scale(1); }
-  50% { transform: translateX(calc(-50% + 11px)) scale(1.04) translateY(-8px); }
-}
-
-@keyframes ellipse2Drift {
-  0%, 100% { transform: translateX(-50%) scale(1); }
-  50% { transform: translateX(-50%) scale(1.03) translateY(6px); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .ellipseTop,
-  .ellipse2 {
-    animation: none;
-  }
 }
 
 .main {

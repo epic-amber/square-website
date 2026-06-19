@@ -74,7 +74,7 @@ export function ValuesSection() {
         className={`${styles.heading} ${rc}`}
         style={s(0)}
       >
-        <p className={styles.eyebrow}>Our Values</p>
+
         <h2 className={styles.title}>What drives us every day</h2>
       </div>
 

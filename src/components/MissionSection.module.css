@@ -5,10 +5,25 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: calc(var(--space-24) + 80px) var(--content-pad-x) var(--space-24);
-  overflow: hidden;
+  padding: var(--space-24) var(--content-pad-x);
   background: transparent;
 }
+
+.section::before {
+  content: '';
+  position: absolute;
+  inset: -60px;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 70% 60% at 50% 45%,
+    rgba(255, 255, 255, 0.94) 0%,
+    rgba(186, 230, 253, 0.68) 45%,
+    transparent 70%
+  );
+  filter: blur(60px);
+}
+
 
 .content {
   position: relative;
@@ -29,22 +44,72 @@
   font-weight: 600;
   letter-spacing: 1.2px;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.65);
+  color: var(--color-slate-900);
 }
 
 .text {
   margin: 0;
   font-family: var(--font-sans);
   font-size: var(--text-statement);
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.35;
-  color: var(--color-white);
+  background: linear-gradient(
+    135deg,
+    #0F172B 0%,
+    #012762 35%,
+    #002D75 47%,
+    #00449A 53%,
+    #0F172B 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+
+/* ── Decor icons — floating around the section ───────────────── */
+@keyframes mFloat {
+  0%, 100% { translate: 0 0px; }
+  50%       { translate: 0 -8px; }
+}
+
+.decorLayer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: visible;
+}
+
+.di {
+  position: absolute;
+  height: auto;
+  max-width: none;
+  opacity: 0.88;
+  animation: mFloat 8s ease-in-out infinite;
+}
+
+.diLoc   { left: 4%;  top: 20%; rotate: -8deg;  animation-duration: 9s; }
+.diTel   { left: 10%; top: 52%; rotate:  5deg;  animation-duration: 11s; animation-delay: 1.2s; }
+.diCode  { right: 4%; top: 12%; rotate: 10deg;  animation-duration: 8.5s; animation-delay: 0.6s; }
+.diGlobe { right: 2%; top: 62%; rotate: -5deg;  animation-duration: 10s; animation-delay: 2s; }
+.diNvx   { left: 16%; top: 6%;  rotate: 22deg;  animation-duration: 7.5s; animation-delay: 0.3s; }
+.diSam   { left: 32%; top: 2%;  rotate: -6deg;  animation-duration: 9.5s; animation-delay: 0.8s; }
+.diJose  { right: 18%; top: 3%; rotate:  8deg;  animation-duration: 8.2s; animation-delay: 1.5s; }
+
+@media (max-width: 1024px) {
+  .decorLayer { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .di { animation: none; }
 }
 
 /* ── Mobile ──────────────────────────────────────────────────── */
 @media (max-width: 767px) {
   .section {
-    padding: calc(var(--space-12) + 72px) var(--content-pad-x) var(--space-12);
+    padding: var(--space-12) var(--content-pad-x);
   }
 
   .text {

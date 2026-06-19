@@ -1,13 +1,12 @@
 import { AboutHero } from './components/AboutHero'
 import { MissionSection } from './components/MissionSection'
 import { ValuesSection } from './components/ValuesSection'
-import { TeamPhotoGrid } from './components/TeamPhotoGrid'
 import { HowWeWork } from './components/HowWeWork'
+import { WorkWithUs } from './components/WorkWithUs'
 import { GlobalOfficesSection } from './components/GlobalOfficesSection'
 import { StatsSection } from './components/StatsSection'
 import { SiteHeader } from './components/SiteHeader'
 import { SiteFooter } from './components/SiteFooter'
-import { figmaAssets } from './figmaAssets'
 import { useReveal } from './hooks/useReveal'
 import styles from './AboutPage.module.css'
 
@@ -24,13 +23,6 @@ export function AboutPage() {
   return (
     <div className={styles.page}>
       <div className={styles.atmosphereRegion}>
-        <div className={styles.ellipseTop} aria-hidden>
-          <img src={figmaAssets.ellipse4} alt="" />
-        </div>
-        <div className={styles.ellipse2} aria-hidden>
-          <img src={figmaAssets.ellipse2} alt="" />
-        </div>
-
         <SiteHeader />
         <AboutHero />
         <MissionSection />
@@ -38,8 +30,8 @@ export function AboutPage() {
 
       <main className={styles.main}>
         <ValuesSection />
-        <TeamPhotoGrid />
         <HowWeWork />
+        <WorkWithUs />
         <div className={styles.officesWrap}>
           <GlobalOfficesSection />
         </div>

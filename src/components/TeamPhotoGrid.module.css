@@ -55,119 +55,90 @@
   color: var(--color-slate-600);
 }
 
-/*
- * Bento gallery — 6 photos, WorkplaceSection-style named areas.
- * Layout:
- *   ┌──────────┬──────┬──────┐
- *   │          │  p2  │  p3  │
- *   │   main   ├──────┼──────┤
- *   │  (tall)  │  p4  │  p5  │
- *   ├──────────┴──────┴──────┤
- *   │         p6 (wide)      │
- *   └────────────────────────┘
- */
-.bento {
+/* ── Portrait card grid ─────────────────────────────────────── */
+.grid {
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  grid-template-areas:
-    "main topRight  midRight"
-    "main bottomMid bottomRight";
-  gap: var(--space-5);
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-6);
   width: 100%;
-  max-width: var(--content-width);
-  aspect-ratio: 1280 / 620;
 }
 
-.cell {
-  position: relative;
+.card {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-2xl);
   overflow: hidden;
-  border-radius: var(--radius-lg);
   background: var(--color-white);
   border: 1px solid var(--color-slate-200);
-  min-width: 0;
-  min-height: 0;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
 }
 
-.main         { grid-area: main; }
-.topRight     { grid-area: topRight; }
-.midRight     { grid-area: midRight; }
-.bottomMid    { grid-area: bottomMid; }
-.bottomRight  { grid-area: bottomRight; }
+.photo {
+  aspect-ratio: 3 / 4;
+  width: 100%;
+  overflow: hidden;
+}
 
-.placeholder {
+.photoPlaceholder {
   width: 100%;
   height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background: var(--color-slate-100);
-  color: var(--color-slate-400);
 }
 
-/* When real photos are added:
-.cell img {
+/* When real photos are added: */
+.photoImg {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
-*/
 
-/* ── Tablet — 2-column bento ─────────────────────────────────── */
-@media (max-width: 1024px) {
-  .bento {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto;
-    grid-template-areas:
-      "main      main"
-      "topRight  midRight"
-      "bottomMid bottomRight";
-    aspect-ratio: auto;
-  }
-
-  .main {
-    aspect-ratio: 16 / 9;
-  }
-
-  .topRight,
-  .midRight,
-  .bottomMid,
-  .bottomRight {
-    aspect-ratio: 4 / 3;
-  }
+.info {
+  padding: 16px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-/* ── Mobile — stacked with varied heights ────────────────────── */
-@media (max-width: 640px) {
-  .inner {
-    gap: 40px;
+.name {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--color-slate-900);
+}
+
+.role {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 400;
+  color: var(--color-slate-500);
+}
+
+/* ── Tablet ≤1024px — 2 columns ─────────────────────────────── */
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .subtitle {
     font-size: var(--text-base);
   }
+}
 
-  .bento {
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas:
-      "main      main"
-      "topRight  midRight"
-      "bottomMid bottomRight";
+/* ── Mobile ≤640px — 2 columns, tighter gap ─────────────────── */
+@media (max-width: 640px) {
+  .inner {
+    gap: 40px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
     gap: var(--space-4);
   }
 
-  .main {
-    aspect-ratio: 16 / 10;
-  }
-
-  .topRight,
-  .midRight {
-    aspect-ratio: 1 / 1;
-  }
-
-  .bottomMid,
-  .bottomRight {
-    aspect-ratio: 4 / 3;
+  .info {
+    padding: 12px 14px 16px;
   }
 }
