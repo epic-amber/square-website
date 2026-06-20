@@ -14,14 +14,14 @@
 /* Right-side fade so the wave dissolves rightward.               */
 .waveWrap {
   position: absolute;
-  top: -240px;
+  top: -648px;
   left: 0;
   right: 0;
   height: 480px;
   overflow: visible;
   pointer-events: none;
   z-index: 0;
-  border: 3px solid red; /* DEBUG */
+  transform: translateX(-70%);
   /* mask-image: linear-gradient(to right, black 0%, black 35%, transparent 65%); */
   /* -webkit-mask-image: linear-gradient(to right, black 0%, black 35%, transparent 65%); */
 }

@@ -16,7 +16,6 @@
   width: max(100%, 1920px);
   pointer-events: none;
   z-index: 0;
-  border: 3px solid green; /* DEBUG */
   /* contain: layout; */
   /* mask-image: linear-gradient(to bottom, black 0%, black 90%, transparent 100%); */
   /* -webkit-mask-image: linear-gradient(to bottom, black 0%, black 90%, transparent 100%); */
