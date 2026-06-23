@@ -40,11 +40,14 @@
 .eyebrow {
   margin: 0;
   font-family: var(--font-sans);
-  font-size: var(--text-sm);
+  background: #e8f4ff;
+  color: #08ADFF;
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: 1.2px;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
-  color: var(--color-slate-900);
 }
 
 .text {
@@ -53,18 +56,7 @@
   font-size: var(--text-statement);
   font-weight: 600;
   line-height: 1.35;
-  background: linear-gradient(
-    135deg,
-    #0F172B 0%,
-    #012762 35%,
-    #002D75 47%,
-    #00449A 53%,
-    #0F172B 100%
-  );
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
+  color: #013070;
 }
 
 

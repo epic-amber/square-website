@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styles from './CareersSection.module.css'
 import { FilterChip } from './FilterChip'
@@ -18,80 +18,37 @@ type EmploymentFilter = (typeof EMPLOYMENT_FILTERS)[number] | null
 const EXPERIENCE_FILTERS = ['Lead', 'Senior', 'Middle', 'Junior'] as const
 type ExperienceFilter = (typeof EXPERIENCE_FILTERS)[number] | null
 
-const INITIAL_VISIBLE = 6
-const LOAD_STEP = 5
+const PAGE_SIZE = 5
 
 type SortDir = 'newest' | 'oldest'
 
-/* ── JobCard — wide single-column card ──────────────────────── */
+/* ── JobCard — grid card ────────────────────────────────────── */
 
-interface JobCardProps {
-  job: Job
-  /** Если true → играем cardEnter animation (только для newly added). */
-  isNew?: boolean
-  /** Animation delay в секундах для stagger эффекта. */
-  enterDelay?: number
-}
-
-const JobCard = forwardRef<HTMLAnchorElement, JobCardProps>(
-  ({ job, isNew, enterDelay }, ref) => {
-    const className = `${styles.card}${isNew ? ` ${styles.cardEnter}` : ''}`
-    const style: React.CSSProperties | undefined =
-      isNew && enterDelay !== undefined
-        ? { animationDelay: `${enterDelay}s` }
-        : undefined
-
-    const inner = (
-      <>
-        <div className={styles.cardHeader}>
-          <h3 className={styles.jobTitle}>{job.title}</h3>
-          <span className={styles.levelPill}>{job.level}</span>
-        </div>
-
+function JobCard({ job }: { job: Job }) {
+  return (
+    <Link className={styles.card} to={`/careers/${encodeURIComponent(job.id)}`} data-node-id={job.id}>
+      <div className={styles.cardHeader}>
+        <h3 className={styles.jobTitle}>{job.title}</h3>
         <div className={styles.location}>
-          <img
-            className={styles.locationIcon}
-            src={locationPinIcon}
-            alt=""
-            width={18}
-            height={18}
-            aria-hidden
-          />
+          <img className={styles.locationIcon} src={locationPinIcon} alt="" width={18} height={18} aria-hidden />
           <p className={styles.locationText}>
             <span>{job.location}</span>
             <span className={styles.locationDot} aria-hidden>·</span>
             <span>{job.format}</span>
           </p>
         </div>
-
-        <p className={styles.description}>{job.description}</p>
-
-        <div className={styles.cardFooter}>
-          <p className={styles.postedDate}>Posted {job.postedAgo}</p>
-          <p className={styles.viewRole}>
-            <span>View role</span>
-            <span className={styles.viewRoleArrow}>→</span>
-          </p>
-        </div>
-      </>
-    )
-
-    /* Все cards теперь ведут на внутреннюю VacancyPage. Кнопка Easy Apply  */
-    /* там ведёт на LinkedIn (job.href или generic search fallback).        */
-    return (
-      <Link
-        ref={ref}
-        className={className}
-        style={style}
-        to={`/careers/${encodeURIComponent(job.id)}`}
-        data-node-id={job.id}
-      >
-        {inner}
-      </Link>
-    )
-  },
-)
-JobCard.displayName = 'JobCard'
+      </div>
+      <p className={styles.description}>{job.description}</p>
+      <div className={styles.tags}>
+        <span className={styles.levelPill}>{job.level}</span>
+      </div>
+      <p className={styles.viewRole}>
+        <span>View role</span>
+        <span className={styles.viewRoleArrow}>→</span>
+      </p>
+    </Link>
+  )
+}
 
 /* ── Filter Sidebar (left, sticky on desktop) ──────────────── */
 
@@ -183,17 +140,10 @@ export function CareersSection() {
   const [employment, setEmployment] = useState<EmploymentFilter>(null)
   const [experience, setExperience] = useState<ExperienceFilter>(null)
   const [sort, setSort] = useState<SortDir>('newest')
-  const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE)
+  const [page, setPage] = useState(1)
   /* Mobile filter sheet open state — desktop sidebar всегда visible. */
   const [filterSheetOpen, setFilterSheetOpen] = useState(false)
-
-  // Tracking для Load more UX:
-  //   prevVisibleRef — visibleCount на момент предыдущего render
-  //   newCardStartIdx — индекс первой newly added карточки (для animation + scroll)
-  //   firstNewCardRef — DOM-ref на первую новую карточку (target для scrollIntoView)
-  const prevVisibleRef = useRef(INITIAL_VISIBLE)
-  const newCardStartIdx = prevVisibleRef.current
-  const firstNewCardRef = useRef<HTMLAnchorElement>(null)
+  const sectionRef = useRef<HTMLElement>(null)
 
   const filtered = JOBS.filter((j) => {
     if (location !== 'All' && j.country !== location) return false
@@ -207,8 +157,8 @@ export function CareersSection() {
     return sort === 'newest' ? diff : -diff
   })
 
-  const visibleJobs = sorted.slice(0, visibleCount)
-  const remaining = Math.max(0, sorted.length - visibleCount)
+  const totalPages = Math.ceil(sorted.length / PAGE_SIZE)
+  const visibleJobs = sorted.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
   const hasActiveFilters = location !== 'All' || employment !== null || experience !== null
 
   /* Active filter count для mobile button badge ("Filters · 2").       */
@@ -218,42 +168,28 @@ export function CareersSection() {
     (employment !== null ? 1 : 0) +
     (experience !== null ? 1 : 0)
 
-  // Любая смена filters/sort сбрасывает visibleCount —
-  // иначе после "Show more" фильтр может неожиданно показать слишком много.
-  const resetVisible = () => setVisibleCount(INITIAL_VISIBLE)
-
-  const handleLocation = (l: LocationFilter) => { setLocation(l); resetVisible() }
-  const handleEmployment = (e: EmploymentFilter) => { setEmployment(e); resetVisible() }
-  const handleExperience = (e: ExperienceFilter) => { setExperience(e); resetVisible() }
+  const handleLocation = (l: LocationFilter) => { setLocation(l); setPage(1) }
+  const handleEmployment = (e: EmploymentFilter) => { setEmployment(e); setPage(1) }
+  const handleExperience = (e: ExperienceFilter) => { setExperience(e); setPage(1) }
   const handleSort = () => {
     setSort((s) => (s === 'newest' ? 'oldest' : 'newest'))
-    resetVisible()
+    setPage(1)
   }
   const handleReset = () => {
     setLocation('All')
     setEmployment(null)
     setExperience(null)
-    resetVisible()
-  }
-  const handleLoadMore = () => {
-    setVisibleCount((v) => v + LOAD_STEP)
+    setPage(1)
   }
 
-  // После каждого изменения visibleCount: если он вырос (Load more clicked) —
-  // плавно скроллим первую новую карточку в top viewport.
-  // resetVisible (filter/sort change) → visibleCount уменьшается → скролл skip.
   useEffect(() => {
-    if (visibleCount > prevVisibleRef.current && firstNewCardRef.current) {
-      firstNewCardRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      })
+    if (page > 1 && sectionRef.current) {
+      sectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
-    prevVisibleRef.current = visibleCount
-  }, [visibleCount])
+  }, [page])
 
   return (
-    <section className={styles.section} data-node-id="125:1596">
+    <section ref={sectionRef} className={styles.section} data-node-id="125:1596">
       {/* Animated Stripe-style wave — атмосфера в нижней части section.    */}
       {/* Bottom-anchored, full-bleed. Сидит ПОД sidebar благодаря          */}
       {/* min-height на .inner → не пересекает filter chips.                */}
@@ -323,19 +259,9 @@ export function CareersSection() {
 
           <div className={styles.jobList}>
             {visibleJobs.length > 0 ? (
-              visibleJobs.map((j, idx) => {
-                const isNew = idx >= newCardStartIdx
-                const enterDelay = isNew ? (idx - newCardStartIdx) * 0.08 : 0
-                return (
-                  <JobCard
-                    key={j.id}
-                    job={j}
-                    isNew={isNew}
-                    enterDelay={enterDelay}
-                    ref={idx === newCardStartIdx ? firstNewCardRef : undefined}
-                  />
-                )
-              })
+              visibleJobs.map((j) => (
+                <JobCard key={j.id} job={j} />
+              ))
             ) : (
               <div className={styles.empty}>
                 <p>No open positions match the selected filters.</p>
@@ -346,15 +272,13 @@ export function CareersSection() {
             )}
           </div>
 
-          {remaining > 0 && (
-            <div className={styles.loadMoreWrap}>
-              <button
-                type="button"
-                className={styles.loadMore}
-                onClick={handleLoadMore}
-              >
-                Show {remaining} more {remaining === 1 ? 'role' : 'roles'}
-              </button>
+          {totalPages > 1 && (
+            <div className={styles.pagination}>
+              <button className={styles.pageArrow} disabled={page === 1} onClick={() => setPage(p => p - 1)} aria-label="Previous page">←</button>
+              {Array.from({ length: totalPages }, (_, i) => (
+                <button key={i + 1} className={page === i + 1 ? styles.pageActive : styles.pageBtn} onClick={() => setPage(i + 1)}>{i + 1}</button>
+              ))}
+              <button className={styles.pageArrow} disabled={page === totalPages} onClick={() => setPage(p => p + 1)} aria-label="Next page">→</button>
             </div>
           )}
         </div>

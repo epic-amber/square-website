@@ -23,11 +23,6 @@ export function GlobalOfficesSection() {
         Global Offices
       </h2>
       <div className={styles.officesInner}>
-        <div className={styles.officesMapWrap}>
-          <Suspense fallback={<div className={styles.officesMapFallback} aria-hidden />}>
-            <OfficesMap />
-          </Suspense>
-        </div>
         <div className={styles.officeCards} data-node-id="49:91">
           <article className={styles.officeCard} data-node-id="49:92">
             <img className={styles.flag} src={FLAG_US} width={36} height={24} alt="" />
@@ -56,6 +51,11 @@ export function GlobalOfficesSection() {
               Av. Benjamín Franklin 235, Piso 3, Mexico City
             </p>
           </article>
+        </div>
+        <div className={styles.officesMapWrap}>
+          <Suspense fallback={<div className={styles.officesMapFallback} aria-hidden />}>
+            <OfficesMap />
+          </Suspense>
         </div>
       </div>
     </section>

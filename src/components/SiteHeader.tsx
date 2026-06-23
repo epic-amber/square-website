@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import styles from './SiteHeader.module.css'
-import logoColor from '../assets/logo-squaregps.svg'
+import { LogoSquareGPS } from './LogoSquareGPS'
 
 export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -39,15 +39,15 @@ export function SiteHeader() {
     <>
       <header className={`${styles.header}${scrolled ? ` ${styles.headerScrolled}` : ''}`} data-node-id="40:675">
         <div className={styles.headerBar}>
-          <Link className={styles.logo} to="/" data-node-id="40:676">
-            <img src={logoColor} alt="SquareGPS" width={138} height={28} />
+          <Link className={styles.logo} to="/" data-node-id="40:676" aria-label="SquareGPS" onClick={() => window.scrollTo(0, 0)}>
+            <LogoSquareGPS width={138} height={28} />
           </Link>
 
           <nav className={styles.nav} aria-label="Primary" data-node-id="40:681">
-            <Link to="/about" className={styles.navLink}>
+            <Link to="/about" className={styles.navLink} onClick={() => window.scrollTo(0, 0)}>
               About
             </Link>
-            <Link to="/careers" className={styles.cta}>
+            <Link to="/careers" className={styles.cta} onClick={() => window.scrollTo(0, 0)}>
               See open roles
             </Link>
           </nav>
@@ -72,8 +72,8 @@ export function SiteHeader() {
         aria-hidden={!menuOpen}
       >
         <div className={styles.overlayTop}>
-          <Link className={styles.overlayLogo} to="/" onClick={() => setMenuOpen(false)}>
-            <img src={logoColor} alt="SquareGPS" width={138} height={28} />
+          <Link className={styles.overlayLogo} to="/" aria-label="SquareGPS" onClick={() => { setMenuOpen(false); window.scrollTo(0, 0) }}>
+            <LogoSquareGPS width={138} height={28} />
           </Link>
           <button
             className={styles.closeBtn}
@@ -90,7 +90,7 @@ export function SiteHeader() {
             to="/about"
             className={styles.overlayLink}
             style={{ transitionDelay: menuOpen ? '80ms' : '0ms' }}
-            onClick={() => setMenuOpen(false)}
+            onClick={() => { setMenuOpen(false); window.scrollTo(0, 0) }}
           >
             About
           </Link>
@@ -98,7 +98,7 @@ export function SiteHeader() {
             to="/careers"
             className={styles.overlayLink}
             style={{ transitionDelay: menuOpen ? '140ms' : '0ms' }}
-            onClick={() => setMenuOpen(false)}
+            onClick={() => { setMenuOpen(false); window.scrollTo(0, 0) }}
           >
             See open roles
           </Link>

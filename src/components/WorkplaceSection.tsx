@@ -4,7 +4,6 @@ import { useReveal } from '../hooks/useReveal'
 import { HeroWaveAccent } from './HeroWaveAccent'
 
 interface WorkplaceProps {
-  imgLanguage: string
   imgPresentation: string
   imgTeam: string
   imgTech: string
@@ -21,7 +20,6 @@ interface WorkplaceProps {
  *   └────────┴─────────┴────────┘
  */
 export function WorkplaceSection({
-  imgLanguage,
   imgPresentation,
   imgTeam,
   imgTech,
@@ -54,9 +52,15 @@ export function WorkplaceSection({
           </p>
         </article>
 
-        {/* Language photo — Figma 80:423 (col 3, row 1) */}
+        {/* Language video — Figma 80:423 (col 3, row 1) */}
         <div className={`${styles.photo} ${styles.photoLang} ${rc}`} style={s(180)} data-node-id="80:423">
-          <img src={imgLanguage} alt="Language learning session" />
+          <video
+            src="/workplace-language.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+          />
         </div>
 
         {/* Presentation photo — Figma 80:432 (col 2, row 2) */}

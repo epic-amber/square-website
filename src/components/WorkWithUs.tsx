@@ -3,7 +3,7 @@ import styles from './WorkWithUs.module.css'
 import { useReveal } from '../hooks/useReveal'
 import { figmaAssets } from '../figmaAssets'
 import { BrandWaveBackdrop } from './BrandWaveBackdrop'
-import workplacePresentation from '../assets/workplace-presentation.png'
+import aboutPresentation from '../assets/about-presentation.png'
 
 export function WorkWithUs() {
   const { ref, visible } = useReveal(0.15)
@@ -40,7 +40,7 @@ export function WorkWithUs() {
         {/* Right: image */}
         <div className={styles.imageWrap}>
           <img
-            src={workplacePresentation}
+            src={aboutPresentation}
             alt="SquareGPS team at work"
             className={styles.image}
           />

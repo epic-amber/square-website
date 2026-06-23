@@ -10,7 +10,6 @@ import { GlobalOfficesSection } from './components/GlobalOfficesSection'
 import { useReveal } from './hooks/useReveal'
 
 import heroVideo from './assets/hero-video.mp4'
-import workplaceLanguage from './assets/workplace-language.png'
 import workplacePresentation from './assets/workplace-presentation.png'
 import workplaceTeam from './assets/workplace-team.png'
 import workplaceTech from './assets/workplace-tech.png'
@@ -285,7 +284,6 @@ export function SquarePage() {
           </div>
 
           <WorkplaceSection
-            imgLanguage={workplaceLanguage}
             imgPresentation={workplacePresentation}
             imgTeam={workplaceTeam}
             imgTech={workplaceTech}

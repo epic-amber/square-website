@@ -5,6 +5,7 @@
   padding: var(--space-24) var(--content-pad-x);
   background: transparent;
   box-sizing: border-box;
+  margin-bottom: var(--section-gap);
 }
 
 /* ── Wave between sections — behind HowWeWork content ────────── */
@@ -44,6 +45,7 @@
   gap: var(--space-6);
   flex: 1 1 auto;
   min-width: 0;
+  max-width: 500px;
 }
 
 .title {
@@ -82,14 +84,11 @@
   font-size: var(--text-lg);
   font-weight: 500;
   text-decoration: none;
-  transition:
-    background-position 0.4s ease,
-    box-shadow 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
 .ctaButton:hover {
-  background-position: 0% 50%;
-  box-shadow: 0 4px 20px rgba(1, 48, 112, 0.35);
+  background-color: #0250a3;
 }
 
 .ctaButton:focus-visible {
@@ -111,8 +110,8 @@
 .imageWrap {
   position: relative;
   flex-shrink: 0;
-  width: 460px;
-  aspect-ratio: 1 / 1;
+  width: 600px;
+  height: 420px;
   overflow: hidden;
   border-radius: var(--radius-2xl);
 }
@@ -131,8 +130,14 @@
     gap: var(--space-10);
   }
 
+  .waveWrap {
+    display: none;
+  }
+
   .imageWrap {
     width: 320px;
+    height: auto;
+    aspect-ratio: 4/3;
   }
 
   .title {

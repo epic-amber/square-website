@@ -93,6 +93,7 @@
 
 /* ── Photo cards (Figma 80:438 / 80:423 / 80:432 / 80:435) ── */
 .photo {
+  position: relative;
   overflow: hidden;
   border-radius: var(--radius-lg);
   background: var(--color-white);
@@ -100,10 +101,14 @@
   min-height: 0;
 }
 
-.photo img {
+.photo img,
+.photo video {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
 /* ── Benefit cards (Figma 79:314 / 79:317 / 79:351) ────────── */

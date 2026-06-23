@@ -1,6 +1,7 @@
 import styles from './MissionSection.module.css'
 import { useReveal } from '../hooks/useReveal'
 import { figmaAssets } from '../figmaAssets'
+import iconSamCobalt from '../assets/icon-sam-cobalt.svg'
 
 export function MissionSection() {
   const { ref, visible } = useReveal(0.2)
@@ -13,7 +14,7 @@ export function MissionSection() {
         <img src={figmaAssets.iconCode}       className={`${styles.di} ${styles.diCode}`}  width={75} alt="" />
         <img src={figmaAssets.iconGlobe}      className={`${styles.di} ${styles.diGlobe}`} width={64} alt="" />
         <img src={figmaAssets.iconNvx}        className={`${styles.di} ${styles.diNvx}`}   width={46} alt="" />
-        <img src={figmaAssets.iconSam}        className={`${styles.di} ${styles.diSam}`}   width={80} alt="" />
+        <img src={iconSamCobalt}               className={`${styles.di} ${styles.diSam}`}   width={80} alt="" />
         <img src={figmaAssets.iconQuerry}      className={`${styles.di} ${styles.diJose}`}  width={55} alt="" />
       </div>
       <div

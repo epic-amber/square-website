@@ -654,6 +654,7 @@
   width: 100%;
   gap: var(--space-40);
   background: transparent;
+  margin-top: var(--section-gap);
 }
 
 .lowerBackdrop {
@@ -682,10 +683,10 @@
   /* Full-bleed bg + 4 rounded corners. Углы 24px образуют маленькие     */
   /* «cutout»-треугольники в viewport corners (page bg #fff просвечивает)*/
   /* → секция выглядит как огромная rounded carta во всю ширину экрана.  */
-  background-color: #F7F9FC;
+  background-color: #013070;
   border-radius: var(--radius-3xl);
   /* верх/низ — воздух вокруг блока офисов */
-  padding: var(--space-24) var(--content-pad-x);
+  padding: calc(var(--space-24) * 1.1) var(--content-pad-x);
 }
 
 .officesTitle {
@@ -697,7 +698,7 @@
   font-weight: 500;
   line-height: normal;
   text-align: center;
-  color: var(--color-heading-muted);
+  color: var(--color-white);
 }
 
 .officesInner {
@@ -762,7 +763,7 @@
   max-width: var(--content-width);
   min-height: 360px;
   border-radius: var(--radius-lg);
-  background: var(--color-slate-100);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .input::placeholder,

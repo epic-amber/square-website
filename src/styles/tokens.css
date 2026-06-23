@@ -133,6 +133,7 @@
   --space-28: 112px; /* gap-28: hero ↔ video+mission-блок; видео ↔ текст миссии */
   /* = Tailwind spacing/gap-40 → theme('spacing.40') → 10rem */
   --space-40: 10rem;
+  --section-gap: var(--space-40);
   --space-42: 42px;
   --gap-contact-cols: 133px; /* Contact us: левый текст ↔ форма (59:130) */
   --gap-contact-copy: 17px; /* Contact us: заголовок ↔ описание (59:131) */
