@@ -1,12 +1,12 @@
 /* ── Stage — full-section atmospheric backdrop ────────────────── */
-/* top + bottom = 0 → растягивается на всю section по вертикали     */
-/* (растёт вместе с контентом). Full-bleed width: max(100%, 1920px) */
-/* выходит за viewport на широких экранах. No overflow clip — wave  */
-/* path рендерится свободно. Contain layout paint изолирует blur от */
-/* rest of page.                                                     */
-/* Wave shifted on +300 в viewBox-space (см. <g transform>) → главная */
-/* масса волны живёт в нижней половине stage, не пересекая контент   */
-/* в верхней зоне (sidebar/heading).                                 */
+/* top + bottom = 0 -> stretches to full section height vertically   */
+/* (grows with content). Full-bleed width: max(100%, 1920px) extends */
+/* beyond the viewport on wide screens. No overflow clip — wave path */
+/* renders freely. Contain layout paint isolates blur from the rest  */
+/* of the page.                                                      */
+/* Wave shifted +300 in viewBox-space (see <g transform>) -> main    */
+/* wave mass lives in the lower half of the stage, not crossing      */
+/* content in the upper zone (sidebar/heading).                      */
 .stage {
   position: absolute;
   top: 0;
@@ -67,7 +67,7 @@
 }
 
 /* ── Sway keyframes — subtle drift, alternate direction per layer  */
-/* для organic non-synchronized motion (Stripe vibe).                */
+/* for organic non-synchronized motion (Stripe vibe).                */
 @keyframes bwbSway1 {
   0%   { transform: translate3d(0, 0, 0); }
   100% { transform: translate3d(20px, -18px, 0); }
@@ -111,9 +111,9 @@
 }
 
 /* ── Mobile ≤767px — drop 2 heaviest layers, smaller blur ───────  */
-/* layer5 (48px violet halo) и layer4 (38px pink wash) самые        */
-/* дорогие — скрываем для battery/perf. Оставшиеся 4 layer          */
-/* достаточны для visual richness на маленьком экране.              */
+/* layer5 (48px violet halo) and layer4 (38px pink wash) are the     */
+/* most expensive — hidden for battery/perf. The remaining 4 layers  */
+/* are sufficient for visual richness on a small screen.             */
 @media (max-width: 767px) {
   .layer4, .layer5 {
     display: none;

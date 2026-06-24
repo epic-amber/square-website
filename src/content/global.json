@@ -1,0 +1,37 @@
+{
+  "header": {
+    "logoAriaLabel": "SquareGPS",
+    "aboutLink": "About",
+    "careersLink": "See open roles",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "navAriaLabel": "Primary",
+    "mobileNavAriaLabel": "Mobile primary"
+  },
+  "footer": {
+    "products": {
+      "title": "Products",
+      "items": [
+        { "label": "Navixy", "url": "https://navixy.com/" },
+        { "label": "B2Field", "url": "https://b2field.com/" }
+      ]
+    },
+    "company": {
+      "title": "Company",
+      "items": [
+        { "label": "About", "to": "/about" },
+        { "label": "Careers", "to": "/careers" }
+      ]
+    },
+    "contact": {
+      "title": "Contact",
+      "email": "info@squaregps.com",
+      "address": "2945 Townsgate Rd, Suite 200, Westlake Village, CA 91361, USA"
+    },
+    "legal": "Copyright © 2002-2026",
+    "social": [
+      { "label": "LinkedIn", "url": "https://www.linkedin.com/company/squaregps" },
+      { "label": "YouTube", "url": "https://www.youtube.com/@Navixy" }
+    ]
+  }
+}

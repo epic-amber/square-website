@@ -1,0 +1,49 @@
+{
+  "hero": {
+    "eyebrow": "About the company",
+    "title": "We're shaping the future of telematics solutions",
+    "subtitle": "SquareGPS connects people, vehicles, and data through smart telematics solutions. Since 2005, we've helped companies around the world improve visibility, streamline operations, and make better decisions with reliable, intuitive software."
+  },
+  "mission": {
+    "eyebrow": "Our Mission",
+    "body": "Our mission is to help companies simplify mobile operations through real-time data, digital workflows, and automation."
+  },
+  "values": {
+    "title": "What drives us every day",
+    "items": [
+      {
+        "key": "communication",
+        "title": "Open Communication",
+        "description": "Fostering transparent dialogue and honest feedback across all levels"
+      },
+      {
+        "key": "expectations",
+        "title": "Exceed Expectations",
+        "description": "Going beyond what's expected to deliver exceptional results"
+      },
+      {
+        "key": "global",
+        "title": "Act Global",
+        "description": "Thinking globally and embracing diverse perspectives worldwide"
+      },
+      {
+        "key": "learning",
+        "title": "Continuous Learning",
+        "description": "Constantly growing, adapting, and improving our skills and knowledge"
+      }
+    ]
+  },
+  "howWeWork": {
+    "title": "Built for collaboration, driven by purpose",
+    "body": "We embrace agile methodologies and foster a culture of continuous improvement. Our distributed teams collaborate seamlessly across time zones, united by shared goals and passion for innovation."
+  },
+  "workWithUs": {
+    "title": "Work with us",
+    "body": "Be part of a team creating telematics solutions that help businesses around the world simplify operations, improve visibility, and make smarter decisions every day.",
+    "cta": "Explore opportunities"
+  },
+  "globalOffices": {
+    "title": "Global Offices",
+    "mapAriaLabel": "Map of SquareGPS office locations (use zoom buttons to change scale)"
+  }
+}

@@ -14,9 +14,9 @@
   aspect-ratio: 1280 / 420;
   border-radius: 12px;
   overflow: hidden;
-  /* Layered: оригинальный sky linear (base) + radial navy blob       */
-  /* anchored в bottom-left → depth боль heading area, top-left near  */
-  /* wave остаётся оригинальный sky.                                   */
+  /* Layered: original sky linear (base) + radial navy blob anchored   */
+  /* in bottom-left -> depth under the heading area, top-left near the */
+  /* wave keeps the original sky.                                      */
   background:
     radial-gradient(
       ellipse 1400px 700px at -200px 460px,
@@ -29,7 +29,7 @@
   flex-shrink: 0;
 }
 
-/* Сцена в координатах макета 1280×420, центрирована, масштабируется по ширине */
+/* Stage in mockup coordinates 1280x420, centered, scales by width */
 .stage {
   position: absolute;
   top: 50%;

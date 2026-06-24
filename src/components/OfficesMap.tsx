@@ -2,8 +2,9 @@ import { useEffect, useRef } from 'react'
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import styles from './OfficesMap.module.css'
+import aboutContent from '../content/about.json'
 
-/** Стиль тайлов OpenFreeMap — Positron (см. https://openfreemap.org/quick_start/) */
+/** OpenFreeMap tile style — Positron (see https://openfreemap.org/quick_start/) */
 const OPENFREEMAP_STYLE = 'https://tiles.openfreemap.org/styles/positron'
 
 const OFFICES = [
@@ -58,7 +59,7 @@ export function OfficesMap() {
       renderWorldCopies: false,
     })
 
-    /* Без зума колесом / pinch / двойной клик — скролл страницы не «ломается» об карту */
+    /* Disable wheel / pinch / double-click zoom so page scroll is not "broken" by the map */
     map.scrollZoom.disable()
     map.boxZoom.disable()
     map.doubleClickZoom.disable()
@@ -106,7 +107,7 @@ export function OfficesMap() {
         ref={containerRef}
         className={styles.map}
         role="application"
-        aria-label="Map of SquareGPS office locations (use zoom buttons to change scale)"
+        aria-label={aboutContent.globalOffices.mapAriaLabel}
       />
     </div>
   )

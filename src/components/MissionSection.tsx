@@ -2,6 +2,7 @@ import styles from './MissionSection.module.css'
 import { useReveal } from '../hooks/useReveal'
 import { figmaAssets } from '../figmaAssets'
 import iconSamCobalt from '../assets/icon-sam-cobalt.svg'
+import aboutContent from '../content/about.json'
 
 export function MissionSection() {
   const { ref, visible } = useReveal(0.2)
@@ -21,9 +22,9 @@ export function MissionSection() {
         ref={ref}
         className={`${styles.content} reveal ${visible ? 'reveal--in' : ''}`}
       >
-        <p className={styles.eyebrow}>Our Mission</p>
+        <p className={styles.eyebrow}>{aboutContent.mission.eyebrow}</p>
         <p className={styles.text}>
-          Our mission is to help companies simplify mobile operations through real-time data, digital workflows, and automation.
+          {aboutContent.mission.body}
         </p>
       </div>
     </section>

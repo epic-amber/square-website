@@ -2,6 +2,10 @@ import type { CSSProperties } from 'react'
 import styles from './WorkplaceSection.module.css'
 import { useReveal } from '../hooks/useReveal'
 import { HeroWaveAccent } from './HeroWaveAccent'
+import homeContent from '../content/home.json'
+import mediaContent from '../content/media.json'
+
+const benefitByKey = (key: string) => homeContent.workplace.benefits.find(b => b.key === key)!
 
 interface WorkplaceProps {
   imgPresentation: string
@@ -31,24 +35,24 @@ export function WorkplaceSection({
   return (
     <section ref={ref} className={styles.workplace} data-node-id="79:86">
       <h2 className={`${styles.title} ${rc}`} style={s(0)} data-node-id="79:343">
-        More than a workplace
+        {homeContent.workplace.title}
       </h2>
 
       <div className={styles.grid} data-node-id="79:357">
         {/* Hero — Figma 79:312 (col 1, rows 1-2) */}
         <article className={`${styles.hero} ${rc}`} style={s(60)} data-node-id="79:312">
-          {/* Wave accent — мини-эхо BrandWaveBackdrop, анкорится bottom-right. */}
+          {/* Wave accent — mini echo of BrandWaveBackdrop, anchored bottom-right. */}
           <HeroWaveAccent />
           <p className={styles.heroText} data-node-id="79:310">
-            Invest in your future with continuous learning, global exposure, and real career growth
+            {homeContent.workplace.heroText}
           </p>
         </article>
 
         {/* Language Learning — Figma 79:314 (col 2, row 1) */}
         <article className={`${styles.benefit} ${styles.benefitLang} ${rc}`} style={s(120)} data-node-id="79:314">
-          <p className={styles.benefitTitle} data-node-id="79:315">Language Learning</p>
+          <p className={styles.benefitTitle} data-node-id="79:315">{benefitByKey('language').title}</p>
           <p className={styles.benefitBody} data-node-id="79:316">
-            Master Spanish, English, or Serbian with company support
+            {benefitByKey('language').body}
           </p>
         </article>
 
@@ -65,33 +69,33 @@ export function WorkplaceSection({
 
         {/* Presentation photo — Figma 80:432 (col 2, row 2) */}
         <div className={`${styles.photo} ${styles.photoPres} ${rc}`} style={s(240)} data-node-id="80:432">
-          <img src={imgPresentation} alt="Team presentation" />
+          <img src={imgPresentation} alt={mediaContent.workplacePresentation.alt} />
         </div>
 
         {/* Education Reimbursement — Figma 79:317 (col 3, row 2) */}
         <article className={`${styles.benefit} ${styles.benefitEdu} ${rc}`} style={s(300)} data-node-id="79:317">
-          <p className={styles.benefitTitle} data-node-id="79:318">Education Reimbursement</p>
+          <p className={styles.benefitTitle} data-node-id="79:318">{benefitByKey('education').title}</p>
           <p className={styles.benefitBody} data-node-id="79:319">
-            We help cover your education costs
+            {benefitByKey('education').body}
           </p>
         </article>
 
         {/* Team photo — Figma 80:438 (col 1, row 3) */}
         <div className={`${styles.photo} ${styles.teamPhoto} ${rc}`} style={s(360)} data-node-id="80:438">
-          <img src={imgTeam} alt="SquareGPS team" />
+          <img src={imgTeam} alt={mediaContent.workplaceTeam.alt} />
         </div>
 
         {/* Health Insurance Support — Figma 79:351 (col 2, row 3) */}
         <article className={`${styles.benefit} ${styles.benefitHealth} ${rc}`} style={s(420)} data-node-id="79:351">
-          <p className={styles.benefitTitle} data-node-id="79:352">Health Insurance Support</p>
+          <p className={styles.benefitTitle} data-node-id="79:352">{benefitByKey('health').title}</p>
           <p className={styles.benefitBody} data-node-id="79:353">
-            We help cover your medical insurance costs
+            {benefitByKey('health').body}
           </p>
         </article>
 
         {/* Tech photo — Figma 80:435 (col 3, row 3) */}
         <div className={`${styles.photo} ${styles.photoTech} ${rc}`} style={s(480)} data-node-id="80:435">
-          <img src={imgTech} alt="Technical presentation" />
+          <img src={imgTech} alt={mediaContent.workplaceTech.alt} />
         </div>
       </div>
     </section>

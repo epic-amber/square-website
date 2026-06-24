@@ -1,6 +1,8 @@
 import styles from './HowWeWork.module.css'
 import { useReveal } from '../hooks/useReveal'
 import aboutCollaboration from '../assets/about-collaboration.png'
+import aboutContent from '../content/about.json'
+import mediaContent from '../content/media.json'
 
 export function HowWeWork() {
   const { ref, visible } = useReveal(0.15)
@@ -15,7 +17,7 @@ export function HowWeWork() {
         <div className={styles.imageWrap}>
           <img
             src={aboutCollaboration}
-            alt="SquareGPS team collaborating"
+            alt={mediaContent.aboutCollaboration.alt}
             className={styles.image}
           />
         </div>
@@ -23,9 +25,9 @@ export function HowWeWork() {
         {/* Right: text */}
         <div className={styles.copy}>
 
-          <h2 className={styles.title}>Built for collaboration, driven by purpose</h2>
+          <h2 className={styles.title}>{aboutContent.howWeWork.title}</h2>
           <p className={styles.body}>
-            We embrace agile methodologies and foster a culture of continuous improvement. Our distributed teams collaborate seamlessly across time zones, united by shared goals and passion for innovation.
+            {aboutContent.howWeWork.body}
           </p>
 
         </div>

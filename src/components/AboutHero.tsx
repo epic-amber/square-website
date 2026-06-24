@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import styles from './AboutHero.module.css'
 import { BrandWaveBackdrop } from './BrandWaveBackdrop'
+import aboutContent from '../content/about.json'
+import mediaContent from '../content/media.json'
 
 export function AboutHero() {
   const [visible, setVisible] = useState(false)
@@ -18,14 +20,12 @@ export function AboutHero() {
       <div className={`${styles.inner} reveal ${visible ? 'reveal--in' : ''}`}>
         {/* Left: text column */}
         <div className={styles.textCol}>
-          <p className={styles.eyebrow}>About the company</p>
+          <p className={styles.eyebrow}>{aboutContent.hero.eyebrow}</p>
           <h1 className={styles.title}>
-            We're shaping the future of telematics solutions
+            {aboutContent.hero.title}
           </h1>
           <p className={styles.subtitle}>
-            SquareGPS connects people, vehicles, and data through smart telematics solutions.
-            Since 2005, we've helped companies around the world improve visibility, streamline
-            operations, and make better decisions with reliable, intuitive software.
+            {aboutContent.hero.subtitle}
           </p>
         </div>
 
@@ -47,7 +47,7 @@ export function AboutHero() {
             <img
               className={styles.media}
               src="/about-hero-01.png"
-              alt="Team member at conference"
+              alt={mediaContent.aboutHeroPhoto.alt}
             />
           </div>
         </div>

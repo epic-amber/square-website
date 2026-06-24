@@ -1,8 +1,8 @@
 /* ── Section wrapper ─────────────────────────────────────────── */
-/* overflow visible → BrandWaveBackdrop stage свободно bleed'ит в    */
-/* следующую секцию (footer area) — mask на stage делает плавный fade.*/
-/* Horizontal bleed (max(100%, 1920px)) ограничен page root           */
-/* overflow-x: clip (см. SquarePage.module.css).                      */
+/* overflow visible -> BrandWaveBackdrop stage freely bleeds into the */
+/* next section (footer area) — mask on stage provides a smooth fade. */
+/* Horizontal bleed (max(100%, 1920px)) is contained by the page root */
+/* overflow-x: clip (see SquarePage.module.css).                      */
 .vacancies {
   position: relative;
   width: 100%;
@@ -12,9 +12,9 @@
   background: #ffffff;
 }
 
-/* Атмосферный wave-backdrop живёт в отдельном компоненте              */
+/* Atmospheric wave-backdrop lives in a separate component              */
 /* BrandWaveBackdrop (bottom-anchored SVG ribbons + animations).        */
-/* z-index: 0 у `.stage` — за `.inner` (z:1).                           */
+/* z-index: 0 on `.stage` — behind `.inner` (z:1).                      */
 
 /* ── Content block ───────────────────────────────────────────── */
 .inner {
@@ -66,172 +66,6 @@
   gap: 20px;
   width: 100%;
   align-items: stretch;
-}
-
-/* ── Single vacancy card ─────────────────────────────────────── */
-/* Modern hairline approach (синхронизировано с CareersSection):    */
-/* flat white card, 1px border, no shadow. Hover signals tactility  */
-/* через border-darkening + title color shift, не через lift/shadow.*/
-.card {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  padding: 32px;
-  background: #ffffff;
-  border: 1px solid var(--color-slate-200);
-  border-radius: 12px;
-  text-decoration: none;
-  color: var(--color-slate-900);
-  box-sizing: border-box;
-  transition:
-    opacity      0.7s  ease-out,
-    border-color 0.18s ease,
-    background   0.18s ease;
-}
-
-.card:hover {
-  border-color: var(--color-slate-400);
-}
-
-.card:focus-visible {
-  outline: 2px solid var(--color-sky-500);
-  outline-offset: 2px;
-  border-color: var(--color-slate-400);
-}
-
-/* Reveal-on-scroll: softer 8px slide (intersection-observer-driven  */
-/* onboarding анимация, отдельно от hover). Остаётся без изменений.  */
-.card:global(.reveal) {
-  transform: translateY(8px);
-}
-
-.card:global(.reveal.reveal--in) {
-  transform: translateY(0);
-}
-
-/* ── Card header: title + location ──────────────────────────── */
-.cardHeader {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.jobTitle {
-  font-family: var(--font-sans);
-  font-size: 20px;
-  font-weight: 500;
-  color: var(--color-slate-900);
-  margin: 0;
-  line-height: 1.3;
-  min-height: calc(1.3em * 2);
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  transition: color 0.18s ease;
-}
-
-.card:hover .jobTitle {
-  color: var(--color-slate-700);
-}
-
-.location {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.locationIcon {
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
-  opacity: 0.85;
-}
-
-.locationText {
-  font-family: var(--font-sans);
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--color-slate-700);
-  margin: 0;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  white-space: nowrap;
-}
-
-.locationDot {
-  color: var(--color-slate-400);
-  font-weight: 400;
-}
-
-/* ── Description — max 3 lines with ellipsis ─────────────────── */
-.description {
-  font-family: var(--font-sans);
-  font-size: var(--text-sm);
-  font-weight: 400;
-  color: var(--color-slate-600);
-  line-height: 1.5;
-  margin: 0;
-  min-height: calc(1.5em * 3);
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* ── Tags row ────────────────────────────────────────────────── */
-.tags {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-sans);
-  font-size: var(--text-base);
-  font-weight: 400;
-  color: var(--color-slate-500);
-  margin: 0;
-}
-
-.tag {
-  margin: 0;
-  padding: 4px 12px;
-  background: var(--color-slate-100);
-  border-radius: 100px;
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--color-slate-600);
-}
-
-/* ── CTA link (Apply now / View role) ────────────────────────── */
-.viewRole {
-  font-family: var(--font-sans);
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--color-slate-900);
-  margin: 0;
-  margin-top: auto;
-  padding-top: 4px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  letter-spacing: 0.1px;
-  transition: gap 0.2s ease, color 0.2s ease;
-}
-
-.viewRoleArrow {
-  display: inline-block;
-  font-size: 16px;
-  transition: transform 0.2s ease;
-}
-
-.card:hover .viewRole {
-  gap: 10px;
-  color: var(--color-slate-700);
-}
-
-.card:hover .viewRoleArrow {
-  transform: translateX(4px);
 }
 
 /* ── CTA button — rich royal-blue sweep ─────────────────────── */
@@ -319,38 +153,7 @@
     gap: 40px;
   }
 
-  .card {
-    padding: 24px;
-    gap: 16px;
-  }
-
-  .jobTitle {
-    font-size: 18px;
-    min-height: auto;
-  }
-
-  .description {
-    min-height: auto;
-    -webkit-line-clamp: 3;
-  }
-
-  .viewRole {
-    margin-top: 16px;
-  }
-
-  .locationText {
-    white-space: normal;
-    flex-wrap: wrap;
-  }
-
   .ctaButton {
     min-height: 44px;
-  }
-}
-
-/* ── Very narrow ≤380px ──────────────────────────────────────── */
-@media (max-width: 380px) {
-  .card {
-    padding: 20px;
   }
 }

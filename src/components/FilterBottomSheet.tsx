@@ -2,24 +2,24 @@ import { useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import styles from './FilterBottomSheet.module.css'
 import { FilterChip } from './FilterChip'
+import careersContent from '../content/careers.json'
 
-/* ── Filter contracts (mirrored from CareersSection types) ─────── */
-/* Keep aligned: any change here = sync CareersSection.tsx contracts. */
+/* ── Filter contracts ──────────────────────────────────────────── */
 
-type LocationFilter = 'All' | 'Serbia' | 'Mexico' | 'USA'
-type EmploymentFilter = 'Full-time' | 'Hybrid' | 'Remote' | null
-type ExperienceFilter = 'Lead' | 'Senior' | 'Middle' | 'Junior' | null
+type LocationFilter = string
+type EmploymentFilter = string | null
+type ExperienceFilter = string | null
 
-const LOCATION_FILTERS = ['All', 'Serbia', 'Mexico', 'USA'] as const
-const EMPLOYMENT_FILTERS = ['Full-time', 'Hybrid', 'Remote'] as const
-const EXPERIENCE_FILTERS = ['Lead', 'Senior', 'Middle', 'Junior'] as const
+const LOCATION_FILTERS = careersContent.filters.locations
+const EMPLOYMENT_FILTERS = careersContent.filters.employments
+const EXPERIENCE_FILTERS = careersContent.filters.experiences
 
 interface FilterBottomSheetProps {
   open: boolean
   onClose: () => void
-  /** Count матчящих cards — для live "Show N roles" footer button.  */
+  /** Count of matching cards — for the live "Show N roles" footer button. */
   resultsCount: number
-  /** Сколько фильтров реально active (для empty/reset state).        */
+  /** How many filters are actually active (for empty/reset state).   */
   activeCount: number
 
   location: LocationFilter
@@ -33,18 +33,18 @@ interface FilterBottomSheetProps {
 }
 
 /**
- * FilterBottomSheet — mobile-only modal с filter UI.
+ * FilterBottomSheet — mobile-only modal with filter UI.
  *
  * Pattern: bottom sheet slides up from viewport edge; instant apply
- * (каждый tap по чипу мгновенно обновляет cards в background).
- * Footer button "Show N roles" обновляет count live и закрывает sheet.
+ * (each tap on a chip instantly updates cards in background).
+ * Footer button "Show N roles" updates the count live and closes the sheet.
  *
  * Behaviour:
- *  - Body scroll lock пока open (предотвращает background scroll)
- *  - ESC закрывает
- *  - Backdrop click закрывает
- *  - Focus trap внутри sheet (basic — sticks to close button at open)
- *  - Rendered через portal в document.body → escape stacking issues
+ *  - Body scroll lock while open (prevents background scroll)
+ *  - ESC closes
+ *  - Backdrop click closes
+ *  - Focus trap inside sheet (basic — sticks to close button on open)
+ *  - Rendered via portal into document.body → escape stacking issues
  *
  * Accessibility:
  *  - role="dialog", aria-modal="true", aria-labelledby
@@ -75,7 +75,7 @@ export function FilterBottomSheet({
     const prevOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
 
-    /* Focus close button после open animation начала (next tick). */
+    /* Focus close button after the open animation starts (next tick). */
     const focusTimer = window.setTimeout(() => {
       closeBtnRef.current?.focus()
     }, 50)
@@ -92,7 +92,7 @@ export function FilterBottomSheet({
       document.body.style.overflow = prevOverflow
       document.removeEventListener('keydown', handleKey)
       window.clearTimeout(focusTimer)
-      /* Restore focus to trigger button после close. */
+      /* Restore focus to trigger button after close. */
       previouslyFocusedRef.current?.focus()
     }
   }, [open, onClose])
@@ -114,14 +114,14 @@ export function FilterBottomSheet({
       >
         {/* Header */}
         <header className={styles.header}>
-          {/* Drag handle — visual affordance что sheet swipeable                */}
-          {/* (мы не implement'им swipe-to-dismiss в этом раунде, но handle      */}
-          {/* sets правильное mental model).                                      */}
+          {/* Drag handle — visual affordance that the sheet is swipeable.       */}
+          {/* We do not implement swipe-to-dismiss in this round, but the       */}
+          {/* handle sets the correct mental model.                              */}
           <div className={styles.handle} aria-hidden />
 
           <div className={styles.headerRow}>
             <h2 id="filter-sheet-title" className={styles.title}>
-              Filters
+              {careersContent.results.filtersLabel}
               {activeCount > 0 && (
                 <span className={styles.titleCount}>· {activeCount}</span>
               )}
@@ -131,7 +131,7 @@ export function FilterBottomSheet({
               type="button"
               className={styles.closeBtn}
               onClick={onClose}
-              aria-label="Close filters"
+              aria-label={careersContent.results.closeFiltersAriaLabel}
             >
               <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden>
                 <path
@@ -147,7 +147,7 @@ export function FilterBottomSheet({
 
         {/* Scrollable body */}
         <div className={styles.body}>
-          <FilterGroup title="Location">
+          <FilterGroup title={careersContent.filters.locationTitle}>
             {LOCATION_FILTERS.map((f) => (
               <FilterChip
                 key={f}
@@ -158,7 +158,7 @@ export function FilterBottomSheet({
             ))}
           </FilterGroup>
 
-          <FilterGroup title="Employment">
+          <FilterGroup title={careersContent.filters.employmentTitle}>
             {EMPLOYMENT_FILTERS.map((f) => (
               <FilterChip
                 key={f}
@@ -169,7 +169,7 @@ export function FilterBottomSheet({
             ))}
           </FilterGroup>
 
-          <FilterGroup title="Experience">
+          <FilterGroup title={careersContent.filters.experienceTitle}>
             {EXPERIENCE_FILTERS.map((f) => (
               <FilterChip
                 key={f}
@@ -189,21 +189,21 @@ export function FilterBottomSheet({
             onClick={onReset}
             disabled={activeCount === 0}
           >
-            Reset
+            {careersContent.results.resetButton}
           </button>
           <button
             type="button"
             className={styles.applyBtn}
             onClick={onClose}
           >
-            Show {resultsCount} {resultsCount === 1 ? 'role' : 'roles'}
+            {careersContent.results.showButton} {resultsCount} {resultsCount === 1 ? careersContent.results.openRole : careersContent.results.openRoles}
           </button>
         </footer>
       </div>
     </div>
   )
 
-  /* Portal в body → стек поверх любого z-index в page. */
+  /* Portal into body → stacks above any z-index on the page. */
   return createPortal(sheet, document.body)
 }
 

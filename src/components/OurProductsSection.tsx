@@ -3,25 +3,30 @@ import styles from './OurProductsSection.module.css'
 import navixySrc from '../assets/navixy-product-icon.svg'
 import b2fieldSrc from '../assets/b2field-product-icon.svg'
 import { useReveal } from '../hooks/useReveal'
+import homeContent from '../content/home.json'
 
 type ActiveIcon = 'navixy' | 'b2field'
 
 const SWAP_INTERVAL_MS = 4500
 
+const productItems = homeContent.products.items
+const navixyContent = productItems.find(p => p.key === 'navixy')!
+const b2fieldContent = productItems.find(p => p.key === 'b2field')!
+
 const PRODUCTS = {
   navixy: {
-    title: 'Navixy',
-    desc: 'GPS tracking platform for fleet management and asset monitoring',
-    href: 'https://navixy.com/',
+    title: navixyContent.title,
+    desc: navixyContent.description,
+    href: navixyContent.url,
     src: navixySrc,
-    ariaLabel: 'Navixy — open GPS tracking platform website',
+    ariaLabel: navixyContent.ariaLabel,
   },
   b2field: {
-    title: 'B2Field',
-    desc: 'Service for companies managing mobile workforce',
-    href: 'https://b2field.com/',
+    title: b2fieldContent.title,
+    desc: b2fieldContent.description,
+    href: b2fieldContent.url,
     src: b2fieldSrc,
-    ariaLabel: 'B2Field — open mobile workforce management website',
+    ariaLabel: b2fieldContent.ariaLabel,
   },
 } as const
 
@@ -81,9 +86,9 @@ export function OurProductsSection() {
     >
       {/* ── Left: text copy ──────────────────────────────────── */}
       <div className={styles.copy}>
-        <h2 className={styles.title}>Our Products</h2>
+        <h2 className={styles.title}>{homeContent.products.title}</h2>
         <p className={styles.desc}>
-          Trusted by hundreds of integrators and businesses worldwide. Whether you're building location-based services or managing a mobile workforce, our platforms deliver the reliability and flexibility your operations demand.
+          {homeContent.products.subtitle}
         </p>
       </div>
 

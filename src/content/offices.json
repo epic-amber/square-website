@@ -1,0 +1,23 @@
+[
+  {
+    "city": "Westlake Village, USA",
+    "country": "us",
+    "address": "2945 Townsgate Rd, Suite 200 Westlake Village, CA 91361",
+    "flagCode": "us",
+    "coordinates": [-118.8209, 34.1414]
+  },
+  {
+    "city": "Belgrade, Serbia",
+    "country": "rs",
+    "address": "Kneza Mihaila 3, 5. sprat, Poslovna zgrada Zepter, Beograd",
+    "flagCode": "rs",
+    "coordinates": [20.4568, 44.8176]
+  },
+  {
+    "city": "Mexico City, Mexico",
+    "country": "mx",
+    "address": "Av. Benjamín Franklin 235, Piso 3, Mexico City",
+    "flagCode": "mx",
+    "coordinates": [-99.1732, 19.4326]
+  }
+]

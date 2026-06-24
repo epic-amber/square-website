@@ -4,6 +4,8 @@ import { useReveal } from '../hooks/useReveal'
 import { figmaAssets } from '../figmaAssets'
 import { BrandWaveBackdrop } from './BrandWaveBackdrop'
 import aboutPresentation from '../assets/about-presentation.png'
+import aboutContent from '../content/about.json'
+import mediaContent from '../content/media.json'
 
 export function WorkWithUs() {
   const { ref, visible } = useReveal(0.15)
@@ -19,13 +21,12 @@ export function WorkWithUs() {
       >
         {/* Left: text */}
         <div className={styles.copy}>
-          <h2 className={styles.title}>Work with us</h2>
+          <h2 className={styles.title}>{aboutContent.workWithUs.title}</h2>
           <p className={styles.body}>
-            Be part of a team creating telematics solutions that help businesses around the world
-            simplify operations, improve visibility, and make smarter decisions every day.
+            {aboutContent.workWithUs.body}
           </p>
           <Link to="/careers" className={styles.ctaButton}>
-            <span>Explore opportunities</span>
+            <span>{aboutContent.workWithUs.cta}</span>
             <img
               src={figmaAssets.arrowForward}
               alt=""
@@ -41,7 +42,7 @@ export function WorkWithUs() {
         <div className={styles.imageWrap}>
           <img
             src={aboutPresentation}
-            alt="SquareGPS team at work"
+            alt={mediaContent.aboutPresentation.alt}
             className={styles.image}
           />
         </div>

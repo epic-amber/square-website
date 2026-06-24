@@ -1,0 +1,37 @@
+{
+  "banner": {
+    "ariaLabel": "Careers at SquareGPS",
+    "title": "Careers",
+    "subtitle": "Find the role that's right for you"
+  },
+  "filters": {
+    "locationTitle": "Location",
+    "employmentTitle": "Employment",
+    "experienceTitle": "Experience",
+    "resetAll": "Reset all filters",
+    "locations": ["All", "Serbia", "Mexico", "USA"],
+    "employments": ["Full-time", "Hybrid", "Remote"],
+    "experiences": ["Lead", "Senior", "Middle", "Junior"]
+  },
+  "results": {
+    "openRole": "open role",
+    "openRoles": "open roles",
+    "sortLabel": "Sort:",
+    "newest": "Newest",
+    "oldest": "Oldest",
+    "filtersLabel": "Filters",
+    "sortAriaPrefix": "Sort by date, currently",
+    "sortAriaSuffix": "Click to switch.",
+    "openFiltersAriaLabel": "Open filters",
+    "closeFiltersAriaLabel": "Close filters",
+    "previousPage": "Previous page",
+    "nextPage": "Next page",
+    "resetButton": "Reset",
+    "showButton": "Show"
+  },
+  "empty": {
+    "message": "No open positions match the selected filters.",
+    "resetButton": "Clear filters"
+  },
+  "viewRole": "View role"
+}

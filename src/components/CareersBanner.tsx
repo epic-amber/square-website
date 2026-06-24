@@ -1,4 +1,5 @@
 import styles from './CareersBanner.module.css'
+import careersContent from '../content/careers.json'
 
 import wave01        from '../assets/cb-wave-01.png'
 import wave02        from '../assets/cb-wave-02.png'
@@ -16,7 +17,7 @@ export function CareersBanner() {
     <div className={styles.bannerWrap}>
       <section
         className={styles.banner}
-        aria-label="Careers at SquareGPS"
+        aria-label={careersContent.banner.ariaLabel}
         data-node-id="167:603"
       >
         <div className={styles.stage}>
@@ -100,8 +101,8 @@ export function CareersBanner() {
 
         {/* Text — outside .stage so it's not scaled down on mobile */}
         <div className={styles.headingGroup}>
-          <h1 className={styles.heading} data-node-id="167:806">Careers</h1>
-          <p className={styles.subheading}>Find the role that's right for you</p>
+          <h1 className={styles.heading} data-node-id="167:806">{careersContent.banner.title}</h1>
+          <p className={styles.subheading}>{careersContent.banner.subtitle}</p>
         </div>
       </section>
     </div>

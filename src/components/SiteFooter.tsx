@@ -1,9 +1,16 @@
 import type { Ref } from 'react'
+import { Link } from 'react-router-dom'
 import styles from './SiteFooter.module.css'
 import { figmaAssets } from '../figmaAssets'
 import logoColor from '../assets/logo-squaregps.svg'
 import linkedinIcon from '../assets/linkedin-icon.svg'
 import youtubeIcon from '../assets/youtube-icon.svg'
+import globalContent from '../content/global.json'
+
+const socialIcons: Record<string, string> = {
+  LinkedIn: linkedinIcon,
+  YouTube: youtubeIcon,
+}
 
 interface SiteFooterProps {
   revealRef?: Ref<HTMLElement>
@@ -23,51 +30,53 @@ export function SiteFooter({ revealRef, revealClass = '' }: SiteFooterProps) {
       <div className={styles.footerInner}>
         <div className={styles.footerGrid} data-node-id="40:749">
           <div className={styles.footerLogo} data-node-id="40:750">
-            <img src={logoColor} alt="SquareGPS" data-node-id="40:751" />
+            <img src={logoColor} alt={globalContent.header.logoAriaLabel} data-node-id="40:751" />
           </div>
           <div className={styles.footerCol} data-node-id="40:755">
             <p className={styles.footerHeading} data-node-id="40:757">
-              Products
+              {globalContent.footer.products.title}
             </p>
             <ul className={styles.footerLinks}>
-              <li data-node-id="40:759">
-                <a href="https://navixy.com/" target="_blank" rel="noopener noreferrer">Navixy</a>
-              </li>
-              <li data-node-id="40:760">
-                <a href="https://b2field.com/" target="_blank" rel="noopener noreferrer">B2Field</a>
-              </li>
+              {globalContent.footer.products.items.map((item) => (
+                <li key={item.label}>
+                  <a href={item.url} target="_blank" rel="noopener noreferrer">{item.label}</a>
+                </li>
+              ))}
             </ul>
           </div>
           <div className={styles.footerCol} data-node-id="40:761">
             <p className={styles.footerHeading} data-node-id="40:763">
-              Company
+              {globalContent.footer.company.title}
             </p>
             <ul className={styles.footerLinks}>
-              <li data-node-id="40:766">Careers</li>
+              {globalContent.footer.company.items.map((item) => (
+                <li key={item.label}>
+                  <Link to={item.to}>{item.label}</Link>
+                </li>
+              ))}
             </ul>
           </div>
           <div className={`${styles.footerCol} ${styles.footerColGrow}`} data-node-id="40:767">
             <p className={styles.footerHeading} data-node-id="40:769">
-              Contact
+              {globalContent.footer.contact.title}
             </p>
             <ul className={styles.footerLinks}>
-              <li data-node-id="40:771"><a href="mailto:info@squaregps.com">info@squaregps.com</a></li>
-              <li data-node-id="40:772">2945 Townsgate Rd, Suite 200, Westlake Village, CA 91361, USA</li>
+              <li><a href={`mailto:${globalContent.footer.contact.email}`}>{globalContent.footer.contact.email}</a></li>
+              <li>{globalContent.footer.contact.address}</li>
             </ul>
           </div>
         </div>
 
         <div className={styles.legalRow} data-node-id="40:773">
           <p className={styles.legal} data-node-id="40:774">
-            Copyright © 2002-2026
+            {globalContent.footer.legal}
           </p>
           <div className={styles.social} data-node-id="40:777">
-            <a href="https://www.linkedin.com/company/squaregps" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" data-node-id="40:778">
-              <img src={linkedinIcon} alt="" width={24} height={24} />
-            </a>
-            <a href="https://www.youtube.com/@Navixy" target="_blank" rel="noopener noreferrer" aria-label="YouTube" data-node-id="40:782">
-              <img src={youtubeIcon} alt="" width={24} height={24} />
-            </a>
+            {globalContent.footer.social.map((s) => (
+              <a key={s.label} href={s.url} target="_blank" rel="noopener noreferrer" aria-label={s.label}>
+                <img src={socialIcons[s.label]} alt="" width={24} height={24} />
+              </a>
+            ))}
           </div>
         </div>
       </div>

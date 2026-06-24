@@ -1,20 +1,20 @@
 import styles from './BrandWaveBackdrop.module.css'
 
 /**
- * Stripe-style animated wave backdrop — переиспользуемый brand atmosphere.
+ * Stripe-style animated wave backdrop — reusable brand atmosphere.
  *
- * Используется в CareersSection и VacanciesSection (main page) как замена
- * атмосферного градиента. 6 SVG-слоёв (5 S-curves + 1 teal accent), shared
+ * Used in CareersSection and VacanciesSection (main page) as a replacement
+ * for the atmospheric gradient. 6 SVG layers (5 S-curves + 1 teal accent), shared
  * gradient defs, sway animations per layer (GPU-accelerated).
  *
- * Colors — brand палитра: navy-deep → sky-500 → bright cyan light tones.
+ * Colors — brand palette: navy-deep → sky-500 → bright cyan light tones.
  *
  * Positioning: bottom-anchored within parent section, full-bleed width.
- * preserveAspectRatio="xMidYMax slice" → SVG bottom anchored к низу stage,
- * wave «приземляется» у нижнего края секции.
+ * preserveAspectRatio="xMidYMax slice" → SVG bottom-anchored to the stage bottom,
+ * wave "lands" at the lower edge of the section.
  *
- * Wave path shifted on +300 в viewBox-space → главная масса волны живёт
- * в нижней половине stage (не перекрывает sidebar/heading зону сверху).
+ * Wave path shifted by +300 in viewBox space → the main wave mass resides
+ * in the lower half of the stage (does not overlap the sidebar/heading area above).
  */
 export function BrandWaveBackdrop() {
   return (
@@ -68,9 +68,10 @@ export function BrandWaveBackdrop() {
         </defs>
       </svg>
 
-      {/* ViewBox 2184×1415 + transform translate(0, 300) — сдвигает wave  */}
-      {/* path в нижнюю часть viewBox, главная масса волны в нижней        */}
-      {/* половине section (под sidebar/heading), не пересекает контент.   */}
+      {/* ViewBox 2184×1415 + transform translate(0, 300) — shifts the wave */}
+      {/* path to the lower part of the viewBox; the main wave mass sits   */}
+      {/* in the lower half of the section (below sidebar/heading),        */}
+      {/* avoiding content overlap.                                        */}
 
       {/* Layer 5 — broadest, softest halo (largest blur). */}
       <div className={`${styles.layer} ${styles.layer5}`}>

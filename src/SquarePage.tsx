@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { figmaAssets } from './figmaAssets'
 import styles from './SquarePage.module.css'
+import homeContent from './content/home.json'
 import { WorkplaceSection } from './components/WorkplaceSection'
 import { VacanciesSection } from './components/VacanciesSection'
 import { OurProductsSection } from './components/OurProductsSection'
@@ -19,12 +20,14 @@ import workplaceTech from './assets/workplace-tech.png'
 const STAT_APPEAR_BASE_MS = 520
 const STAT_APPEAR_STAGGER_MS = 340
 
-const STATS_DATA: { value: number; suffix: string; label: string; nodeValue: string; nodeLabel: string; nodeStat: string }[] = [
-  { value: 22,  suffix: '+',  label: 'years in Telematics',  nodeValue: '40:695', nodeLabel: '40:696', nodeStat: '40:694' },
-  { value: 134, suffix: '+',  label: 'countries',            nodeValue: '40:698', nodeLabel: '40:699', nodeStat: '40:697' },
-  { value: 749, suffix: 'K+', label: 'devices connected',    nodeValue: '40:701', nodeLabel: '40:702', nodeStat: '40:700' },
-  { value: 10,  suffix: 'K+', label: 'completed projects',   nodeValue: '55:1201', nodeLabel: '55:1202', nodeStat: '55:1200' },
+const STAT_NODES = [
+  { nodeValue: '40:695', nodeLabel: '40:696', nodeStat: '40:694' },
+  { nodeValue: '40:698', nodeLabel: '40:699', nodeStat: '40:697' },
+  { nodeValue: '40:701', nodeLabel: '40:702', nodeStat: '40:700' },
+  { nodeValue: '55:1201', nodeLabel: '55:1202', nodeStat: '55:1200' },
 ]
+
+const STATS_DATA = homeContent.stats.map((s, i) => ({ ...s, ...STAT_NODES[i] }))
 
 function easeOutQuart(t: number) {
   return 1 - Math.pow(1 - t, 4)
@@ -57,12 +60,15 @@ function AnimatedStat({ value, suffix, label, index, visible, nodeValue, nodeLab
 }) {
   const fadeDelayMs = STAT_APPEAR_BASE_MS + index * STAT_APPEAR_STAGGER_MS
   const [countTrigger, setCountTrigger] = useState(false)
+  const [prevVisible, setPrevVisible] = useState(visible)
+
+  if (prevVisible !== visible) {
+    setPrevVisible(visible)
+    if (!visible && countTrigger) setCountTrigger(false)
+  }
 
   useEffect(() => {
-    if (!visible) {
-      setCountTrigger(false)
-      return
-    }
+    if (!visible) return
     const id = window.setTimeout(() => setCountTrigger(true), fadeDelayMs)
     return () => clearTimeout(id)
   }, [visible, fadeDelayMs])
@@ -199,8 +205,7 @@ function MissionText() {
       data-node-id="40:707"
     >
       <p className={styles.missionText} data-node-id="40:708">
-        We are passionate about empowering <br aria-hidden="true" />
-        our employees to grow, make an impact, and feel confident in shaping both their careers and the future of SquareGPS.
+        {homeContent.mission}
       </p>
     </div>
   )
@@ -236,17 +241,14 @@ export function SquarePage() {
               <div className={`${styles.heroBlock} reveal ${heroVisible ? 'reveal--in' : ''}`} data-node-id="40:688">
                 <div className={styles.heroIntro}>
                   <h1 className={styles.heroTitle} data-node-id="40:689">
-                    Design and Development <br aria-hidden="true" />
-                    of Telematics Solutions
+                    {homeContent.hero.title}
                   </h1>
                   <p className={styles.heroSub} data-node-id="40:690">
-                    SquareGPS was founded in 2005 by a team of global experts and innovators passionate to unite people and things together{' '}
-                    <br aria-hidden="true" />
-                    by developing top-notch software products for Telematics industry.
+                    {homeContent.hero.subtitle}
                   </p>
                 </div>
                 <button type="button" className={styles.heroCta} data-node-id="40:691">
-                  <span data-node-id="40:692">See open roles</span>
+                  <span data-node-id="40:692">{homeContent.hero.cta}</span>
                   <img
                     className={styles.heroCtaIcon}
                     src={figmaAssets.arrowForward}

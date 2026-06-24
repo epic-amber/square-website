@@ -2,15 +2,17 @@ import { useEffect, useRef } from 'react'
 import type { CSSProperties } from 'react'
 import { Link } from 'react-router-dom'
 import styles from './VacanciesSection.module.css'
-import locationPinIcon from '../assets/icon-location-pin.svg'
 import arrowForward from '../assets/arrow-forward.svg'
 import { useReveal } from '../hooks/useReveal'
 import { BrandWaveBackdrop } from './BrandWaveBackdrop'
+import { JobCard } from './JobCard'
 import { JOBS } from '../data/jobs'
+import homeContent from '../content/home.json'
+import careersContent from '../content/careers.json'
 
-/* Main page показывает первые 3 вакансии из shared JOBS data. Order      */
-/* совпадает с массивом → правка в data/jobs.ts автоматически синкается   */
-/* с main page без правок здесь.                                          */
+/* Main page shows the first 3 vacancies from shared JOBS data. Order    */
+/* matches the array → edits in data/jobs.ts automatically sync with     */
+/* the main page without changes here.                                    */
 const FEATURED_VACANCIES = JOBS.slice(0, 3)
 
 export function VacanciesSection() {
@@ -41,62 +43,25 @@ export function VacanciesSection() {
         {/* Heading block */}
         <div className={`${styles.headingBlock} ${rc}`} style={s(0)}>
           <h2 className={styles.title} data-node-id="82:453">
-            Join the team building the future of telematics
+            {homeContent.vacanciesPreview.title}
           </h2>
           <p className={styles.subtitle} data-node-id="192:1497">
-            SquareGPS was founded in 2005 by a team of global experts and innovators
-            passionate to unite people and things together by developing top-notch
-            software products for the Telematics industry.
+            {homeContent.vacanciesPreview.subtitle}
           </p>
         </div>
 
         {/* Card grid */}
         <div className={styles.grid} data-node-id="82:573">
-          {FEATURED_VACANCIES.map((v, i) => {
-            const cardDelay = 80 + i * 100
-            /* Все cards → VacancyPage (`/careers/:id`). LinkedIn открывается  */
-            /* только из Easy Apply на detail page (использует v.href).        */
-            return (
-              <Link
-                key={v.id}
-                to={`/careers/${encodeURIComponent(v.id)}`}
-                className={`${styles.card} ${rc}`}
-                style={s(cardDelay)}
-                data-node-id={v.id}
-                data-vacancy-card
-              >
-                <div className={styles.cardHeader}>
-                  <p className={styles.jobTitle}>{v.title}</p>
-                  <div className={styles.location}>
-                    <img
-                      className={styles.locationIcon}
-                      src={locationPinIcon}
-                      alt=""
-                      width={20}
-                      height={20}
-                      aria-hidden
-                    />
-                    <p className={styles.locationText}>
-                      <span>{v.location}</span>
-                      <span className={styles.locationDot} aria-hidden>·</span>
-                      <span>{v.format}</span>
-                    </p>
-                  </div>
-                </div>
-
-                <p className={styles.description}>{v.description}</p>
-
-                <div className={styles.tags}>
-                  <p className={styles.tag}>{v.level}</p>
-                </div>
-
-                <p className={styles.viewRole}>
-                  <span>View role</span>
-                  <span className={styles.viewRoleArrow}>→</span>
-                </p>
-              </Link>
-            )
-          })}
+          {FEATURED_VACANCIES.map((v, i) => (
+            <div
+              key={v.id}
+              className={rc}
+              style={s(80 + i * 100)}
+              data-vacancy-card
+            >
+              <JobCard job={v} viewRoleLabel={careersContent.viewRole} />
+            </div>
+          ))}
         </div>
 
         {/* CTA */}
@@ -106,7 +71,7 @@ export function VacanciesSection() {
           style={s(480)}
           data-node-id="82:575"
         >
-          <span>See open roles</span>
+          <span>{homeContent.vacanciesPreview.cta}</span>
           <img
             className={styles.ctaArrow}
             src={arrowForward}

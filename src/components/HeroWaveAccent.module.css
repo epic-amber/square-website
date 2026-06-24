@@ -1,12 +1,12 @@
 /* ── Accent stage ─────────────────────────────────────────────────── */
-/* В Figma (node 245:78, 537×443) wave-контейнер 1100×717, position    */
-/* left=-398 top=-159, image внутри 1034×591 повернутый на -7.29deg.   */
-/* Переводим всё в проценты от hero → wave auto-scales на всех viewport.*/
-/* Hero имеет overflow:hidden → bleed обрезается границами карточки.   */
-/* z-index: 0 — за hero text (.heroText получает z-index: 1).           */
+/* In Figma (node 245:78, 537x443) wave container is 1100x717,         */
+/* position left=-398 top=-159, image inside 1034x591 rotated -7.29deg.*/
+/* All converted to percentages of the hero -> wave auto-scales on all */
+/* viewports. Hero has overflow:hidden -> bleed is clipped by the card */
+/* edges. z-index: 0 — behind hero text (.heroText gets z-index: 1).   */
 .accent {
   position: absolute;
-  /* Figma proportions от 537×443:                                      */
+  /* Figma proportions from 537x443:                                    */
   /*   left:   -398/537 = -74.1%                                        */
   /*   top:   -159/443 = -35.9%                                         */
   /*   width: 1100.664/537 = 205%                                       */
@@ -24,8 +24,8 @@
 }
 
 /* ── Wave image ───────────────────────────────────────────────────── */
-/* Внутри .accent: image центрирован, повернут на -7.29deg.            */
-/* width 1120/1192 = 94% от .accent → совпадает с Figma rotation pivot.*/
+/* Inside .accent: image is centered, rotated -7.29deg.                */
+/* width 1120/1192 = 94% of .accent -> matches the Figma rotation pivot.*/
 .waveImg {
   width: 94%;
   height: auto;
@@ -35,11 +35,11 @@
   -webkit-user-drag: none;
 }
 
-/* ── Tablet ≤1279px — hero становится 16:7 (wider+shorter) ────────── */
-/* На широком hero (~952×417) Figma-пропорции дают wave с непропорц.   */
-/* вертикальным bleed. Уменьшаем offsets, blur-широта меньше.          */
-/* Все значения × 0.92 относительно прежних → пропорциональное         */
-/* уменьшение в синхроне с desktop downscale.                          */
+/* ── Tablet <=1279px — hero becomes 16:7 (wider+shorter) ─────────── */
+/* On a wide hero (~952x417) Figma proportions give a wave with        */
+/* disproportionate vertical bleed. Reduce offsets, narrower blur.     */
+/* All values x0.92 relative to previous -> proportional reduction     */
+/* in sync with the desktop downscale.                                 */
 @media (max-width: 1279px) {
   .accent {
     left: -23%;
@@ -49,10 +49,11 @@
   }
 }
 
-/* ── Mobile ≤639px — компактнее, меньше rotation ───────────────────── */
-/* На mobile карточка ~327×240+px (text-driven), wave анкорим к низу,  */
-/* меньше bleed и rotation чтобы wave читался как «волна снизу» а не   */
-/* «волна через всю карточку». Все значения × 0.92 vs прежних.         */
+/* ── Mobile <=639px — more compact, less rotation ──────────────────── */
+/* On mobile the card is ~327x240+px (text-driven), wave anchored to   */
+/* the bottom, less bleed and rotation so the wave reads as a "wave    */
+/* from below" rather than "wave across the entire card". All values   */
+/* x0.92 vs previous.                                                  */
 @media (max-width: 639px) {
   .accent {
     left: -9%;

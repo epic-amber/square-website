@@ -1,10 +1,10 @@
 .wrap {
   width: 100%;
-  /* Снижает двойной тап → zoom в моб. Safari; жесты карты — у MapLibre на canvas */
+  /* Prevents double-tap -> zoom in mobile Safari; map gestures handled by MapLibre on canvas */
   touch-action: manipulation;
 }
 
-/* Кастомные маркеры: подпись всегда видна, точка крупнее стандартного пина */
+/* Custom markers: label is always visible, dot is larger than the default pin */
 .marker {
   display: flex;
   flex-direction: column;
@@ -49,7 +49,7 @@
   overflow: hidden;
 }
 
-/* Карта задаёт собственный фон; обводка в духе карточек сайта */
+/* Map sets its own background; border in the style of the site cards */
 .map :global(.maplibregl-canvas) {
   outline: none;
 }

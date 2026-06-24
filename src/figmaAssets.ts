@@ -1,4 +1,4 @@
-/** Ассеты из макета: овалы — выгрузка Figma (SVG + gaussian blur + multiply), в репозитории, не по MCP-URL. */
+/** Assets from the mockup: ellipses — exported from Figma (SVG + gaussian blur + multiply), stored in the repo, not via MCP URL. */
 import ellipse4 from './assets/figma-ellipses/ellipse-4.svg'
 import ellipse2 from './assets/figma-ellipses/ellipse-2.svg'
 import ellipse5 from './assets/figma-ellipses/ellipse-5.svg'

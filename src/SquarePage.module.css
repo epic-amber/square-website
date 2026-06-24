@@ -1,4 +1,4 @@
-/* на всю ширину вьюпорта; градиент на body (index.css) */
+/* Full viewport width; gradient on body (index.css) */
 .page {
   position: relative;
   width: 100%;
@@ -7,9 +7,9 @@
 }
 
 /*
- * Ellipse 4 (55:169) — перенесён внутрь .topPageGradient (position: relative).
- * top скорректирован на ~206px (header + inner gap) чтобы визуально сохранить
- * положение «слив в хедере»; теперь следует за секцией при любом размере окна.
+ * Ellipse 4 (55:169) — moved inside .topPageGradient (position: relative).
+ * top adjusted to ~206px (header + inner gap) to visually preserve the
+ * "blending into the header" position; now follows the section at any window size.
  */
 .bgEllipseTop {
   position: absolute;
@@ -31,9 +31,9 @@
 }
 
 /*
- * Ellipse 2 (55:170) — тоже внутрь .topPageGradient.
- * top: 45% вместо фиксированных 1007px от верха страницы —
- * при ресайзе остаётся на ~середине секции независимо от её высоты.
+ * Ellipse 2 (55:170) — also moved inside .topPageGradient.
+ * top: 45% instead of a fixed 1007px from the top of the page —
+ * stays at roughly the section midpoint regardless of its height on resize.
  */
 .bgEllipse2 {
   position: absolute;
@@ -113,7 +113,7 @@
   gap: 128px;
 }
 
-/* Header: полоса на всю ширину, лого + меню внутри max 1280px по центру */
+/* Header: full-width strip, logo + nav inside max 1280px centered */
 .header {
   position: relative;
   z-index: 10;
@@ -164,7 +164,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* Tailwind gap-9 (36px): hero (кнопка) ↔ stats */
+  /* Tailwind gap-9 (36px): hero (button) <-> stats */
   gap: var(--space-9);
   width: var(--content-width);
   max-width: 100%;
@@ -174,7 +174,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* gap-9: блок подзаголовка ↔ кнопка */
+  /* gap-9: subtitle block <-> button */
   gap: var(--space-9);
   width: 100%;
   padding: 0 var(--space-28);
@@ -363,7 +363,7 @@
   width: 100%;
 }
 
-/* Mission + video (node 40:703: gap 112px между video и Text Container — 589 − 477) */
+/* Mission + video (node 40:703: gap 112px between video and Text Container — 589 - 477) */
 .missionWrap {
   width: 100%;
 }
@@ -412,7 +412,7 @@
   font-family: var(--font-serif);
   font-size: var(--text-statement);
   font-weight: 500;
-  /* чуть выше 1.3: плашки grow / confident на соседних строках не визуально слипаются */
+  /* slightly above 1.3: highlighted words grow / confident on adjacent lines don't visually merge */
   line-height: 1.45;
   text-align: center;
   color: var(--color-white);
@@ -464,7 +464,7 @@
   min-width: 0;
 }
 
-/* Figma 40:714 — Image Frame: «contents», дети позиционируются относительно 40:713 */
+/* Figma 40:714 — Image Frame: "contents", children positioned relative to 40:713 */
 .productsImageFrame {
   display: contents;
 }
@@ -478,7 +478,7 @@
   height: 154.218px;
 }
 
-/* Figma 53:2094: логотип в контейнере с отрицательным inset — масштаб как в макете */
+/* Figma 53:2094: logo in a container with negative inset — scale matches the mockup */
 .b2Inner {
   position: absolute;
   inset: -58.62% -61.21% -63.81% -61.21%;
@@ -495,8 +495,8 @@
 }
 
 /*
- * Navixy: navixy-icon.svg уже содержит плитку, обводку, марку и drop-shadow в фильтре.
- * Не дублировать box-shadow — иначе двойное свечение; не clip — иначе артефакты уblur.
+ * Navixy: navixy-icon.svg already contains the tile, stroke, mark, and drop-shadow filter.
+ * Do not duplicate box-shadow — otherwise double glow; do not clip — otherwise blur artifacts.
  */
 .navixyWrap {
   position: absolute;
@@ -509,7 +509,7 @@
   pointer-events: none;
 }
 
-/* viewBox 231×231, контент плитки ~154.2px → ~1.497×, inset ≈ −24.8% */
+/* viewBox 231x231, tile content ~154.2px -> ~1.497x, inset ~-24.8% */
 .navixyInner {
   position: absolute;
   inset: -25%;
@@ -643,7 +643,7 @@
 }
 
 /*
- * Офисы + Contact + футер: общий контекст, чтобы 49:113 считался от низа футера (Figma Main Container).
+ * Offices + Contact + footer: shared context so 49:113 is measured from the bottom of the footer (Figma Main Container).
  */
 .lowerRegion {
   position: relative;
@@ -667,7 +667,7 @@
   width: 100%;
 }
 
-/* Графический glow удалён — футер теперь светлый */
+/* Graphical glow removed — footer is now light */
 .lowerBackdropGlow {
   display: none;
 }
@@ -680,12 +680,12 @@
   align-items: center;
   gap: 20px;
   width: 100%;
-  /* Full-bleed bg + 4 rounded corners. Углы 24px образуют маленькие     */
-  /* «cutout»-треугольники в viewport corners (page bg #fff просвечивает)*/
-  /* → секция выглядит как огромная rounded carta во всю ширину экрана.  */
+  /* Full-bleed bg + 4 rounded corners. 24px corners form small          */
+  /* "cutout" triangles in viewport corners (page bg #fff shows through) */
+  /* -> section looks like a huge rounded card spanning the full width.  */
   background-color: #013070;
   border-radius: var(--radius-3xl);
-  /* верх/низ — воздух вокруг блока офисов */
+  /* top/bottom — breathing room around the offices block */
   padding: calc(var(--space-24) * 1.1) var(--content-pad-x);
 }
 
@@ -727,9 +727,9 @@
   gap: var(--gap-office-stack);
   padding: var(--space-9) var(--space-6);
   border-radius: var(--radius-lg);
-  /* Белый bg — контрастирует с панелью .offices (#F7F9FC), cards «всплывают» */
+  /* White bg — contrasts with the .offices panel (#F7F9FC), cards "float up" */
   background: var(--color-white);
-  /* Hairline border — brand-consistent с CareersSection/VacanciesSection cards. */
+  /* Hairline border — brand-consistent with CareersSection/VacanciesSection cards. */
   border: 1px solid var(--color-slate-200);
 }
 
@@ -787,11 +787,11 @@
   overflow: hidden;
 }
 
-/* Эллипс в подвале — зеркальный к bgEllipseTop, виден только краешек сверху */
+/* Footer ellipse — mirrors bgEllipseTop, only the top edge is visible */
 .bgEllipseFooter {
   position: absolute;
   left: 50%;
-  /* top: calc(100% - Xpx) — показываем только верхние X пикселей эллипса */
+  /* top: calc(100% - Xpx) — show only the top X pixels of the ellipse */
   top: calc(100% - 120px);
   width: var(--bg-ellipse-width);
   aspect-ratio: 1800 / 702;
@@ -808,7 +808,7 @@
   object-position: center top;
 }
 
-/* Текст и колонки — как headerBar: ровно --content-width (1280), по центру */
+/* Text and columns — same as headerBar: exactly --content-width (1280), centered */
 .footerInner {
   display: flex;
   flex-direction: column;
@@ -928,9 +928,9 @@
 }
 
 /*
- * Figma 55:81: градиент начинается на 404px от верха hero-секции (642 − 238 = 404px).
- * Вешаем прямо на background элемента — так он всегда позади ВСЕГО контента,
- * никакой z-index не перекрывает.
+ * Figma 55:81: gradient starts at 404px from the top of the hero section (642 - 238 = 404px).
+ * Applied directly to the element background — this way it is always behind ALL content,
+ * no z-index can overlap it.
  */
 .topPageGradient {
   position: relative;
@@ -941,7 +941,7 @@
   gap: var(--space-40);
   /* Push content below the fixed navbar + 60px visual gap */
   padding-top: calc(var(--header-h) + 80px);
-  /* Градиент продлён ниже секции Our Products */
+  /* Gradient extended below the Our Products section */
   padding-bottom: 80px;
   background-color: var(--color-white);
   background-image: var(--gradient-atmospheric);
@@ -954,8 +954,8 @@
 }
 
 /*
- * Плавающие icon-* из Figma (Main Container 40:672, 1440×…): координаты в px от верхнего левого угла кадра.
- * На вьюпорте < 1440px слой масштабируется от центра сверху.
+ * Floating icon-* from Figma (Main Container 40:672, 1440x...): coordinates in px from the top-left corner of the frame.
+ * On viewports < 1440px the layer scales from the top center.
  */
 .heroDecorLayer {
   display: none;
@@ -967,7 +967,7 @@
     position: absolute;
     left: 50%;
     top: 0;
-    /* Выше .inner (z-index: 1), иначе весь hero перекрывает иконки тем же z-index и порядком в DOM */
+    /* Above .inner (z-index: 1), otherwise the hero overlaps icons with the same z-index and DOM order */
     z-index: 2;
     width: 1440px;
     height: 2100px;
@@ -991,7 +991,7 @@
   height: 100%;
 }
 
-/* ── Появление иконок ────────────────────────────────────────── */
+/* ── Icon appearance ─────────────────────────────────────────── */
 
 @keyframes iconAppear {
   from {
@@ -1004,7 +1004,7 @@
   }
 }
 
-/* Для иконки с поворотом — сохраняем rotate во всех фазах */
+/* For the rotated icon — preserve rotate across all phases */
 @keyframes iconAppearRotated {
   from {
     opacity: 0;
@@ -1016,7 +1016,7 @@
   }
 }
 
-/* Лёгкое парение: у каждой иконки свой период → качаются вразнобой */
+/* Gentle floating: each icon has its own period -> they sway out of sync */
 @keyframes iconFloat {
   0%, 100% { transform: translateY(0px); }
   50%       { transform: translateY(-9px); }
@@ -1043,13 +1043,13 @@
   50%       { transform: translateY(-9px) rotate(-22.95deg); }
 }
 
-/* Полные выгрузки SVG из макета — позиции как у кадра 1440; размеры из атрибутов width/height у img */
+/* Full SVG exports from the mockup — positions match the 1440 frame; sizes from img width/height attributes */
 .heroDecorIcon {
   position: absolute;
   display: block;
   height: auto;
   max-width: none;
-  /* appear + float — animation-delay задаётся индивидуально */
+  /* appear + float — animation-delay is set individually */
   animation:
     iconAppear 0.75s cubic-bezier(0.34, 1.45, 0.64, 1) both,
     iconFloat  8s ease-in-out infinite;
@@ -1061,12 +1061,12 @@
   animation-delay: 0.1s, 0s;
 }
 
-/* Между Sam (28,268) и Telematics (119,590): центр по диагонали */
+/* Between Sam (28,268) and Telematics (119,590): diagonal center */
 .heroDecorNvx {
   left: -28px;
   top: 464px;
   transform-origin: center center;
-  /* своя версия анимации с rotate внутри */
+  /* custom animation version with rotate included */
   animation:
     iconAppearRotated 0.75s cubic-bezier(0.34, 1.45, 0.64, 1) 0.4s both,
     iconFloatRotated  10s ease-in-out 0.4s infinite;
@@ -1099,7 +1099,7 @@
   animation-delay: 0.55s, 2.8s;
 }
 
-/* Чуть выше location (682px) и правее: кластер справа */
+/* Slightly above location (682px) and to the right: right-side cluster */
 .heroDecorMaria {
   left: 1230px;
   top: 903px;

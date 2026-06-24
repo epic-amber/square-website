@@ -1,0 +1,26 @@
+{
+  "backLink": "All open roles",
+  "sectionTitles": {
+    "whoWeAre": "Who we are",
+    "aboutTeam": "About the team",
+    "whatYoullDo": "What you'll do",
+    "minimumRequirements": "Minimum requirements",
+    "inOfficeExpectations": "In-office expectations",
+    "payAndBenefits": "Pay and benefits"
+  },
+  "sidebar": {
+    "officeLocation": "Office location",
+    "team": "Team",
+    "jobType": "Job type",
+    "experience": "Experience"
+  },
+  "bottomCta": {
+    "title": "We look forward to hearing from you",
+    "body": "At SquareGPS we are looking for people with passion, grit, and integrity. We encourage you to apply even if your experience does not precisely match the job description — your skills and passion will stand out, and we will know once we have taken some extraordinary twists and turns."
+  },
+  "applyButton": "Easy Apply",
+  "applyAriaLabel": "Easy Apply on LinkedIn",
+  "mobileBarAriaLabel": "Apply",
+  "postedPrefix": "Posted",
+  "aboutCompany": "SquareGPS was founded in 2005 by a team of global experts and innovators passionate to unite people and things together by developing top-notch software products for the telematics industry. Today our products power fleet management, asset tracking, and field operations for thousands of businesses across more than 130 countries — combining global reach with the close-knit culture of an engineering-led company."
+}

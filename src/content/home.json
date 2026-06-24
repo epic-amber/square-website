@@ -1,0 +1,48 @@
+{
+  "hero": {
+    "title": "Design and Development of Telematics Solutions",
+    "subtitle": "SquareGPS was founded in 2005 by a team of global experts and innovators passionate to unite people and things together by developing top-notch software products for Telematics industry.",
+    "cta": "See open roles"
+  },
+  "stats": [
+    { "value": 22, "suffix": "+", "label": "years in Telematics" },
+    { "value": 134, "suffix": "+", "label": "countries" },
+    { "value": 749, "suffix": "K+", "label": "devices connected" },
+    { "value": 10, "suffix": "K+", "label": "completed projects" }
+  ],
+  "mission": "We are passionate about empowering our employees to grow, make an impact, and feel confident in shaping both their careers and the future of SquareGPS.",
+  "products": {
+    "title": "Our Products",
+    "subtitle": "Trusted by hundreds of integrators and businesses worldwide. Whether you're building location-based services or managing a mobile workforce, our platforms deliver the reliability and flexibility your operations demand.",
+    "items": [
+      {
+        "key": "navixy",
+        "title": "Navixy",
+        "description": "GPS tracking platform for fleet management and asset monitoring",
+        "url": "https://navixy.com/",
+        "ariaLabel": "Navixy — open GPS tracking platform website"
+      },
+      {
+        "key": "b2field",
+        "title": "B2Field",
+        "description": "Service for companies managing mobile workforce",
+        "url": "https://b2field.com/",
+        "ariaLabel": "B2Field — open mobile workforce management website"
+      }
+    ]
+  },
+  "workplace": {
+    "title": "More than a workplace",
+    "heroText": "Invest in your future with continuous learning, global exposure, and real career growth",
+    "benefits": [
+      { "key": "language", "title": "Language Learning", "body": "Master Spanish, English, or Serbian with company support" },
+      { "key": "education", "title": "Education Reimbursement", "body": "We help cover your education costs" },
+      { "key": "health", "title": "Health Insurance Support", "body": "We help cover your medical insurance costs" }
+    ]
+  },
+  "vacanciesPreview": {
+    "title": "Join the team building the future of telematics",
+    "subtitle": "SquareGPS was founded in 2005 by a team of global experts and innovators passionate to unite people and things together by developing top-notch software products for the Telematics industry.",
+    "cta": "See open roles"
+  }
+}

@@ -1,6 +1,6 @@
 /* ── Hairline pill chip — Linear/Vercel/Stripe paradigm ────── */
 /* Auto-width (padding-based), 32px height, full pill, soft border. */
-/* Active = navy-deep — solid anchor против bright sky orbs в bg.  */
+/* Active = navy-deep — solid anchor against bright sky orbs in bg. */
 .chip {
   display: inline-flex;
   align-items: center;
@@ -50,5 +50,5 @@
 }
 
 .inactive {
-  /* base styles уже в .chip — отдельных override'ов не нужно */
+  /* base styles already in .chip — no separate overrides needed */
 }

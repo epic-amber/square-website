@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://squaregps.com/sitemap.xml

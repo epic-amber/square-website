@@ -92,9 +92,9 @@
 }
 
 /* Intense 3-layer brand-aligned glow on hover. Palette mirrors            */
-/* BrandWaveBackdrop stops (cyan light → sky → navy) для unified brand    */
-/* language. Tight bright core + mid halo + far spread = rich falloff.    */
-/* brightness(1.05) добавляет «оживление» icon самому себе.                */
+/* BrandWaveBackdrop stops (cyan light -> sky -> navy) for unified brand   */
+/* language. Tight bright core + mid halo + far spread = rich falloff.     */
+/* brightness(1.05) adds a "livening" effect to the icon itself.           */
 .icon:hover img {
   filter:
     drop-shadow(0 0 8px rgba(130, 220, 255, 0.85))

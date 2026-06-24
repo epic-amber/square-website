@@ -17,9 +17,9 @@
   --color-page-accent: #00abff;
 
   /*
-   * Main Container — Figma node 55:351 (frame 55:63 «Tailwind CSS - Desktop»).
-   * Полная цепочка стопов как в макете, включая белый плато 56.942%→75.641% и
-   * светлый голубой хвост rgb(173, 219, 243) на 94.781%.
+   * Main Container — Figma node 55:351 (frame 55:63 "Tailwind CSS - Desktop").
+   * Full stop chain as in the mockup, including the white plateau 56.942%->75.641%
+   * and the light blue tail rgb(173, 219, 243) at 94.781%.
    */
   --gradient-page: linear-gradient(
     179.99999931680043deg,
@@ -35,12 +35,12 @@
   );
 
   /*
-   * Верхняя страница — Figma node 55:81 «gradient» (180deg).
-   * Накладывается слоем от середины видео до низа секции Our Products.
-   * Нижняя зона: удлинённый тёмно-синий плато (Our Products); светлый хвост —
-   * растянутый переход в белый с дополнительными стопами.
+   * Top page — Figma node 55:81 "gradient" (180deg).
+   * Layered from the video midpoint to the bottom of the Our Products section.
+   * Lower zone: elongated dark-blue plateau (Our Products); light tail —
+   * stretched transition to white with additional stops.
    */
-  /* Те же стопы, что в oklab-варианте; без цветового пространства — для старых движков */
+  /* Same stops as in the oklab variant; no color space — for older engines */
   --gradient-atmospheric: linear-gradient(
     to bottom,
     #ffffff   0%,
@@ -60,8 +60,8 @@
   );
 
   /*
-   * Atmospheric SOFT — облегчённая версия для секций с текстом поверх (Open Roles).
-   * Равномерные шаги, без плато, плавный выход в белый — минимизирует banding.
+   * Atmospheric SOFT — lighter version for sections with text on top (Open Roles).
+   * Even steps, no plateau, smooth fade to white — minimizes banding.
    */
   --gradient-atmospheric-soft: linear-gradient(
     in oklab to bottom,
@@ -91,7 +91,7 @@
     rgb(7, 124, 207) 94.724%
   );
 
-  /* Contact backdrop (49:113): максимум сплошного #012762 перед blur — срезаем светлую кайму */
+  /* Contact backdrop (49:113): maximum solid #012762 before blur — cuts off the light fringe */
   --gradient-contact-backdrop: linear-gradient(
     to bottom,
     #0250c8 5%,
@@ -109,9 +109,9 @@
   );
 
   /*
-   * CTA Deep — глубокий blue sweep для тёмных CTA-кнопок (VacanciesSection).
-   * Обе стороны в одной саторированной семье — hover ощущается как «внутреннее
-   * свечение», без диссонанса с brand navy.
+   * CTA Deep — deep blue sweep for dark CTA buttons (VacanciesSection).
+   * Both sides in the same saturated family — hover feels like an "inner
+   * glow", without dissonance with brand navy.
    */
   --gradient-cta-deep: linear-gradient(
     90deg,
@@ -127,22 +127,22 @@
   --space-6: 24px;
   --space-9: 36px;
   --space-10: 40px;
-  --space-11: 26px; /* gap между карточками офисов */
+  --space-11: 26px; /* gap between office cards */
   --space-12: 48px;
   --space-24: 96px;
-  --space-28: 112px; /* gap-28: hero ↔ video+mission-блок; видео ↔ текст миссии */
+  --space-28: 112px; /* gap-28: hero <-> video+mission block; video <-> mission text */
   /* = Tailwind spacing/gap-40 → theme('spacing.40') → 10rem */
   --space-40: 10rem;
   --section-gap: var(--space-40);
   --space-42: 42px;
-  --gap-contact-cols: 133px; /* Contact us: левый текст ↔ форма (59:130) */
-  --gap-contact-copy: 17px; /* Contact us: заголовок ↔ описание (59:131) */
-  /* Global Offices ↔ VacanciesSection (нижний блок .lowerBackdrop) */
+  --gap-contact-cols: 133px; /* Contact us: left text <-> form (59:130) */
+  --gap-contact-copy: 17px; /* Contact us: heading <-> description (59:131) */
+  /* Global Offices <-> VacanciesSection (lower .lowerBackdrop block) */
   --gap-global-offices-contact: 120px;
-  --gap-office-stack: 9px; /* Office card: флаг ↔ город ↔ адрес */
-  --space-64: 64px; /* Careers: фото ↔ текст */
-  --space-footer-link-gap: 14px; /* Footer: между ссылками */
-  --space-footer-col-gap: 20px; /* Footer: заголовок колонки ↔ ссылки */
+  --gap-office-stack: 9px; /* Office card: flag <-> city <-> address */
+  --space-64: 64px; /* Careers: photo <-> text */
+  --space-footer-link-gap: 14px; /* Footer: between links */
+  --space-footer-col-gap: 20px; /* Footer: column heading <-> links */
   --form-field-px: 12px;
   --form-field-py: 6px;
   --cta-py: 10px;
@@ -191,10 +191,10 @@
   --header-h: 72px; /* height of fixed SiteHeader — desktop */
   --page-width: 1440px;
   --content-pad-x: 80px;
-  /* основная колонка контента (Figma Section Container) */
+  /* main content column (Figma Section Container) */
   --content-width: 1280px;
 
-  /* Овалы (55:169 / 55:170): 1800px в макете 1920; на шире — пропорционально вьюпорту */
+  /* Ellipses (55:169 / 55:170): 1800px in the 1920 mockup; wider — proportional to viewport */
   --bg-ellipse-width: max(1800px, 100vw);
   /* Ellipse 2 (55:170): 1770×922 */
   --bg-ellipse-secondary-width: calc(var(--bg-ellipse-width) * 1770 / 1800);
@@ -245,7 +245,7 @@
   }
 }
 
-/* Main Container — интерполяция в oklch */
+/* Main Container — oklch interpolation */
 @supports (background: linear-gradient(in oklch, red 0%, blue 100%)) {
   :root {
     --gradient-page: linear-gradient(
@@ -263,7 +263,7 @@
   }
 }
 
-/* Верх страницы — интерполяция в oklab (переходы между стопами ровнее, меньше бэндинга) */
+/* Top page — oklab interpolation (smoother transitions between stops, less banding) */
 @supports (background: linear-gradient(in oklab, red 0%, blue 100%)) {
   :root {
     --gradient-atmospheric: linear-gradient(

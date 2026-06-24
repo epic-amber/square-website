@@ -1,30 +1,23 @@
 /**
- * Job data module — single source of truth для вакансий.
- * Используется в CareersSection (listing) и VacancyPage (detail).
+ * Job data module — single source of truth for vacancies.
+ * Used in CareersSection (listing) and VacancyPage (detail).
  */
 
-export type Country = 'Serbia' | 'Mexico' | 'USA'
-export type JobType = 'Full time' | 'Part time' | 'Contract'
+import jobsData from '../content/jobs.json'
 
-export interface Job {
+interface RawJob {
   id: string
   title: string
-  /** External LinkedIn job posting URL (если есть — Easy Apply ведёт туда). */
   href?: string
   location: string
-  country: Country
+  country: string
   level: string
   format: string
-  /** ISO date YYYY-MM-DD — used for sorting. */
   postedAt: string
-  /** Display string ("1 month ago"). */
-  postedAgo: string
-  /** Short description shown on the list card. */
+  postedAgo?: string
   description: string
-
-  // ── Detail page fields ───────────────────────────────────────────
   team: string
-  jobType: JobType
+  jobType: string
   responsibilities: string[]
   requirements: string[]
   aboutTeam?: string
@@ -32,355 +25,61 @@ export interface Job {
   payAndBenefits?: string
 }
 
-/**
- * About SquareGPS — общий статичный текст, используется в "Who we are"
- * секции на каждой VacancyPage. Расширен из hero copy на главной.
- */
-export const ABOUT_SQUAREGPS =
-  'SquareGPS was founded in 2005 by a team of global experts and innovators passionate to unite people and things together by developing top-notch software products for the telematics industry. Today our products power fleet management, asset tracking, and field operations for thousands of businesses across more than 130 countries — combining global reach with the close-knit culture of an engineering-led company.'
+export interface Job {
+  id: string
+  title: string
+  /** External LinkedIn job posting URL (if present — Easy Apply links there). */
+  href?: string
+  location: string
+  country: string
+  level: string
+  format: string
+  /** ISO date YYYY-MM-DD — used for sorting. */
+  postedAt: string
+  /** Computed relative time string ("2 months ago"). */
+  postedAgo: string
+  /** Short description shown on the list card. */
+  description: string
+
+  // ── Detail page fields ───────────────────────────────────────────
+  team: string
+  jobType: string
+  responsibilities: string[]
+  requirements: string[]
+  aboutTeam?: string
+  inOfficeExpectations?: string
+  payAndBenefits?: string
+}
+
+function formatTimeAgo(dateStr: string): string {
+  const posted = new Date(dateStr)
+  const now = new Date()
+  const diffMs = now.getTime() - posted.getTime()
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
+
+  if (diffDays < 1) return 'today'
+  if (diffDays === 1) return 'yesterday'
+  if (diffDays < 7) return `${diffDays} days ago`
+  const weeks = Math.floor(diffDays / 7)
+  if (weeks < 5) return weeks === 1 ? '1 week ago' : `${weeks} weeks ago`
+  const months = Math.floor(diffDays / 30)
+  if (months < 12) return months === 1 ? '1 month ago' : `${months} months ago`
+  const years = Math.floor(diffDays / 365)
+  return years === 1 ? '1 year ago' : `${years} years ago`
+}
 
 /**
- * LinkedIn fallback — generic search для вакансий без конкретного posting URL.
+ * LinkedIn fallback — generic search for vacancies without a specific posting URL.
  */
 export const LINKEDIN_FALLBACK_URL = 'https://www.linkedin.com/jobs/squaregps-jobs-worldwide/'
 
-export const JOBS: Job[] = [
-  {
-    id: '106:90',
-    title: 'Head of Data Platform',
-    location: 'Belgrade, Serbia',
-    country: 'Serbia',
-    level: 'Senior',
-    format: 'Hybrid',
-    postedAt: '2026-05-08',
-    postedAgo: '1 month ago',
-    description:
-      'Lead the architecture of data systems behind global telematics products. Drive technical strategy and mentor a cross-functional team building scalable pipelines.',
-    team: 'Engineering',
-    jobType: 'Full time',
-    aboutTeam:
-      'Our Data Platform team is the backbone of SquareGPS analytics. We process billions of telemetry events daily and build the infrastructure that powers reporting, ML, and customer-facing dashboards across the entire product suite.',
-    responsibilities: [
-      'Define the multi-year technical vision and roadmap for the Data Platform organization',
-      'Lead the architecture and evolution of streaming and batch pipelines processing billions of telemetry events daily',
-      'Hire, mentor, and grow a high-performing team of data engineers and platform specialists',
-      'Partner with Product, ML, and Customer Success to translate business needs into platform capabilities',
-      'Own data quality, observability, governance, and cost efficiency across the platform',
-      'Set engineering standards and review key technical decisions across the team',
-    ],
-    requirements: [
-      '8+ years of engineering experience with at least 3 in technical leadership roles',
-      'Deep expertise in distributed data systems (Kafka, Spark, Flink, ClickHouse or similar)',
-      'Track record of building and leading data platform teams at scale',
-      'Strong product sense and ability to balance long-term architecture with shipping velocity',
-      'Excellent communication skills — comfortable presenting to executives and engineering teams alike',
-    ],
-    inOfficeExpectations:
-      'This role is based in our Belgrade office with a hybrid schedule — typically 2-3 days per week onsite for team collaboration, planning, and 1:1s. Remote-friendly for focused work.',
-    payAndBenefits:
-      'Competitive base salary aligned with senior engineering leadership benchmarks in the EU market, plus equity, performance bonus, and a comprehensive benefits package including private health insurance, learning budget, and 25 days of paid leave.',
-  },
-  {
-    id: '106:103',
-    title: 'Senior Backend Developer',
-    href: 'https://www.linkedin.com/jobs/view/4382027831/',
-    location: 'Belgrade, Serbia',
-    country: 'Serbia',
-    level: 'Senior',
-    format: 'Hybrid',
-    postedAt: '2026-05-12',
-    postedAgo: '1 month ago',
-    description:
-      'Build and scale the backend infrastructure powering real-time fleet tracking for thousands of customers worldwide. Work with modern stack and a senior team.',
-    team: 'Engineering',
-    jobType: 'Full time',
-    aboutTeam:
-      'You will join the core Platform Engineering team — a tight group of senior engineers responsible for the services behind our fleet tracking, alerting, and reporting products. We value pragmatic design, code review culture, and clear ownership.',
-    responsibilities: [
-      'Design, build, and operate backend services handling real-time location and telemetry data',
-      'Optimize hot paths for latency and throughput at telematics scale',
-      'Collaborate on API design with frontend, mobile, and partner-integration teams',
-      'Improve observability, on-call runbooks, and incident response practices',
-      'Mentor mid-level engineers via code review and pairing',
-    ],
-    requirements: [
-      '5+ years of backend engineering with strong Go, Java, or Kotlin experience',
-      'Deep familiarity with PostgreSQL, message queues, and distributed systems patterns',
-      'Comfort operating production services with metrics, logs, and tracing',
-      'Strong written and verbal English communication',
-      'Pragmatic mindset — you ship and iterate',
-    ],
-    inOfficeExpectations:
-      'Belgrade-based, hybrid schedule (2-3 days/week onsite). Quarterly team offsites and pairing weeks for new hires.',
-    payAndBenefits:
-      'Competitive senior backend salary for the Belgrade market, private health insurance, learning budget, modern hardware, and 25 days paid leave.',
-  },
-  {
-    id: '106:115',
-    title: 'Technical Writer',
-    location: 'Belgrade, Serbia',
-    country: 'Serbia',
-    level: 'Middle',
-    format: 'Hybrid',
-    postedAt: '2026-05-15',
-    postedAgo: '1 month ago',
-    description:
-      'Create clear, precise documentation for developer APIs and end-user guides across SquareGPS product lines. Collaborate with engineering and product teams.',
-    team: 'Engineering',
-    jobType: 'Full time',
-    aboutTeam:
-      'Our Documentation team partners directly with engineering and product to make complex telematics concepts approachable. You will own the docs experience end-to-end — from API references to in-product tooltips.',
-    responsibilities: [
-      'Write and maintain developer documentation for public APIs and SDKs',
-      'Create user guides, release notes, and onboarding content for product features',
-      'Collaborate with engineers to capture technical details accurately',
-      'Establish and enforce a consistent docs style guide across all product lines',
-      'Run quarterly docs reviews and measure helpfulness via reader feedback',
-    ],
-    requirements: [
-      '3+ years of technical writing experience, ideally for B2B software or API products',
-      'Comfort reading code and translating engineering concepts into clear prose',
-      'Strong English (C1+) with editorial judgment and attention to detail',
-      'Experience with docs-as-code tooling (Markdown, Git, static site generators)',
-    ],
-    inOfficeExpectations:
-      'Belgrade office, hybrid (typically 2 days/week onsite). Remote-friendly otherwise.',
-    payAndBenefits:
-      'Competitive market salary for technical writers in the EU region, private health insurance, learning budget, and 25 days paid leave.',
-  },
-  {
-    id: '106:127',
-    title: 'Technical Support Engineer L2',
-    href: 'https://www.linkedin.com/jobs/view/4378891572/',
-    location: 'Mexico City, Mexico',
-    country: 'Mexico',
-    level: 'Senior',
-    format: 'Full-time',
-    postedAt: '2026-05-05',
-    postedAgo: '1 month ago',
-    description:
-      'Resolve complex technical issues for enterprise clients and collaborate with engineering to continuously improve product reliability and customer experience.',
-    team: 'Customer Support',
-    jobType: 'Full time',
-    aboutTeam:
-      'The Mexico City Customer Support team is the second-line escalation point for our Latin American customers. You will work alongside engineers and CSMs to close complex technical loops and turn customer pain into product improvements.',
-    responsibilities: [
-      'Diagnose and resolve complex technical issues escalated from L1 support',
-      'Reproduce customer-reported bugs and partner with engineering to push fixes',
-      'Maintain and improve our internal troubleshooting knowledge base',
-      'Mentor L1 support engineers via shadowing and case reviews',
-      'Identify recurring issues and advocate for product improvements',
-    ],
-    requirements: [
-      '4+ years in technical support, ideally in B2B SaaS or hardware-software products',
-      'Strong network, OS, and database fundamentals — you can read logs and write SQL',
-      'Fluent Spanish and English (written and spoken)',
-      'Patience, empathy, and clear technical writing',
-    ],
-    inOfficeExpectations:
-      'Our Mexico City office is the hub for the LatAm support team. We expect 4-5 days per week onsite for collaboration and customer-facing work.',
-    payAndBenefits:
-      'Competitive senior support salary for the Mexico City market, comprehensive medical insurance for you and dependents, food vouchers, and 20+ days paid leave.',
-  },
-  {
-    id: '127:2040',
-    title: 'Product Manager',
-    location: 'Westlake Village, USA',
-    country: 'USA',
-    level: 'Lead',
-    format: 'Full-time',
-    postedAt: '2026-04-10',
-    postedAgo: '2 months ago',
-    description:
-      'Own the product roadmap for our flagship telematics platform. Partner with design, engineering and customer success to ship features that move the business.',
-    team: 'Product',
-    jobType: 'Full time',
-    aboutTeam:
-      'The Product team at SquareGPS is small, senior, and close to the business. You will own a major product line end-to-end, from discovery and prioritization through GTM and post-launch iteration.',
-    responsibilities: [
-      'Own the roadmap for the core fleet tracking product line',
-      'Run customer discovery interviews and synthesize insights into product bets',
-      'Partner closely with design and engineering through the full delivery lifecycle',
-      'Define and track success metrics for shipped features',
-      'Communicate priorities and trade-offs to executive stakeholders',
-    ],
-    requirements: [
-      '6+ years of product management experience, with at least 2 leading a major product line',
-      'Track record of shipping B2B software that customers love',
-      'Strong analytical chops — comfortable with SQL, A/B tests, and metric frameworks',
-      'Excellent written communication and stakeholder management',
-      'Bonus: telematics, logistics, or fleet management domain experience',
-    ],
-    inOfficeExpectations:
-      'Westlake Village HQ, hybrid schedule with 3 days/week onsite. Quarterly travel to other offices for cross-team collaboration.',
-    payAndBenefits:
-      'Competitive lead PM compensation including base, bonus, and equity. Full US benefits package: medical, dental, vision, 401(k) match, 20 days PTO + holidays, parental leave.',
-  },
-  {
-    id: 'extra:1',
-    title: 'Frontend Developer',
-    location: 'Belgrade, Serbia',
-    country: 'Serbia',
-    level: 'Middle',
-    format: 'Remote',
-    postedAt: '2026-05-20',
-    postedAgo: '3 weeks ago',
-    description:
-      'Build delightful, performant interfaces for SquareGPS web products. Work closely with design system, backend, and product to ship polished features end-to-end.',
-    team: 'Engineering',
-    jobType: 'Full time',
-    aboutTeam:
-      'Our Frontend Guild is responsible for the polish and performance of every customer-facing surface. We work in TypeScript + React, with a shared design system and a strong code review culture.',
-    responsibilities: [
-      'Build production features in our core web app using React and TypeScript',
-      'Contribute to our internal design system and component library',
-      'Optimize bundle size, rendering performance, and Core Web Vitals',
-      'Collaborate with designers and backend engineers from spec to launch',
-      'Write tests and uphold accessibility (WCAG AA) standards',
-    ],
-    requirements: [
-      '3+ years of frontend engineering with strong React and TypeScript skills',
-      'Solid understanding of modern CSS, browser internals, and web performance',
-      'Experience with REST/GraphQL APIs and state management at scale',
-      'Strong English communication for remote async collaboration',
-    ],
-    payAndBenefits:
-      'Fully remote within the EU. Competitive mid-level frontend salary, learning budget, modern hardware allowance, and 25 days paid leave.',
-  },
-  {
-    id: 'extra:2',
-    title: 'Senior DevOps Engineer',
-    location: 'Belgrade, Serbia',
-    country: 'Serbia',
-    level: 'Senior',
-    format: 'Remote',
-    postedAt: '2026-05-22',
-    postedAgo: '3 weeks ago',
-    description:
-      'Own and evolve our cloud infrastructure, CI/CD pipelines, and observability stack. Help engineering teams ship faster with confidence at telematics scale.',
-    team: 'Engineering',
-    jobType: 'Full time',
-    aboutTeam:
-      'The Infrastructure team is a small group of senior engineers who keep our cloud reliable, fast, and cost-effective. You will work across Kubernetes, Terraform, and our entire observability stack.',
-    responsibilities: [
-      'Design and operate our Kubernetes-based production infrastructure across multiple regions',
-      'Improve CI/CD pipelines to reduce deploy time and increase developer velocity',
-      'Build and maintain observability stack — metrics, logs, tracing, and alerting',
-      'Drive infrastructure cost optimization initiatives',
-      'Participate in the on-call rotation and post-incident reviews',
-    ],
-    requirements: [
-      '5+ years of DevOps / SRE / Platform engineering experience',
-      'Deep Kubernetes, Terraform, and AWS (or GCP) expertise',
-      'Strong scripting in Go, Python, or Bash',
-      'Experience running production services at scale with strict SLOs',
-    ],
-    payAndBenefits:
-      'Fully remote within EU. Competitive senior infrastructure compensation, learning budget, conference allowance, and 25 days paid leave.',
-  },
-  {
-    id: 'extra:3',
-    title: 'Product Designer',
-    location: 'Belgrade, Serbia',
-    country: 'Serbia',
-    level: 'Middle',
-    format: 'Hybrid',
-    postedAt: '2026-05-18',
-    postedAgo: '3 weeks ago',
-    description:
-      'Shape the visual and interaction design of our fleet management products. Partner with product, engineering, and research to deliver intuitive experiences for global customers.',
-    team: 'Design',
-    jobType: 'Full time',
-    aboutTeam:
-      'The Design team works embedded with product squads. You will own end-to-end design for one of our product areas, contribute to our design system, and partner with research on customer insight.',
-    responsibilities: [
-      'Design end-to-end product experiences from research to high-fidelity specs',
-      'Contribute components and patterns to our shared design system in Figma',
-      'Partner with PM, engineering, and research throughout the delivery cycle',
-      'Run usability tests and iterate based on customer feedback',
-      'Help define and uphold our visual language across surfaces',
-    ],
-    requirements: [
-      '3+ years of product design experience for B2B software',
-      'Strong portfolio demonstrating end-to-end product work, not just visuals',
-      'Mastery of Figma, prototyping, and design system contribution',
-      'Comfort presenting and defending design decisions to engineering and PM',
-    ],
-    inOfficeExpectations:
-      'Belgrade office, hybrid (2-3 days/week onsite). Design review days are onsite.',
-    payAndBenefits:
-      'Competitive mid-level design salary for the EU market, private health insurance, learning budget, hardware + tools allowance, and 25 days paid leave.',
-  },
-  {
-    id: 'extra:4',
-    title: 'Customer Success Manager',
-    location: 'Mexico City, Mexico',
-    country: 'Mexico',
-    level: 'Middle',
-    format: 'Hybrid',
-    postedAt: '2026-05-02',
-    postedAgo: '5 weeks ago',
-    description:
-      'Build long-term partnerships with enterprise customers. Drive adoption, identify expansion opportunities, and serve as the trusted advisor on telematics best practices.',
-    team: 'Customer Success',
-    jobType: 'Full time',
-    aboutTeam:
-      'Our LatAm Customer Success team owns a portfolio of enterprise relationships, from kickoff through renewal. You will be the strategic partner customers call when they want to get more out of SquareGPS.',
-    responsibilities: [
-      'Own a portfolio of enterprise customers across LatAm, from kickoff through renewal',
-      'Drive product adoption through structured onboarding and quarterly business reviews',
-      'Identify and surface expansion opportunities for the sales team',
-      'Be the voice of the customer back to product and engineering',
-      'Maintain healthy NPS and renewal rates across your accounts',
-    ],
-    requirements: [
-      '4+ years in customer success, account management, or consulting for B2B software',
-      'Fluent Spanish and English; Portuguese a plus',
-      'Strong commercial instincts and comfort discussing technical product topics',
-      'Track record of growing accounts and managing renewals',
-    ],
-    inOfficeExpectations:
-      'Mexico City office, hybrid (2-3 days/week onsite). Some travel for key customer visits.',
-    payAndBenefits:
-      'Competitive base + variable for the Mexico City CSM market, comprehensive medical insurance, food vouchers, and 20+ days paid leave.',
-  },
-  {
-    id: 'extra:5',
-    title: 'Sales Director, North America',
-    location: 'Westlake Village, USA',
-    country: 'USA',
-    level: 'Lead',
-    format: 'Full-time',
-    postedAt: '2026-04-25',
-    postedAgo: '6 weeks ago',
-    description:
-      'Lead and scale our North American sales organization. Define go-to-market strategy, build the playbook, and grow a high-performing team across enterprise and mid-market segments.',
-    team: 'Sales',
-    jobType: 'Full time',
-    aboutTeam:
-      'You will lead the North American sales org — a team of AEs, SDRs, and sales engineers chasing enterprise and mid-market opportunities. You will partner closely with marketing, CS, and product leadership.',
-    responsibilities: [
-      'Own the North American sales number and forecast',
-      'Hire, coach, and develop a team of AEs, SDRs, and sales engineers',
-      'Define and evolve the GTM playbook across enterprise and mid-market segments',
-      'Partner with marketing and CS to align pipeline and customer lifecycle',
-      'Represent SquareGPS at industry events and key customer meetings',
-    ],
-    requirements: [
-      '10+ years in B2B sales with 5+ in leadership roles',
-      'Track record of building and scaling sales teams from $5M → $50M+ ARR',
-      'Strong domain knowledge in telematics, logistics, fleet, or adjacent verticals (preferred)',
-      'Executive presence — comfortable in the boardroom and on the customer floor',
-    ],
-    inOfficeExpectations:
-      'Westlake Village HQ — this role is in-office 4-5 days/week with regular customer travel across North America.',
-    payAndBenefits:
-      'Competitive base + variable + accelerators for over-performance. Full US benefits: medical, dental, vision, 401(k) match, 20 days PTO + holidays.',
-  },
-]
+export const JOBS: Job[] = (jobsData as RawJob[]).map((raw) => ({
+  ...raw,
+  postedAgo: formatTimeAgo(raw.postedAt),
+}))
 
 /**
- * Lookup helper — возвращает Job по id или undefined.
+ * Lookup helper — returns a Job by id, or undefined.
  */
 export function getJobById(id: string | undefined): Job | undefined {
   if (!id) return undefined

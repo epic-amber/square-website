@@ -7,15 +7,15 @@
   display: flex;
   flex-direction: column;
   background-color: var(--color-white);
-  /* overflow-x: clip — extra safety для wave full-bleed (1920px).        */
-  /* body тоже clip-нут в index.css, но дублируем для изоляции.            */
+  /* overflow-x: clip — extra safety for wave full-bleed (1920px).         */
+  /* body is also clipped in index.css, but duplicated here for isolation. */
   overflow-x: clip;
 }
 
-/* Padding-x на .main (а не на .inner) — matches SiteHeader pattern,        */
-/* иначе на широких viewport контент получает двойной отступ vs логотип.    */
+/* Padding-x on .main (not on .inner) — matches SiteHeader pattern,         */
+/* otherwise on wide viewports content gets double padding vs the logo.     */
 .main {
-  position: relative; /* anchor для .heroAccent (top-right brand wave). */
+  position: relative; /* anchor for .heroAccent (top-right brand wave). */
   flex: 1;
   width: 100%;
   padding: calc(var(--header-h) + 32px) var(--content-pad-x) 80px;
@@ -24,7 +24,7 @@
 
 .inner {
   position: relative;
-  z-index: 1; /* above .heroAccent (z:0) — title/content/sidebar поверх wave. */
+  z-index: 1; /* above .heroAccent (z:0) — title/content/sidebar above wave. */
   width: 100%;
   max-width: var(--content-width);
   margin: 0 auto;
@@ -34,9 +34,9 @@
 /* Reuses <BrandWaveBackdrop /> (SVG-coded animated wave from Careers). */
 /* Wrapper anchors absolute top-right, bleed via wave's internal width: */
 /* max(100%, 1920px).                                                    */
-/* Mask center сдвинут внутрь (90% 35%) а не в самый угол — wave глянец */
-/* в средне-правой зоне плавно гаснет вверх (к navbar) и вниз (к content)*/
-/* без видимых обрезок по границам.                                      */
+/* Mask center shifted inward (90% 35%) rather than the very corner —    */
+/* wave sheen in the mid-right zone smoothly fades up (toward navbar)    */
+/* and down (toward content) without visible edge clipping.              */
 /* Hidden ≤767px (utility-mode for mobile readability).                  */
 .heroAccent {
   position: absolute;
@@ -167,8 +167,8 @@
 .paragraph {
   margin: 0;
   /* Constrain reading width to ~78 characters per line — upper end of       */
-  /* comfortable reading range (Bringhurst допускает до 75-80), даёт         */
-  /* воздух vs 65ch но всё ещё не растягивается на full content column.      */
+  /* comfortable reading range (Bringhurst allows up to 75-80), gives        */
+  /* breathing room vs 65ch but still does not stretch to full content col.  */
   max-width: 78ch;
   font-family: var(--font-sans);
   font-size: 16px;
@@ -241,17 +241,17 @@
 }
 
 /* ── Sidebar (sticky on desktop) ──────────────────────────────── */
-/* Sidebar grid item НЕ имеет align-self: start — растягивается на full   */
-/* row height (= .content height). Это даёт .sidebarCard внутри длинный   */
-/* "track" для sticky positioning → card следует за scroll до самого     */
-/* конца grid (= bottom of .bottomCta).                                   */
+/* Sidebar grid item does NOT have align-self: start — stretches to full   */
+/* row height (= .content height). This gives .sidebarCard inside a long  */
+/* "track" for sticky positioning -> card follows scroll all the way to   */
+/* the end of the grid (= bottom of .bottomCta).                          */
 .sidebar {
   min-width: 0;
 }
 
-/* Sticky positioning теперь на CARD (внутреннем элементе), а не на       */
-/* grid item. Card pinned below navbar + 20px gap, scroll'ится в пределах */
-/* высоты родителя (.sidebar = row height).                               */
+/* Sticky positioning is now on the CARD (inner element), not on the      */
+/* grid item. Card pinned below navbar + 20px gap, scrolls within the     */
+/* parent height (.sidebar = row height).                                  */
 .sidebarCard {
   position: sticky;
   top: calc(var(--header-h) + 20px);
@@ -314,12 +314,12 @@
 /* ── Mobile ≤767px — single column + sticky bottom bar ───────── */
 @media (max-width: 767px) {
   .main {
-    /* Extra bottom padding чтобы content не прятался под sticky bar. */
+    /* Extra bottom padding so content does not hide under the sticky bar. */
     padding: calc(var(--header-h) + 24px) var(--content-pad-x) 120px;
   }
 
-  /* Hero accent скрыт на mobile — utility-mode, без декора чтобы не */
-  /* конкурировать с title/meta на узком экране.                      */
+  /* Hero accent hidden on mobile — utility-mode, no decoration to    */
+  /* avoid competing with title/meta on a narrow screen.              */
   .heroAccent {
     display: none;
   }
@@ -333,12 +333,12 @@
     gap: 32px;
   }
 
-  /* Sidebar показывается ВЫШЕ контента — meta-инфо первой видна.   */
+  /* Sidebar shown ABOVE content — meta info is visible first.       */
   .sidebar {
     order: -1;
   }
 
-  /* Mobile: sticky отключён — card статичная (есть sticky bottom bar). */
+  /* Mobile: sticky disabled — card is static (sticky bottom bar exists). */
   .sidebarCard {
     position: static;
     top: auto;
@@ -346,7 +346,7 @@
     gap: 16px;
   }
 
-  /* На mobile скрываем apply кнопку в sidebar — есть sticky bottom bar.*/
+  /* On mobile hide the apply button in sidebar — sticky bottom bar exists. */
   .sidebarApply {
     display: none;
   }

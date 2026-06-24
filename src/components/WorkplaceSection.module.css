@@ -1,6 +1,6 @@
 /* ── Section wrapper ─────────────────────────────────────────── */
 .workplace {
-  /* Один оттенок для всех benefit-карточек (Figma slate-100) */
+  /* Single shade for all benefit cards (Figma slate-100) */
   --workplace-benefit-surface: var(--color-slate-100);
 
   display: flex;
@@ -12,7 +12,7 @@
   padding: 0 var(--space-9);
 }
 
-/* ── Heading (Figma 79:343) — тот же тёмный тон и семейство, что у hero H1 ── */
+/* ── Heading (Figma 79:343) — same dark tone and font family as the hero H1 ── */
 .title {
   margin: 0;
   font-family: var(--font-serif);
@@ -38,7 +38,7 @@
     "hero    bLang    pLang"
     "hero    pPres    bEdu"
     "team    bHealth  pTech";
-  gap: var(--space-5); /* 20px между ячейками — только внутри этой секции */
+  gap: var(--space-5); /* 20px gap between cells — only within this section */
   width: 100%;
   /* (719 + 20 + 422 + 20 + 422) × (285×3 + 20×2) = 1603 × 895 */
   aspect-ratio: 1603 / 895;
@@ -55,9 +55,9 @@
 .photoTech     { grid-area: pTech; }
 
 /* ── Hero card (Figma 79:312) ───────────────────────────────── */
-/* position: relative — containing block для HeroWaveAccent (abs).   */
-/* overflow: hidden остаётся — blur ribbon'ов не вылезает за rounded */
-/* corners карточки.                                                   */
+/* position: relative — containing block for HeroWaveAccent (abs).     */
+/* overflow: hidden stays — ribbon blur does not bleed past the        */
+/* rounded corners of the card.                                        */
 .hero {
   position: relative;
   display: flex;
@@ -65,10 +65,10 @@
   overflow: hidden;
   border-radius: var(--radius-lg);
   padding: var(--space-6);
-  /* Палитра 1:1 с CareersBanner (linear sky → navy) — brand cohesion. */
-  /* Верх-право — насыщенный sky #0e9ee8, низ-лево — глубокий #013e87.  */
-  /* Wave accent с deep stops (#00132e/#012762) читается как естественное*/
-  /* продолжение этого base'а, без диссонанса.                           */
+  /* Palette 1:1 with CareersBanner (linear sky -> navy) — brand cohesion. */
+  /* Top-right — saturated sky #0e9ee8, bottom-left — deep #013e87.       */
+  /* Wave accent with deep stops (#00132e/#012762) reads as a natural      */
+  /* continuation of this base, without dissonance.                        */
   background-image: linear-gradient(
     235.59deg,
     #0e9ee8 6%,
@@ -79,7 +79,7 @@
   color: var(--color-white);
 }
 
-/* z-index: 1 — текст hero сидит над wave accent (z:0).               */
+/* z-index: 1 — hero text sits above the wave accent (z:0).            */
 .heroText {
   position: relative;
   z-index: 1;

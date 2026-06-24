@@ -1,8 +1,8 @@
 /* ── Section wrapper ─────────────────────────────────────────── */
-/* Структура зеркалит SiteHeader / SiteFooter / CareersBanner:    */
-/*   .section  → full-width, padding-inline = content-pad-x       */
-/*   .inner    → max-width 1280px, margin: 0 auto, без H-padding  */
-/* Так левый/правый край контента совпадают с краями баннера.     */
+/* Structure mirrors SiteHeader / SiteFooter / CareersBanner:      */
+/*   .section  -> full-width, padding-inline = content-pad-x       */
+/*   .inner    -> max-width 1280px, margin: 0 auto, no H-padding   */
+/* This way left/right content edges align with the banner edges.  */
 .section {
   position: relative;
   width: 100%;
@@ -12,19 +12,19 @@
   background: #ffffff;
   padding: 0 var(--content-pad-x);
   box-sizing: border-box;
-  /* overflow visible → wave-stage свободно вылезает в footer-зону   */
-  /* (см. .stage в BrandWaveBackdrop.module.css → bottom: -200px).   */
+  /* overflow visible -> wave-stage freely bleeds into the footer zone */
+  /* (see .stage in BrandWaveBackdrop.module.css -> bottom: -200px).   */
 }
 
-/* Атмосферный wave-backdrop живёт в отдельном компоненте              */
+/* Atmospheric wave-backdrop lives in a separate component              */
 /* BrandWaveBackdrop (bottom-anchored SVG ribbons + animations).        */
-/* z-index: 0 у `.stage` — за `.inner` (z:1).                           */
+/* z-index: 0 on `.stage` — behind `.inner` (z:1).                      */
 
 /* ── Inner layout: sidebar (left) + cards column (right) ───── */
-/* min-height: 1260px → stable floor. Wave SVG slice-scaled с этой    */
-/* высотой → layer-5 halo top edge ниже sidebar bottom на ~90px,     */
-/* фильтры (включая Mexico/USA) на чистом фоне.                       */
-/* При 10 карточках inner ~1900px → min-height не активен.            */
+/* min-height: 1260px -> stable floor. Wave SVG slice-scaled with     */
+/* this height -> layer-5 halo top edge sits ~90px below sidebar      */
+/* bottom, filters (including Mexico/USA) sit on a clean background.  */
+/* With 10 cards inner ~1900px -> min-height is not active.           */
 .inner {
   position: relative;
   z-index: 1;
@@ -41,9 +41,9 @@
 }
 
 /* ── Sidebar — flat filter column ──────────────────────────── */
-/* Прозрачный, без chrome — фильтры сидят на чистом white       */
-/* (gradient теперь только у футера, не под фильтрами).         */
-/* gap 20px — компактнее под лёгкие hairline pill chips.        */
+/* Transparent, no chrome — filters sit on clean white           */
+/* (gradient is now only in the footer, not under the filters).  */
+/* gap 20px — more compact for lightweight hairline pill chips.  */
 .sidebar {
   display: flex;
   flex-direction: column;
@@ -98,8 +98,8 @@
 }
 
 /* ── Content column (right) ──────────────────────────────────── */
-/* Высота естественная (no min-height) — страница только растёт   */
-/* через Load more, layout shift в принципе невозможен.           */
+/* Height is natural (no min-height) — page only grows via Load   */
+/* more, layout shift is virtually impossible.                     */
 .contentColumn {
   display: flex;
   flex-direction: column;
@@ -111,8 +111,8 @@
 .resultsHeader {
   display: flex;
   align-items: baseline;
-  /* space-between → results count прижат влево, sort toggle вправо.    */
-  /* Сортировка визуально стабильна — не съезжает при смене кол-ва.    */
+  /* space-between -> results count pinned left, sort toggle right.     */
+  /* Sorting is visually stable — does not shift when the count changes.*/
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 16px;
@@ -126,9 +126,9 @@
   color: var(--color-slate-600);
 }
 
-/* min-width: 1.5em + inline-block + tabular-nums → счётчик 6→10        */
-/* не сдвигает соседний текст «open roles» при перерисовке. tabular-   */
-/* nums фиксирует ширину цифр в моноширинной сетке (без glyph jitter). */
+/* min-width: 1.5em + inline-block + tabular-nums -> counter 6->10      */
+/* does not shift adjacent "open roles" text on re-render. tabular-     */
+/* nums locks digit widths to the monospaced grid (no glyph jitter).    */
 .resultsCount strong {
   color: var(--color-slate-900);
   font-weight: 600;
@@ -189,9 +189,9 @@
 
 /* ── Filter trigger button (mobile only, opens BottomSheet) ──── */
 /* Desktop: hidden — sidebar always visible. Mobile: visible inline */
-/* в .resultsActions рядом со .sortToggle.                          */
+/* in .resultsActions next to .sortToggle.                           */
 .filterTrigger {
-  display: none; /* mobile-only — overridden в @media ≤767px */
+  display: none; /* mobile-only — overridden in @media <=767px */
   align-items: center;
   gap: 8px;
   padding: 8px 14px;
@@ -223,7 +223,7 @@
   color: var(--color-slate-700);
 }
 
-/* Active count badge — pill справа от label. */
+/* Active count badge — pill to the right of the label. */
 .filterTriggerBadge {
   display: inline-flex;
   align-items: center;
@@ -246,153 +246,6 @@
   gap: 20px;
 }
 
-/* ── JobCard — grid card ──────────────────────────────────────── */
-.card {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  padding: 32px;
-  background: #ffffff;
-  border: 1px solid var(--color-slate-200);
-  border-radius: 12px;
-  text-decoration: none;
-  color: var(--color-slate-900);
-  box-sizing: border-box;
-  transition:
-    border-color 0.18s ease,
-    background   0.18s ease;
-}
-
-.card:hover {
-  border-color: var(--color-slate-400);
-}
-
-.card:focus-visible {
-  outline: 2px solid var(--color-sky-500);
-  outline-offset: 2px;
-  border-color: var(--color-slate-400);
-}
-
-.cardHeader {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.jobTitle {
-  margin: 0;
-  font-family: var(--font-sans);
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 1.3;
-  color: var(--color-slate-900);
-  min-height: calc(1.3em * 2);
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  transition: color 0.18s ease;
-}
-
-.card:hover .jobTitle {
-  color: var(--color-slate-700);
-}
-
-.levelPill {
-  display: inline-block;
-  padding: 4px 12px;
-  background: var(--color-slate-100);
-  border-radius: 100px;
-  font-family: var(--font-sans);
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--color-slate-600);
-  white-space: nowrap;
-}
-
-/* Location · format meta line */
-.location {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.locationIcon {
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
-  opacity: 0.85;
-}
-
-.locationText {
-  margin: 0;
-  font-family: var(--font-sans);
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--color-slate-700);
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
-.locationDot {
-  color: var(--color-slate-400);
-  font-weight: 400;
-}
-
-/* Description */
-.description {
-  margin: 0;
-  font-family: var(--font-sans);
-  font-size: var(--text-sm);
-  font-weight: 400;
-  color: var(--color-slate-600);
-  line-height: 1.5;
-  min-height: calc(1.5em * 3);
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.tags {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.viewRole {
-  margin: 0;
-  margin-top: auto;
-  padding-top: 4px;
-  font-family: var(--font-sans);
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0.1px;
-  color: var(--color-slate-900);
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  transition: gap 0.2s ease, color 0.2s ease;
-}
-
-.viewRoleArrow {
-  display: inline-block;
-  font-size: 16px;
-  transition: transform 0.2s ease;
-}
-
-.card:hover .viewRole {
-  gap: 10px;
-  color: var(--color-slate-700);
-}
-
-.card:hover .viewRoleArrow {
-  transform: translateX(4px);
-}
-
 /* ── Empty state ─────────────────────────────────────────────── */
 .empty {
   display: flex;
@@ -413,8 +266,8 @@
   color: var(--color-slate-600);
 }
 
-/* Empty state CTA — light hairline pill, low-key tone (нет вакансий → */
-/* кнопка не должна тянуть на себя внимание, мягкий reset).            */
+/* Empty state CTA — light hairline pill, low-key tone (no vacancies -> */
+/* button should not draw attention, soft reset).                        */
 .emptyResetBtn {
   display: inline-flex;
   align-items: center;
@@ -500,73 +353,30 @@
     padding: 48px 0 96px;
     min-height: 1040px;
   }
-
-  .card {
-    padding: 24px;
-    gap: 16px;
-  }
-
-  .jobTitle {
-    font-size: 18px;
-  }
 }
 
 /* ── Mobile ≤767px ───────────────────────────────────────────── */
 @media (max-width: 767px) {
   .inner {
-    /* Single column, no sidebar row — sidebar скрыт, filtering через    */
-    /* BottomSheet modal (см. .sidebar / .filterTrigger).                 */
     grid-template-columns: 1fr;
     gap: 24px;
     padding: 40px 0 72px;
     min-height: 640px;
   }
 
-  /* Desktop sidebar полностью скрыт — filtering через BottomSheet. */
   .sidebar {
     display: none;
   }
 
-  /* Filter trigger button shown inline в results header. */
   .filterTrigger {
     display: inline-flex;
   }
 
-  /* Tighten gap между Sort и Filters на mobile (mass экрана дорогая). */
   .resultsActions {
     gap: 10px;
   }
 
   .jobList {
     grid-template-columns: 1fr;
-  }
-
-  .card {
-    padding: 24px;
-    gap: 16px;
-  }
-
-  .cardHeader {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-
-  .jobTitle {
-    font-size: 18px;
-    min-height: auto;
-  }
-
-  .description {
-    min-height: auto;
-  }
-
-  .viewRole {
-    margin-top: 16px;
-  }
-
-  .locationText {
-    white-space: normal;
-    flex-wrap: wrap;
   }
 }

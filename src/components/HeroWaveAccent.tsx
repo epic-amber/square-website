@@ -2,15 +2,15 @@ import styles from './HeroWaveAccent.module.css'
 import heroWaveImg from '../assets/hero-wave.png'
 
 /**
- * Hero wave accent — реальный wave-asset из Figma (node 245:78).
+ * Hero wave accent — actual wave asset from Figma (node 245:78).
  *
- * Внутри hero-карточки WorkplaceSection. Image анкорится absolute,
- * частично «вытекает» за края карточки (overflow:hidden обрезает).
- * Pose повторяет Figma: rotate(-7.29deg) + bleed left/top.
+ * Inside the WorkplaceSection hero card. Image is positioned absolute,
+ * partially "bleeds" beyond the card edges (overflow:hidden clips it).
+ * Pose matches Figma: rotate(-7.29deg) + bleed left/top.
  *
- * Positioning — в процентах от hero, чтобы автоматически масштабироваться
- * на всех viewport'ах. На tablet/mobile bleed и rotation уменьшаются
- * через media queries (см. .module.css).
+ * Positioning — percentage-based relative to hero, so it scales automatically
+ * across all viewports. On tablet/mobile, bleed and rotation are reduced
+ * via media queries (see .module.css).
  */
 export function HeroWaveAccent() {
   return (

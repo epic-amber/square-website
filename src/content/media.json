@@ -1,0 +1,11 @@
+{
+  "aboutHeroPhoto": { "src": "/about-hero-01.png", "alt": "Team member at conference", "type": "image" },
+  "aboutHeroVideo": { "src": "/about-hero-02.mp4", "alt": "", "type": "video" },
+  "aboutCollaboration": { "src": "about-collaboration.png", "alt": "SquareGPS team collaborating", "type": "image" },
+  "aboutPresentation": { "src": "about-presentation.png", "alt": "SquareGPS team at work", "type": "image" },
+  "workplaceTeam": { "src": "workplace-team.png", "alt": "SquareGPS team", "type": "image" },
+  "workplacePresentation": { "src": "workplace-presentation.png", "alt": "Team presentation", "type": "image" },
+  "workplaceTech": { "src": "workplace-tech.png", "alt": "Technical presentation", "type": "image" },
+  "workplaceLanguageVideo": { "src": "/workplace-language.mp4", "alt": "Language learning", "type": "video" },
+  "heroVideo": { "src": "hero-video.mp4", "alt": "", "type": "video" }
+}

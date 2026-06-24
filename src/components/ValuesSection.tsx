@@ -5,35 +5,14 @@ import iconCommunication from '../assets/icon-open-communication.svg'
 import iconExpectations from '../assets/icon-exceed-expectations.svg'
 import iconGlobal from '../assets/icon-act-global.svg'
 import iconLearning from '../assets/icon-continuous-learning.svg'
+import aboutContent from '../content/about.json'
 
-interface ValueItem {
-  icon: string
-  title: string
-  description: string
+const VALUE_ICONS: Record<string, string> = {
+  communication: iconCommunication,
+  expectations: iconExpectations,
+  global: iconGlobal,
+  learning: iconLearning,
 }
-
-const VALUES: ValueItem[] = [
-  {
-    icon: iconCommunication,
-    title: 'Open Communication',
-    description: 'Fostering transparent dialogue and honest feedback across all levels',
-  },
-  {
-    icon: iconExpectations,
-    title: 'Exceed Expectations',
-    description: 'Going beyond what\'s expected to deliver exceptional results',
-  },
-  {
-    icon: iconGlobal,
-    title: 'Act Global',
-    description: 'Thinking globally and embracing diverse perspectives worldwide',
-  },
-  {
-    icon: iconLearning,
-    title: 'Continuous Learning',
-    description: 'Constantly growing, adapting, and improving our skills and knowledge',
-  },
-]
 
 export function ValuesSection() {
   const { ref, visible } = useReveal(0.15)
@@ -48,18 +27,18 @@ export function ValuesSection() {
         style={s(0)}
       >
 
-        <h2 className={styles.title}>What drives us every day</h2>
+        <h2 className={styles.title}>{aboutContent.values.title}</h2>
       </div>
 
       <div className={styles.grid}>
-        {VALUES.map((v, i) => (
+        {aboutContent.values.items.map((v, i) => (
           <article
-            key={v.icon}
+            key={v.key}
             className={`${styles.card} ${rc}`}
             style={s(80 + i * 80)}
           >
             <div className={styles.iconWrap}>
-              <img src={v.icon} alt="" width={64} height={64} />
+              <img src={VALUE_ICONS[v.key]} alt="" width={64} height={64} />
             </div>
             <h3 className={styles.cardTitle}>{v.title}</h3>
             <p className={styles.cardDesc}>{v.description}</p>
